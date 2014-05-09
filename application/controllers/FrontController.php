@@ -14,21 +14,42 @@ class FrontController {
 
     /*
      * creates FrontController and calls handleRequest()
+     *
+     * @return FrontController
      */
     static function run() {
         $instance = new FrontController();
-        $instance->handleRequest();
+        return $instance;
     }
 
 
     /*
+     * Delegates model/view actions based on URI
+     * -finish definition using anantgarg as resource!
      *
+     * @param string
      */
-    function handleRequest() {
-        $request = new Request();
-        $cmd_r = new CommandResolver();
-        $cmd = $cmd_r->getCommand($request);
-        $cmd->execute($request);
+    function delegator($uri) {
+        $uriPartition = explode("/", $uri);
+
+        $controller = ucwords($uriPartition[0]);
+        array_shift($uriPartition);
+
+        $action = $uriPartition[0];
+        array_shift($uriPartition);
+
+        $queryString = $uriPartition;
+
+        $model = rtrim($controller, 's');
+
+        $dispatch = new $controller($model,$action);
+
+        if ((int)method_exists($controller, $action)) {
+            call_user_func_array(array($dispatch,$action), $queryString);
+        } else {
+            throw new Exception("Control-Action: not found!");
+        }
+
     }
 
 

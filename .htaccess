@@ -1,3 +1,5 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine On
+
+	RewriteRule ^controller/action/1/first-item$ /index.php
 </IfModule>
