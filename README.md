@@ -5,6 +5,11 @@ LAMP MVC Application
 
 05/08/14
 
+1. [Doug] explained that bootstrap.php is configuration and bootstrap/ is just styling.
+2. (Considering using a recursive autoloader function to avoid strange naming conventions.)
+
+05/08/14
+
 1. Figure out why bootstrap.php is a php file, when the bootstrap/ directory only has css/, js/, fonts/.
  
 2. Figure out the optimal location for header/footer files.

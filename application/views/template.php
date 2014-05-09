@@ -38,7 +38,12 @@ function __construct($registry) {
     $this->vars[$index] = $value;
  }
 
-
+ /**
+ * @show - Renders views/name.php (via include())
+ * @param string $index
+ * @param mixed $value
+ * @return void
+ */
 function show($name) {
     $path = ROOT . DS . 'application' . DS . 'views' . DS . $name . '.php';
 
@@ -48,15 +53,15 @@ function show($name) {
         return false;
     }
 
-    // Load variables
+    // Load variables                    ---     need to find out WHY this is necessary
     foreach ($this->vars as $key => $value)
     {
         $$key = $value;
     }
 
-    include(ROOT . DS . 'templates' . 'header.php');
+    include(ROOT . DS . 'templates' . DS . 'header.php');
     include ($path);
-    include(ROOT . DS . 'templates' . 'footer.php');
+    include(ROOT . DS . 'templates' . DS . 'footer.php');
 }
 
 }
