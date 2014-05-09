@@ -17,6 +17,8 @@ queryString = ['1', 'first-item'];
 
 Then the class PostsController will be called with this information. So, the rough structure of the website is in motion. Over the weekend I will learn about general databases and using MySQL with PHP. That will allow me to continue developing model classes. So next up,
 
+0. ALSO ! Edit the documentation dummy! The starting comment block has TWO asterisks! Dumb!
+
 1. Study databases through teamtreehouse
 
 2. Set up Post extends Model class
