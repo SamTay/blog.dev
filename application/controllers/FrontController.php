@@ -42,6 +42,8 @@ class FrontController {
 
         $model = rtrim($controller, 's');
 
+        $controller = $controller . 'Controller';
+
         $dispatch = new $controller($model,$action);
 
         if ((int)method_exists($controller, $action)) {
