@@ -27,5 +27,6 @@ abstract class Models {
      *
      * @var array
      */
+
     public $data = array();
 }
