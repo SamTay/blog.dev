@@ -1,9 +1,18 @@
 <html>
 <head><title>Testing URLs</title></head>
 <body>
-    <p><a href="controller/action&id=1&name=blank">controller/action&id=1&name=blank</a></p>
-    <p><a href="blog/view?pg=4">blog/view?pg=4</a></p>
-    <p><a href="list/delete?id=3">controller/action&id=1&name=blank</a></p>
+    <h1>Testing the Front Controller</h1>
+    <p>Format: controller/action/param1/param2</p>
+    <p><a href="list/view/pg=1">list/view/pg=1</a></p>
+    <p><a href="list/delete/id=1">list/delete/id=1</a></p>
+    <p><a href="post/create">post/create</a></p>
+    <p><a href="post/edit/id=1">post/edit/id=1</a></p>
+
+    <?php
+
+
+
+    ?>
 </body>
 
 </html>

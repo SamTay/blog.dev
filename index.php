@@ -1,6 +1,5 @@
 
 <?php
-
 //Error Reporting On
 error_reporting(E_ALL);
 
@@ -9,9 +8,8 @@ define('ROOT', dirname(__FILE__));		// [blog.dev]/index.php
 
 require_once(ROOT . DS . 'library'. DS . 'bootstrap.php');
 
+$control = FrontController::getInstance();
+$control->parseUri();
+$control->run();
 
-$uri = $_SERVER['REQUEST_URI'];
 
-$control = FrontController::run();
-
-$control->delegator($uri);
