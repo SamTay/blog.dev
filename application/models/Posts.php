@@ -1,13 +1,13 @@
 <?php
 
-/*
+/**
  * The post class will handle business logic of blog posts,
  * i.e., database connections and execution of CRUD (create,
  * read, update, and delete).
  */
-class Post extends Model {
+class Posts extends Models {
 
-    /*
+    /**
      * Constructor sets tableName to 'posts' and gives us the primaryKey??
      *
      * @param 'string'
@@ -19,7 +19,7 @@ class Post extends Model {
     }
 
 
-    /*
+    /**
      * Hopefully this function will eventually be used to create a blog post
      *
      * @param string $user

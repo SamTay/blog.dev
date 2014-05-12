@@ -2,47 +2,41 @@
 
 class Template {
 
-/*
+/**
  * @the registry
  * @access private
  */
 private $registry;
 
-/*
+/**
  * @Variables array
  * @access private
  */
 private $vars = array();
 
 /**
- *
- * @constructor
- * @access public
- * @return void
- *
+ * @param $registry
  */
 function __construct($registry) {
     $this->registry = $registry;
-
 }
 
 
- /**
- * @set undefined vars
- * @param string $index
- * @param mixed $value
- * @return void
- */
- public function __set($index, $value)
- {
+/**
+* @set undefined vars
+* @param string $index
+* @param mixed $value
+* @return void
+*/
+public function __set($index, $value)
+{
     $this->vars[$index] = $value;
- }
+}
 
- /**
- * @show - Renders views/name.php (via include())
- * @param string $index
- * @param mixed $value
- * @return void
+/**
+ * @param $name
+ * @return bool
+ * @throws Exception
  */
 function show($name) {
     $path = ROOT . DS . 'application' . DS . 'views' . DS . $name . '.php';
