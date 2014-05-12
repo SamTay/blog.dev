@@ -3,6 +3,21 @@ blog.dev
 
 LAMP MVC Application
 
+05/12/14
+
+Focused on the Front Controller, turned it into a Singleton, and came up with a scheme for parsing URI into controller-actions. Well, came up with a well-defined sheme as opposed to the half-ass idea from 05/09. Also made my other controllers extend from  FrontController. The test.php file indicates that my Front Controller is working! I created  ListController and  PostController classes, some simple "view" and "delete" methods, and echoed strings from those methods to make sure they were being called. For example, ListController->view($pg) has a single $pg parameter. Upon requesting "blog.dev/list/view/pg=1", the method is called and echoes "Viewing stuff from the ListController with argument: pg=1". Next up I need to plan out all (or at least many) of the actual actions needed in this application. I will write definitions of those methods in each controller, referring to the model/view classes that aren't defined yet. Things to do:
+
+0. Build the controllers.
+
+1. Ask Thomas : Does an admin panel refer to the site owner's admin panel, or simply a user controlling their profile?
+
+2. Learn how to write an xml file for DB configuration.
+
+3. Learn what RESTful is.
+
+4. What pieces of this application should be in Helper classes?
+
+
 05/09/14
 
 Started out today a bit frustrated, not knowing where to go. Decided to do away with awkward class names in favor of a fancy recursive autoloader. After a lot of reading and some aimless coding, I have a rough plan of action. My FrontController will have a single instantiation within index.php, the single point of entry. Its method, delegator(), delegates tasks via the URI! For example, the URL blog.dev/posts/view/1/first-item will be explode()'ed into:
