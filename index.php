@@ -8,8 +8,8 @@ define('ROOT', dirname(__FILE__));		// [blog.dev]/index.php
 
 require_once(ROOT . DS . 'library'. DS . 'bootstrap.php');
 
-$control = FrontController::getInstance();
-$control->parseUri();
-$control->run();
+
+$registry = Registry::getInstance();
+$frontController = new FrontController();
 
 

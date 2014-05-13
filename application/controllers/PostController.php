@@ -7,24 +7,16 @@
  * Class PostController
  * This class should be used when clicking on a particular post. For any page
  * that views multiple posts, use ListController
- *
- * ASK THOMAS about ADMIN panel - not everyone will have permission to create/edit/delete
- *
  */
 
 class PostController extends FrontController {
-    /**
-     * Holds values to pass to the ViewPost
-     * @var array
-     */
-    private $data = array();
 
 
     /**
      * Default Action: Read most recent post.
      */
     public function index() {
-        $this->read(MODEL_Posts->getRecent());
+//        $this->read(MODEL_Posts->getRecent());
     }
 
 
@@ -55,7 +47,8 @@ class PostController extends FrontController {
     }
 
     public function read($id) {
-//        MODEL_Posts->read();
+//        MODEL_Posts->read($id);
+        PostView->read($id);
     }
 
     public function edit($id) {

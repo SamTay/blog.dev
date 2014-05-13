@@ -51,7 +51,7 @@ class FrontController {
      * to be deployed. This function first ensures that the controller class and their
      * action methods exist, and then calls those methods directly from here.
      *
-     * Note: I should probably find a way to make sure that methods can take certain
+     * Note: I  need to find a way to make sure that methods can take certain
      * parameters...
      *
      * @throws Exception
