@@ -40,7 +40,7 @@ class Registry {
     /*
      * @return new Registry
      */
-    static function instance() {
+    static function getInstance() {
         if (!isset(self::$instance)) {
             self::$instance = new self();
         }

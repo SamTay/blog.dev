@@ -48,7 +48,7 @@ class PostController extends FrontController {
 
     public function read($id) {
 //        MODEL_Posts->read($id);
-        PostView->read($id);
+//        PostView->read($id);
     }
 
     public function edit($id) {
