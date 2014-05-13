@@ -1,10 +1,18 @@
 <?php
 
 class ListController extends FrontController {
-    public function delete($id) {
-        /*delete stuff*/
-        echo('Deleting stuff from the ListController with argument: '.$id);
+
+    private $view = array();
+
+
+    /**
+     * Default action for ListController; simply lists recent posts in a grid
+     */
+    public function index() {
+//        $this->set(MODEL_Lists->recent());
+
     }
+
 
     public function view($pg) {
         /*delete stuff*/
