@@ -2,8 +2,113 @@
 
 /**
  * Defines a single point of entry for every request,
- * delegating to models and views.
+ * delegating to models and views. This class will be
+ * instantiated once and stored in the Registry.
  */
+
+class FrontController {
+    protected $controller = 'ListController';
+    protected $action = 'index';
+    protected $params = array();
+
+
+    /**
+     * Right now, when the FrontController is instantiated, it automatically
+     * runs. Perhaps this limits flexibility - check with Thomas.
+     */
+    public function __construct() {
+        parseUri();
+        run();
+    }
+
+
+    /**
+     * Parses the URI and sets properties accordingly. Scheme:
+     *      www.blog.dev/post/view/id=1
+     *      -> $controller = PostController
+     *      -> $action = view()
+     *      -> $params = array('id=1')
+     */
+    public function praseUri() {
+        $uri = trim($_SERVER["REQUEST_URI"],'/');
+        list($controller, $action, $params) = explode($uri, '/');
+
+        if(isset($controller)) {
+            $this->controller = ucfirst(strtolower($controller)) . 'Controller';
+        }
+        if(isset($action)) {
+            $this->action = strtolower($action);
+        }
+        if(isset($params)) {
+            $this->params = $params;
+        }
+    }
+
+
+    /**
+     * After parseUri(), the three properties are set and controllers are ready
+     * to be deployed. This function first ensures that the controller class and their
+     * action methods exist, and then calls those methods directly from here.
+     *
+     * Note: I should probably find a way to make sure that methods can take certain
+     * parameters...
+     *
+     * @throws Exception
+     */
+    public function run() {
+        if (class_exists($this->controller)) {
+                if (method_exists($this->controller, $this->action)) {
+                    call_user_func_array( array(new $this->controller, $this->action), $this->params);
+                } else {
+                    throw new Exception('Controller exists, but method does not.');
+                }
+            } else {
+            throw new Exception('Controller does not exist');
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* This is the FrontController taken from SitePoint. The one above is written with the same idea in mind,
+but more focused on my particular blog application.
+
+
 class FrontController {
 
     const DEFAULT_CONTROLLER = "IndexController";
@@ -18,17 +123,10 @@ class FrontController {
 
     private static $instance;
 
-    /**
-     * Private construct to ensure single instance
-     */
+
     private function __construct() {}
 
 
-    /**
-     * creates FrontController and calls handleRequest()
-     *
-     * @return FrontController
-     */
     public static function getInstance() {
         if (empty(self::$instance)) {
             self::$instance = new FrontController();
@@ -37,10 +135,7 @@ class FrontController {
 
     }
 
-    /**
-     * Parses URI into blog.dev/controllername/actionname/params, then calls the set-methods
-     * to set controller,action,params properties.
-     */
+
     public function parseUri() {
 
         $path = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");
@@ -59,13 +154,6 @@ class FrontController {
     }
 
 
-    /**
-     * Sets Controller
-     *
-     * @param string $controller
-     * @return FrontController $this
-     * @throws InvalidArgumentException
-     */
     public function setController($controller) {
         $controller = ucfirst(strtolower($controller)) . "Controller";
         if (!class_exists($controller)) {
@@ -76,13 +164,6 @@ class FrontController {
     }
 
 
-    /**
-     * Sets Action
-     *
-     * @param string $action
-     * @return FrontController $this
-     * @throws InvalidArgumentException
-     */
     public function setAction($action) {
         $reflector = new ReflectionClass($this->controller);
         if (!$reflector->hasMethod($action)) {
@@ -93,24 +174,15 @@ class FrontController {
     }
 
 
-    /**
-     * Sets Params
-     *
-     * @param array $params
-     * @return FrontController $this
-     */
     public function setParams(array $params) {
         $this->params = $params;
         return $this;
     }
 
 
-    /**
-     *  Runs the Front Controller and delegates to $controller($action);
-     *
-     * WILL NEED TO MODIFY IF LISTCONTROLLER HAS RESTRICTED ACCESS!
-     */
     public function run() {
         call_user_func_array(array(new $this->controller, $this->action), $this->params);
     }
 }
+
+*/
