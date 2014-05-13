@@ -7,6 +7,7 @@
  */
 
 class FrontController {
+
     protected $controller = 'ListController';
     protected $action = 'index';
     protected $params = array();
@@ -17,8 +18,8 @@ class FrontController {
      * runs. Perhaps this limits flexibility - check with Thomas.
      */
     public function __construct() {
-        parseUri();
-        run();
+        $this->parseUri();
+        $this->run();
     }
 
 
@@ -29,7 +30,7 @@ class FrontController {
      *      -> $action = view()
      *      -> $params = array('id=1')
      */
-    public function praseUri() {
+    public function parseUri() {
         $uri = trim($_SERVER["REQUEST_URI"],'/');
         list($controller, $action, $params) = explode($uri, '/');
 
