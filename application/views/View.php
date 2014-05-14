@@ -3,11 +3,9 @@
 /**
  * Class View
  *
- * Currently an abstract class from which specific views (i.e., CreatePostView)
- * extend. However, if no functions are declared abstract, I could change this
- * to be concrete for general index pages.
+ * An abstract class from which specific views (i.e., CreatePostView) extend.
  */
-abstract class View extends  TemplateFactory{
+abstract class View extends TemplateFactory{
 
     /**
      * Title used in the header.php
@@ -16,29 +14,55 @@ abstract class View extends  TemplateFactory{
      */
     protected $title;
 
+    /**
+     * Variable used to show which link is currently selected.
+     *
+     * @var string
+     */
+    protected $section;
+
+
+    /**
+     * This array will be used when retrieving model information.
+     *
+     * @var array
+     */
     protected $modelData = array();
 
+
+    /**
+     * The header/footer/body variables correspond to those of the webpage.
+     */
     protected $header;
     protected $footer;
     protected $body;
 
+
+    /**
+     * Functions to set Title & Section, which are used in the generated HTML.
+     */
     protected function setTitle($title) {
         $this->title = $title;
+    }
+    protected function setSection($section) {
+        $this->section = $section;
     }
 
 
     /**
-     * The following set() functions might be changed to abstract if it
-     * turns out that my header/footer varies with each page. Note that
-     * setBody() currently generates an index page, but child classes are
-     * intended to overwrite this function, and generate bodies specific
-     * to each view.
+     * This class requires children to implement the setBody function, which
+     * will decide what appears on each webpage.
+     */
+    abstract protected function setBody();
+
+
+    /**
+     * Currently the header and footer are set to these default templates. If
+     * some page requires them to change, they can easily be overridden in
+     * derived classes.
      */
     protected function setHeader() {
         $this->header = ROOT.DS.'templates'.DS.'header.php';
-    }
-    protected function setBody() {
-        $this->body = file_get_contents(ROOT.DS.'templates'.DS.'index.php');
     }
     protected function setFooter() {
         $this->footer = ROOT.DS.'templates'.DS.'footer.php';
@@ -47,7 +71,7 @@ abstract class View extends  TemplateFactory{
 
     /**
      * This function renders the web page; it will be called from child
-     * classes.
+     * classes (after setBody has been implemented).
      */
     public function renderPage() {
         $this->setHeader();
@@ -55,6 +79,7 @@ abstract class View extends  TemplateFactory{
         $this->setFooter();
 
         $title = $this->title;
+        $section = $this->section;
 
         include_once($this->header);
         echo $this->body;

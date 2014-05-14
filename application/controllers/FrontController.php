@@ -8,7 +8,7 @@
 
 class FrontController {
 
-    protected $controller = 'ListController';
+    protected $controller = 'IndexController';
     protected $action = 'index';
     protected $params = array();
 
@@ -35,13 +35,13 @@ class FrontController {
 
         list($controller, $action, $params) = explode('/',$uri, 3);
 
-        if(isset($controller)) {
+        if(!empty($controller)) {
             $this->controller = ucfirst(strtolower($controller)) . 'Controller';
         }
-        if(isset($action)) {
+        if(!empty($action)) {
             $this->action = strtolower($action);
         }
-        if(isset($params)) {
+        if(!empty($params)) {
             $this->params = $params;
         }
     }

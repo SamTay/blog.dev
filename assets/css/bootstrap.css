@@ -4368,7 +4368,10 @@ a.list-group-item.active > .badge,
   padding: 30px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #eee;
+  background-image: url('http://ucchm.files.wordpress.com/2012/07/imja-lake-panorama-2.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
 }
 .jumbotron h1,
 .jumbotron .h1 {
@@ -4376,7 +4379,8 @@ a.list-group-item.active > .badge,
 }
 .jumbotron p {
   margin-bottom: 15px;
-  font-size: 21px;
+  margin-left: 10%;
+  font-size: 22px;
   font-weight: 200;
 }
 .container .jumbotron {

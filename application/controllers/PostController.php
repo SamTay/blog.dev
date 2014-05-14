@@ -16,7 +16,7 @@ class PostController {
      * Default Action: Read most recent post.
      */
     public function index() {
-//        $this->read(MODEL_Posts->getRecent());
+//        $this->read(MODEL_Posts->getRecent()); OR some other default page
     }
 
 

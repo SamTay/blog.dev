@@ -7,7 +7,7 @@
         <title><?php echo($title); ?></title>
 
         <!-- Bootstrap -->
-        <link href="<?php echo(BASE_URL.DS.'assets'.DS.'css'.DS.'bootstrap.min.css'); ?>" rel="stylesheet"
+        <link href="<?php echo(BASE_URL.DS.'assets'.DS.'css'.DS.'bootstrap.css'); ?>" rel="stylesheet"
               media="screen">
     </head>
     <body>

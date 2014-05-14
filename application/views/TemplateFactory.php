@@ -3,16 +3,11 @@
 /**
  * Class TemplateFactory
  *
- * Implements Template Factory for this framework. Requires children to
- * implement the three get*() functions that will form a complete
- * web page. The renderPage is then called from the child class.
+ * Implements Template Factory for this framework. Currently, there is no reason
+ * for View class to inherit from this factory. Need to iron some of these things
+ * out and figure out how to actually implement a factory...
  */
 abstract class TemplateFactory {
-
-
-    abstract protected function setHeader();
-    abstract protected function setBody();
-    abstract protected function setFooter();
 
     public static function create($view) {
         if (class_exists($view)) {
