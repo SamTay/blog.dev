@@ -9,7 +9,7 @@
  * that views multiple posts, use ListController
  */
 
-class PostController extends FrontController {
+class PostController {
 
 
     /**
@@ -28,19 +28,19 @@ class PostController extends FrontController {
      * @param null $data
      */
     public function create($data = null) {
-        echo ('Creating stuff from the PostController!');       //DELETE
 
         if (is_null($data)) {
-//            VIEW_Posts->create();
-//            Make sure VIEW_Posts->create page uses a POST form.
 
+            TemplateFactory::create('CreatePostView');
+            $view->renderPage();
+//            Make sure VIEW_Posts->create page uses a POST form.
         } else {
 //            Extract the POST information from the form above, modify it to the correct format,
 //            store it in $data.
 
 //            $id = MODEL_Posts->create($data);
 //            Make sure Model_Posts->create() returns the $id of the created post!
-
+            $id = 'dummy string';
             $this->read($id);
 
         }

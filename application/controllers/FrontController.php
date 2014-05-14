@@ -32,7 +32,8 @@ class FrontController {
      */
     public function parseUri() {
         $uri = trim($_SERVER["REQUEST_URI"],'/');
-        list($controller, $action, $params) = explode($uri, '/');
+
+        list($controller, $action, $params) = explode('/',$uri, 3);
 
         if(isset($controller)) {
             $this->controller = ucfirst(strtolower($controller)) . 'Controller';
@@ -58,11 +59,15 @@ class FrontController {
      */
     public function run() {
         if (class_exists($this->controller)) {
-                if (method_exists($this->controller, $this->action)) {
-                    call_user_func_array( array(new $this->controller, $this->action), $this->params);
+            if (method_exists($this->controller, $this->action)) {
+                if (empty($this->params)) {
+                    call_user_func( array(new $this->controller, $this->action) );
                 } else {
-                    throw new Exception('Controller exists, but method does not.');
+                    call_user_func_array( array(new $this->controller, $this->action), $this->params);
                 }
+            } else {
+                throw new Exception('Controller exists, but method does not.');
+            }
             } else {
             throw new Exception('Controller does not exist');
         }
