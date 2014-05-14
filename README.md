@@ -3,6 +3,21 @@ blog.dev
 
 LAMP MVC Application
 
+05/14/14
+
+Wow I did a lot today. Created some inheritance structure in the views classes, and implemented what I think is a Factory. I wanted to get some tangible results out of today, so I've also started to explore the Twitter Bootstrap and set up a few template files. Now my page actually looks like something somewhat interesting. Things to do:
+
+1. Make sure that Views will simply get data from Model via the Registry.
+
+2. Dynamically set which links are active on the front end.
+
+3. Use http://www.sitepoint.com/building-responsive-websites-using-twitter-bootstrap/ to come up with a sidebar that organizes links by date. (this will be its own template that will be loaded onto multiple pages)
+
+4. Should my renderPage function be called from a __destructor??
+
+5. Ask Thomas how to code display depending on if user is admin or not.
+
+
 05/13/14
 
 Thomas correctly pointed out that my FrontController was pretty much identical to Sitepoint's. I rewrote it, and it does pretty much the same thing, but now it is in my own style. I tossed away the idea of using the Front Controller as a Singleton; instead I might store it in the Registry. I also have begun to define each method in my PostController & ListController, which is giving me a better idea of how the application will run in this little microframework. Also note, this blog belongs to a single person. Perhaps that was obvious, but I never really mess with blogs. So the create/edit/delete options are available to a single admin user. Other users will simply be viewing items. Things to do:
