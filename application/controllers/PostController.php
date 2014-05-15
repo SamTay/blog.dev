@@ -17,6 +17,7 @@ class PostController {
      */
     public function index() {
 //        $this->read(MODEL_Posts->getRecent()); OR some other default page
+        echo('Index action not yet created. Planning on read()ing most recent post.');
     }
 
 
@@ -47,12 +48,13 @@ class PostController {
     }
 
     public function read($id) {
+        echo ('Reading action not yet created');
 //        MODEL_Posts->read($id);
 //        PostView->read($id);
     }
 
-    public function edit($id) {
-        echo ('Editing stuff from the PostController! Parameter: ' . $id);        //DELETE
+    public function update($id) {
+        echo ('Updating stuff from the PostController! Parameter: ' . $id);        //DELETE
 
 //        This function will probably have the same format as $this->create()
 
@@ -60,6 +62,7 @@ class PostController {
     }
 
     public function delete($id) {
+        echo ('Delete action not yet created');
 //        MODEL_Posts->delete($id);
 //        either VIEW_List('index') OR VIEW_Post(previous post (retrieved from previous line));
     }

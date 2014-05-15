@@ -474,6 +474,11 @@ p {
   font-weight: 200;
   line-height: 1.4;
 }
+@media (min-width: 778px) and (max-width: 992px) {
+    .navbar-nav.navbar-right:last-child {
+        display: none;
+    }
+}
 @media (min-width: 768px) {
   .lead {
     font-size: 21px;
@@ -5192,11 +5197,13 @@ button.close {
   .modal-sm {
     width: 300px;
   }
+
 }
 @media (min-width: 992px) {
   .modal-lg {
     width: 900px;
   }
+
 }
 .tooltip {
   position: absolute;
@@ -5786,4 +5793,27 @@ button.close {
     display: none !important;
   }
 }
+
+/* MY CUSTOM STICKY FOOTER! */
+* {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+.page-wrap {
+    min-height: 100%;
+    margin-bottom: -60px;
+}
+
+.page-wrap:after {
+    content: "";
+    display: block;
+}
+
+footer, .page-wrap:after {
+    height:60px;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

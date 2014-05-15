@@ -1,12 +1,15 @@
+
+    </div> <!-- closes the page-wrap div -->
+
         <footer>
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">&copy; 2014</div>
                     <div class="col-md-4">
                         <ul class="nav nav-pills">
-                            <li class="active"><a href="#">About Me</a></li>
+                            <li class="active"><a href="<?php echo(BASE_URL.DS.'about'.DS.'details');?>">About Me</a></li>
                             <li><a href="www.samtay.me">Portfolio</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="<?php echo(BASE_URL.DS.'about'.DS.'contact');?>">Contact</a></li>
                         </ul>
                     </div>
                     <div class="col-md-4">
