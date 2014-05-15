@@ -4381,6 +4381,7 @@ a.list-group-item.active > .badge,
 .jumbotron h1,
 .jumbotron .h1 {
   color: inherit;
+    vertical-align: top;
 }
 .jumbotron p {
   margin-bottom: 15px;
@@ -5795,6 +5796,7 @@ button.close {
 }
 
 /* MY CUSTOM STICKY FOOTER! */
+/* AND FIXED NAVBAR! */
 * {
     margin: 0;
 }
@@ -5816,12 +5818,11 @@ html, body {
     display: block;
 }
 
-/*footer, .page-wrap:after {*/
-    /*height:60px;*/
-/*}*/
-
-/*footer img {*/
-    /*padding:5px;*/
-/*}*/
+/* FIXES TEXT IN BANNER */
+.jumbotron h1,
+.jumbotron p {
+    position:relative;
+    top:-50px;
+}
 
 /*# sourceMappingURL=bootstrap.css.map */

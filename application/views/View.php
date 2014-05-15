@@ -39,7 +39,7 @@ abstract class View extends TemplateFactory{
     protected $body = array();
 
 
-    /**
+    /**Reflection::export( new ReflectionClass( ClassName));
      * Functions to set Title & Section, which are used in the generated HTML.
      */
     protected function setTitle($title) {
