@@ -3,6 +3,10 @@ blog.dev
 
 LAMP MVC Application
 
+05/15/14
+
+Today I was still taking care of frontend stuff. Made home/about/contact controllers and views. Right now it's set up where all views are derived from View class, which defines the function renderPage, which calls on setHeader,setFooter,setBody. However, setBody is abstract and requires derived children to define. So it's a little weird that derived classes define setBody, and then the parent function calls on setBody to renderPage. I came up with this design to limit code repetition in views.
+
 05/14/14
 
 Wow I did a lot today. Created some inheritance structure in the views classes, and implemented what I think is a Factory. I wanted to get some tangible results out of today, so I've also started to explore the Twitter Bootstrap and set up a few template files. Now my page actually looks like something somewhat interesting. Things to do:
