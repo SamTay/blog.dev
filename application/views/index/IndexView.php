@@ -13,11 +13,12 @@ class IndexView extends View {
 
     protected function __construct() {
         $this->setTitle('A Coding Blog');
+		$this->setSection('home');
         $this->renderPage();
     }
 
     protected function setBody() {
-        $this->body = file_get_contents(ROOT.DS.'templates'.DS.'banner.php');
-        $this->body = $this->body . file_get_contents(ROOT.DS.'templates'.DS.'recentThree.php');
+        $this->body[] = ROOT.DS.'templates'.DS.'banner.php';
+        $this->body[] = ROOT.DS.'templates'.DS.'recentThree.php';
     }
 }

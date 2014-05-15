@@ -31,11 +31,12 @@ abstract class View extends TemplateFactory{
 
 
     /**
-     * The header/footer/body variables correspond to those of the webpage.
+     * The header/footer/body variables correspond to template files that compose
+     * their respective parts of the webpage.
      */
     protected $header;
     protected $footer;
-    protected $body;
+    protected $body = array();
 
 
     /**
@@ -82,7 +83,8 @@ abstract class View extends TemplateFactory{
         $section = $this->section;
 
         include_once($this->header);
-        echo $this->body;
+        foreach($this->body as $template)
+            include_once($template);
         include_once($this->footer);
     }
 

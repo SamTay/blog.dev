@@ -5799,12 +5799,16 @@ button.close {
     margin: 0;
 }
 
+body {
+    padding: 50px;
+}
+
 html, body {
     height: 100%;
 }
+
 .page-wrap {
-    min-height: 100%;
-    margin-bottom: -60px;
+    min-height: 98%;
 }
 
 .page-wrap:after {
@@ -5812,8 +5816,12 @@ html, body {
     display: block;
 }
 
-footer, .page-wrap:after {
-    height:60px;
-}
+/*footer, .page-wrap:after {*/
+    /*height:60px;*/
+/*}*/
+
+/*footer img {*/
+    /*padding:5px;*/
+/*}*/
 
 /*# sourceMappingURL=bootstrap.css.map */

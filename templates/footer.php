@@ -7,9 +7,15 @@
                     <div class="col-md-4">&copy; 2014</div>
                     <div class="col-md-4">
                         <ul class="nav nav-pills">
-                            <li class="active"><a href="<?php echo(BASE_URL.DS.'about'.DS.'details');?>">About Me</a></li>
-                            <li><a href="www.samtay.me">Portfolio</a></li>
-                            <li><a href="<?php echo(BASE_URL.DS.'about'.DS.'contact');?>">Contact</a></li>
+                            <li <?php if($section === 'about') echo('class="active"'); ?>>
+								<a href="<?php echo (BASE_URL.DS.'about'.DS.'details');?>">About</a>
+							</li>
+                            <li <?php if($section === 'home') echo('class="active"'); ?>>
+								<a href="<?php echo(BASE_URL);?>">Home</a>
+							</li>
+                            <li <?php if($section === 'contact') echo('class="active"'); ?>>
+								<a href="<?php echo(BASE_URL.DS.'about'.DS.'contact');?>">Contact</a>
+							</li>
                         </ul>
                     </div>
                     <div class="col-md-4">

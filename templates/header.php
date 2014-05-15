@@ -26,9 +26,9 @@
 
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="<?php echo(BASE_URL); ?>"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+							<li <?php if($section === 'home') echo('class="active"'); ?>><a href="<?php echo(BASE_URL); ?>"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                             <li><a href="#"><span class="glyphicon glyphicon-star"></span> Top Posts</a></li>
-                            <li class="dropdown">
+                            <li class="dropdown <?php if($section === 'about' || $section === 'contact') echo('active'); ?>">
                                 <a href="<?php echo(BASE_URL.DS.'about'.DS.'details'); ?>" class="dropdown-toggle"
                                 data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> About Me<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
