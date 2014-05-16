@@ -6,6 +6,16 @@
 
 class DBConnect {
 	protected static $db;
+	private $host = 'localhost';
+	private $username = 'root';
+	private $password = '7n3ci61t';
+
+
+	/**
+	 * Ensure no one clones this instance.
+	 */
+	private function __clone(){}
+
 
 	/**
 	 * Construct declared private because this is a singleton. Upon
@@ -13,7 +23,7 @@ class DBConnect {
 	 */
 	private function __construct(){
 		try {
-			self::$db = new PDO('mysql:host=localhost;dbname=blog','root','7n3ci61t');
+			self::$db = new PDO('mysql:host='.$this->host.';dbname=blog', $this->username, $this->password);
 			self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 			echo "Connection Error: " . $e->getMessage();

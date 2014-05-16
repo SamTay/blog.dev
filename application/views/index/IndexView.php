@@ -18,7 +18,11 @@ class IndexView extends View {
     }
 
     protected function setBody() {
+		$this->trimPosts($this->modelData);
         $this->body[] = ROOT.DS.'templates'.DS.'banner.php';
         $this->body[] = ROOT.DS.'templates'.DS.'recentThree.php';
     }
+
+	protected function trimPosts() {
+	}
 }

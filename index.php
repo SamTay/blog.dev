@@ -11,6 +11,7 @@ require_once(ROOT . DS . 'library'. DS . 'bootstrap.php');
 
 
 $registry = Registry::getInstance();
+$db = DBConnect::getConnection();
 $frontController = new FrontController();
 
 

@@ -6,12 +6,14 @@
  */
 abstract class Models {
 
+	protected $db;
+
     /**
      * Name of database table
      *
      * @var string
      */
-    public $tableName = null;
+    protected $table = null;
 
 
     /**
@@ -19,7 +21,7 @@ abstract class Models {
      *
      * @var string
      */
-    public $primaryKey = null;
+    protected $primaryKey = null;
 
 
     /**
@@ -28,5 +30,10 @@ abstract class Models {
      * @var array
      */
 
-    public $data = array();
+    protected $data = array();
+
+
+	protected function getRowCount() {
+		/* Write a SELECT $table.id FROM posts and count size of result */
+	}
 }
