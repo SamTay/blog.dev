@@ -11,18 +11,25 @@
  */
 class IndexView extends View {
 
-    protected function __construct() {
+	protected $colWidth;
+	protected $N;
+
+    public function __construct($data) {
+		$this->data = $data;
         $this->setTitle('A Coding Blog');
 		$this->setSection('home');
         $this->renderPage();
     }
 
     protected function setBody() {
-		$this->trimPosts($this->modelData);
         $this->body[] = ROOT.DS.'templates'.DS.'banner.php';
-        $this->body[] = ROOT.DS.'templates'.DS.'recentThree.php';
+        $this->body[] = ROOT.DS.'templates'.DS.'recentN.php';
     }
 
-	protected function trimPosts() {
+	public function renderPage() {
+		$this->N = count($this->data);
+		$this->colWidth = 12/$this->N;
+
+		parent::renderPage();
 	}
 }

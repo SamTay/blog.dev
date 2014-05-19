@@ -9,7 +9,7 @@
  */
 class CreatePostView extends View {
 
-    protected function __construct() {
+    public function __construct() {
         $this->setTitle('Create a New Post');
         $this->setSection('');
         $this->renderPage();

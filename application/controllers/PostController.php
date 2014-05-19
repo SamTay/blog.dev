@@ -9,8 +9,10 @@
  * that views multiple posts, use ListController
  */
 
-class PostController {
+class PostController extends FrontController {
 
+
+	public function __construct() {}
 
     /**
      * Default Action: Read most recent post.
@@ -32,39 +34,29 @@ class PostController {
 
         if (is_null($data)) {
 
-            TemplateFactory::create('CreatePostView');
-            $view->renderPage();
 //            Make sure VIEW_Posts->create page uses a POST form.
+
         } else {
-//            Extract the POST information from the form above, modify it to the correct format,
-//            store it in $data.
 
 //            $id = MODEL_Posts->create($data);
 //            Make sure Model_Posts->create() returns the $id of the created post!
-            $id = 'dummy string';
-            $this->read($id);
 
         }
     }
 
-    public function read($id) {
-        echo ('Reading action not yet created');
-//        MODEL_Posts->read($id);
-//        PostView->read($id);
+
+    public function view() {
+		$id = $_GET['id'];
+		$data = Factory::getModel('Post')->read($id);
+		Factory::getView('Post', $data);
     }
 
     public function update($id) {
-        echo ('Updating stuff from the PostController! Parameter: ' . $id);        //DELETE
 
-//        This function will probably have the same format as $this->create()
-
-//        MODEL_Posts->edit($id);
     }
 
     public function delete($id) {
-        echo ('Delete action not yet created');
-//        MODEL_Posts->delete($id);
-//        either VIEW_List('index') OR VIEW_Post(previous post (retrieved from previous line));
+
     }
 
 }

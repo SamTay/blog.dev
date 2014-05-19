@@ -4,7 +4,7 @@
  * Not sure what to do with this model, but pretty sure the actual model classes
  * will be derived from an abstract form, forcing certain properties/methods.
  */
-abstract class Models {
+abstract class Model {
 
 	protected $db;
 
@@ -30,7 +30,7 @@ abstract class Models {
      * @var array
      */
 
-    protected $data = array();
+    public $data = array();
 
 
 	protected function getRowCount() {

@@ -1,13 +1,16 @@
 <?php
 
-class AboutController {
+class AboutController extends FrontController {
+
+	public function __construct() {}
+
     public function index() {
         $this->details();
     }
     public function details() {
-        TemplateFactory::create('AboutDetailsView');
+        Factory::getView('AboutDetails');
     }
     public function contact() {
-        TemplateFactory::create('AboutContactView');
+        Factory::getView('AboutContact');
     }
 }

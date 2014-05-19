@@ -5,6 +5,47 @@ AutoLoader::registerDirectory(ROOT);
 
 include_once('config.php');
 
+/**
+ * Class Factory
+ *
+ * Uses static functions to instantiate Model & View classes.
+ */
+class Factory {
+
+	/**
+	 * Returns new model class if it exists.
+	 *
+	 * @param $className
+	 * @return string
+	 * @throws Exception
+	 */
+	public static function getModel($className){
+		if (class_exists($className.'Model')) {
+			$className = $className.'Model';
+			return new $className;
+		} else throw new Exception('Model class does not exist');
+	}
+
+	/**
+	 * @param $className
+	 * @param null $data
+	 * @return string
+	 * @throws Exception
+	 */
+	public static function getView($className, $data=null) {
+
+		if (class_exists($className.'View')) {
+			$className = $className.'View';
+			if (is_null($data)) {
+				return new $className;
+			} else {
+				return new $className($data);
+			}
+		} else throw new Exception('View class does not exist');
+
+	}
+}
+
 
 
 

@@ -5825,4 +5825,9 @@ html, body {
     top:-50px;
 }
 
+.date {
+    font-size: 75%;
+    text-align: right;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

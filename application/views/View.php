@@ -5,7 +5,7 @@
  *
  * An abstract class from which specific views (i.e., CreatePostView) extend.
  */
-abstract class View extends TemplateFactory{
+abstract class View {
 
     /**
      * Title used in the header.php
@@ -27,7 +27,7 @@ abstract class View extends TemplateFactory{
      *
      * @var array
      */
-    protected $modelData = array();
+    protected $data = array();
 
 
     /**
@@ -39,7 +39,7 @@ abstract class View extends TemplateFactory{
     protected $body = array();
 
 
-    /**Reflection::export( new ReflectionClass( ClassName));
+    /**
      * Functions to set Title & Section, which are used in the generated HTML.
      */
     protected function setTitle($title) {

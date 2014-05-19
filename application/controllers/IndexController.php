@@ -1,8 +1,14 @@
 <?php
 
-class IndexController {
+class IndexController extends FrontController {
+
+	public function __construct() {}
+
     public function index() {
-		call_user_func_array(array('Posts', 'read'), array(1));	//instead call the readRecent once that is defined...
-        TemplateFactory::create('IndexView');
+		$N = 3; // defines how many recent posts to show
+
+		$data = Factory::getModel('Post')->readRecent($N);
+
+        Factory::getView('Index', $data);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 class AboutDetailsView extends View {
-    protected function __construct() {
+    public function __construct() {
         $this->setTitle('About Me');
         $this->setSection('about');
         $this->renderPage();

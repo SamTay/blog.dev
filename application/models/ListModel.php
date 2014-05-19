@@ -6,7 +6,7 @@
  * Time: 12:57 PM
  */
 
-class Lists extends Models {
+class ListModel extends Model {
     static private $instance;
 
     private function __constructor(){}

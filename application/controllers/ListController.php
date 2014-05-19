@@ -2,6 +2,8 @@
 
 class ListController extends FrontController {
 
+	public function __construct() {}
+
     private $view = array();
 
 

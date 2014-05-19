@@ -6,9 +6,9 @@
 
 class DBConnect {
 	protected static $db;
-	private $host = 'localhost';
-	private $username = 'root';
-	private $password = '7n3ci61t';
+	private static  $host = 'localhost';
+	private static  $username = 'root';
+	private static  $password = '7n3ci61t';
 
 
 	/**
@@ -21,14 +21,7 @@ class DBConnect {
 	 * Construct declared private because this is a singleton. Upon
 	 * creation, creates db connection.
 	 */
-	private function __construct(){
-		try {
-			self::$db = new PDO('mysql:host='.$this->host.';dbname=blog', $this->username, $this->password);
-			self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		} catch (PDOException $e) {
-			echo "Connection Error: " . $e->getMessage();
-		}
-	}
+	private function __construct(){}
 
 
 	/**
@@ -38,7 +31,12 @@ class DBConnect {
 	 */
 	static function getConnection() {
 		if (!isset(self::$db)) {
-			self::$db = new self(); //possibly try just new self();
+			try {
+				self::$db = new PDO('mysql:host='.self::$host.';dbname=blog', self::$username, self::$password);
+				self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			} catch (PDOException $e) {
+				echo "Connection Error: " . $e->getMessage();
+			}
 		}
 
 		return self::$db;
