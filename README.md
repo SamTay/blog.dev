@@ -3,6 +3,18 @@ blog.dev
 
 LAMP MVC Application
 
+05/19/14 This app now has a complete skeleton and basic functionality. I can probably complete all rudimentary features (CRUD) within two days, and then perhaps the next 1-2 weeks will consist of updating certain methodologies or upgrading new features. Today I met with Thomas and he gave me just the bit of direction I needed. Accomplished: Changed URI scheme to allow post/get variables, extended all controllers from FrontController, created factory class within bootstrap.php to getViews and getModels dynamically during runtime, successfully query database via PDO, pass data (via controllers) to view classes that are now generating views with model data. THAT took a while, but it is now working. Things to do next:
+
+1. Finish C,R,U,D methods within PostController, PostModel, PostView.
+2. Ask why I need a List Model - can't my lists just consist of data from Posts (like title & date columns?)
+3. Ask about the ugly blog.dev/index/index
+4. Ask how to format HTML from the database; should the bodytext be stored with HTML, or should I somehow format that after retrieving the text?
+5. Create column in posts table that stores PATHS to images.
+
+Longer term tasks: Create admin panel and separate user/admin experience, XML config, figure out how to retrieve total row count in MYSQL
+
+
+
 05/15/14
 
 Today I was still taking care of frontend stuff. Made home/about/contact controllers and views. Right now it's set up where all views are derived from View class, which defines the function renderPage, which calls on setHeader,setFooter,setBody. However, setBody is abstract and requires derived children to define. So it's a little weird that derived classes define setBody, and then the parent function calls on setBody to renderPage. I came up with this design to limit code repetition in views.
