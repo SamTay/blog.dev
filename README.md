@@ -3,13 +3,21 @@ blog.dev
 
 LAMP MVC Application
 
+05/20/14 Currently working on Create. Got everything working on the backend, then fucked it all up when styling it. Going to work from home tonight. Questions for Thomas:
+
+1. Why I need a list model?
+2. How to handle index/index
+3. Benefits of config.xml as opposed to the way I have it now?
+4. Formatting HTML from database?
+
 05/19/14 This app now has a complete skeleton and basic functionality. I can probably complete all rudimentary features (CRUD) within two days, and then perhaps the next 1-2 weeks will consist of updating certain methodologies or upgrading new features. Today I met with Thomas and he gave me just the bit of direction I needed. Accomplished: Changed URI scheme to allow post/get variables, extended all controllers from FrontController, created factory class within bootstrap.php to getViews and getModels dynamically during runtime, successfully query database via PDO, pass data (via controllers) to view classes that are now generating views with model data. THAT took a while, but it is now working. Things to do next:
 
 1. Finish C,R,U,D methods within PostController, PostModel, PostView.
 2. Ask why I need a List Model - can't my lists just consist of data from Posts (like title & date columns?)
-3. Ask about the ugly blog.dev/index/index
+3. Ask about the ugly URI blog.dev/index/index
 4. Ask how to format HTML from the database; should the bodytext be stored with HTML, or should I somehow format that after retrieving the text?
 5. Create column in posts table that stores PATHS to images.
+6. Add right column with dates/links.
 
 Longer term tasks: Create admin panel and separate user/admin experience, XML config, figure out how to retrieve total row count in MYSQL
 
