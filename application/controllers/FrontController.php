@@ -82,7 +82,7 @@ class FrontController {
 	 * @param $key
 	 * @return bool
 	 */
-	public function getParam($key) {
+	public static function getParam($key) {
 		if (isset($_GET[$key]))
 			return $_GET[$key];
 

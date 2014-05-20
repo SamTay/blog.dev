@@ -13,20 +13,26 @@ include_once('config.php');
 class Factory {
 
 	/**
-	 * Returns new model class if it exists.
-	 *
+	 * Returns new model class if it exists, has option to pass $data to constructor
 	 * @param $className
-	 * @return string
+	 * @param null $data
+	 * @return mixed
 	 * @throws Exception
 	 */
-	public static function getModel($className){
+	public static function getModel($className, $data=null){
 		if (class_exists($className.'Model')) {
 			$className = $className.'Model';
-			return new $className;
+			if (is_null($data)) {
+				return new $className;
+			} else {
+				return new $className($data);
+			}
 		} else throw new Exception('Model class does not exist');
 	}
 
 	/**
+	 * Returns new view class if it exists, has option to pass $data to constructor
+	 *
 	 * @param $className
 	 * @param null $data
 	 * @return string
@@ -45,6 +51,8 @@ class Factory {
 
 	}
 }
+
+
 
 
 

@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Not sure what to do with this model, but pretty sure the actual model classes
- * will be derived from an abstract form, forcing certain properties/methods.
+ * Need to Refactor models to keep table as variable (prepare and execute MySQL statements)
  */
 abstract class Model {
 
@@ -33,7 +32,43 @@ abstract class Model {
     public $data = array();
 
 
+	protected function getControllerData() {
+
+		// Find the appropriate controller
+		$controller = str_replace('Model', 'Controller', get_class($this));
+
+		// Or just use front controller
+		if (!class_exists($controller)) {
+			$controller = 'FrontController';
+		}
+
+		//If these global variables are set, store them in $data
+		if ($controller::getParam('id') !== false)
+			$this->data['id'] = $controller::getParam('id');
+
+		if ($controller::getParam('postTitle') !== false)
+			$this->data['postTitle'] = $controller::getParam('postTitle');
+
+		if ($controller::getParam('postBody') !== false)
+			$this->data['postBody'] = $controller::getParam('postBody');
+	}
+
+	/**
+	 * Return the current number of rows in posts table.
+	 *
+	 * @return mixed
+	 */
 	protected function getRowCount() {
-		/* Write a SELECT $table.id FROM posts and count size of result */
+		try {
+			$stmt = $this->db->query('SELECT COUNT(*) AS id FROM posts');
+		} catch (PDOException $e) {
+			echo "Connection Error: " . $e->getMessage();
+		}
+
+		$count = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		$stmt->closeCursor();
+
+		return $count['id'];
 	}
 }

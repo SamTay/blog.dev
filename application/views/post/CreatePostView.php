@@ -9,13 +9,17 @@
  */
 class CreatePostView extends View {
 
-    public function __construct() {
+    public function __construct($data = null) {
+
+		if (!is_null($data))
+			$this->data = $data;
+
         $this->setTitle('Create a New Post');
-        $this->setSection('');
+        $this->setSection('create');
         $this->renderPage();
     }
 
     protected function setBody() {
-//        $this->body = file_get_contents(ROOT.DS.'templates');
+        $this->body[] = ROOT.DS.'templates'.DS.'createpost.php';
     }
 }

@@ -16,44 +16,38 @@ class PostModel extends Model {
     }
 
 
-    /**
-     * Hopefully this function will eventually be used to create a blog post
-	 * with body $body and title $title.
-     *
-     * @param string $body
-	 * @param string $title
+	/**
+	 * Creates a post in posts table, returns the ID of post
+	 * @return mixed
 	 */
-    public function create($title, $body) {
+	public function create() {
+		$this->getControllerData();
+
 		try {
-			$this->db->beginTransaction();
+			$stmt = $this->db->prepare("INSERT INTO ".$this->table." (title,body,created,modified) VALUES (:title, :body, NOW(), NOW())");
 
+//			$stmt->bindParam(':table', $this->table);
+			$stmt->bindParam(':title', $this->data['postTitle']);
+			$stmt->bindParam(':body', $this->data['postBody']);
 
-
-			$this->db->commit();
+			$stmt->execute();
 		} catch (PDOException $e) {
-			$this->db->rollback();
 			echo $e->getMessage();
 		}
+
+		return $this->db->lastInsertId();
     }
 
 	public function read($id) {
 
-//		$stmt = $this->db->prepare('SELECT * FROM :table WHERE id = :id');
-//
-//		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
-//		$stmt->bindParam(':table', $this->table, PDO::PARAM_STR);
-//
-//		$stmt->execute();
-
-
-//		$sql_query = $this->db->quote('SELECT * FROM posts WHERE id = ' . $id);
-//
+		// Select row with $id
 		try {
 			$stmt = $this->db->query('SELECT * FROM posts WHERE id = ' . $id);
 		} catch (PDOException $e) {
 			echo "Connection Error: " . $e->getMessage();
 		}
 
+		// Store row in associate array $data
 		$data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		$stmt->closeCursor();
@@ -64,7 +58,9 @@ class PostModel extends Model {
 	public function readRecent($N) {
 		$data = array();
 
-		$totalPosts = 3;		//FIGURE OUT HOW TO GET TOTAL POSTS.
+		$totalPosts = $this->getRowCount();
+
+		// Call read() on the latest $N posts, store in $data array
 		for($i=$totalPosts; $i>$totalPosts-$N; $i--) {
 			$data[] = $this->read($i);
 		}

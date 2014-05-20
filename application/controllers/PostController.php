@@ -24,29 +24,51 @@ class PostController extends FrontController {
 
 
     /**
-     * Creates blog post. If $data is null, load the view containing form to create post.
+     * Creates blog post. If $data is null, ask model for the next posting ID.
      * Then the form action will load the same uri: blog.dev/post/create/&keys=values&etc,
      * but will have _POST information to pass to the model.
-     *
-     * @param null $data
      */
-    public function create($data = null) {
+    public function create() {
 
-        if (is_null($data)) {
+		// If request is not POST, get CreatePostView
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+			Factory::getView('CreatePost');
 
-//            Make sure VIEW_Posts->create page uses a POST form.
-
+		// Else check for valid entries
         } else {
+			$data = array();
+			$data['postTitle'] = trim($_POST["postTitle"]);				/* REFACTOR to check if POST variables exist or not */
+			$data['postBody'] = trim($_POST["postBody"]);
 
-//            $id = MODEL_Posts->create($data);
-//            Make sure Model_Posts->create() returns the $id of the created post!
+			// If invalid, get CreatePostView again
+			if ($data['postTitle']=="" OR $data['postBody']=="") {
+				$data['postError'] = 'You must specify a title and body.';
+				Factory::getView('CreatePost', $data);
 
+			// If Valid, send post to PostModel for insertion
+			} else {
+				$id = Factory::getModel('Post')->create();
+				$this->view($id);
+			}
         }
     }
 
 
-    public function view() {
-		$id = $_GET['id'];
+    public function view($id=null) {
+
+		//If view() called with no argument
+		if (is_null($id)) {
+
+			// If param exists in URI, retrieve it
+			if (self::getParam('id')) {
+				$id = self::getParam('id');
+
+			// If not, default to view the most recent post
+			} else {
+				$id = Factory::getModel('Post')->getRowCount();
+			}
+		}
+
 		$data = Factory::getModel('Post')->read($id);
 		Factory::getView('Post', $data);
     }
@@ -58,5 +80,7 @@ class PostController extends FrontController {
     public function delete($id) {
 
     }
+
+
 
 }

@@ -4,8 +4,7 @@
         <footer>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4">&copy; 2014</div>
-                    <div class="col-md-4">
+                    <div class="col-xs-6 col-xs-offset-3 myfooter">
                         <ul class="nav nav-pills">
                             <li <?php if($section === 'about') echo('class="active"'); ?>>
 								<a href="<?php echo (BASE_URL.DS.'about'.DS.'details');?>">About</a>
@@ -17,9 +16,6 @@
 								<a href="<?php echo(BASE_URL.DS.'about'.DS.'contact');?>">Contact</a>
 							</li>
                         </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h3 class="text-right">Coding Blog</h3>
                     </div>
                 </div>
             </div>

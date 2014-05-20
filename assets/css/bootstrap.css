@@ -1410,7 +1410,7 @@ table {
   background-color: transparent;
 }
 th {
-  text-align: left;
+  text-align: center;
 }
 .table {
   width: 100%;
@@ -5810,7 +5810,7 @@ html, body {
 }
 
 .page-wrap {
-    min-height: 98%;
+    min-height: 96%;
 }
 
 .page-wrap:after {
@@ -5829,5 +5829,15 @@ html, body {
     font-size: 75%;
     text-align: right;
 }
+
+.myfooter {
+    display: inline-block;
+    text-align: center;
+}
+.myfooter ul {
+    display: inline-block;
+}
+
+
 
 /*# sourceMappingURL=bootstrap.css.map */
