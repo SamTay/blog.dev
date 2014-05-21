@@ -4,7 +4,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <a href="#"><img class="img-responsive img-circle" src="images/feat1.jpg"></a>
             <h3 class="text-center"><?php echo $this->data['title']; ?></h3>
 			<?php echo $this->data['body']; ?>
 			<p class = "date">
