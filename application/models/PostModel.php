@@ -51,7 +51,6 @@ class PostModel extends Model {
 		$data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		$stmt->closeCursor();
-
 		return $data;
 	}
 

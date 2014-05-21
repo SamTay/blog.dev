@@ -21,7 +21,6 @@ class FrontController {
     }
 
     /**
-
      * Parses the URI and sets properties accordingly. Scheme:
      *      www.blog.dev/post/view?id=1&pg=4
      *      -> $controller = PostController
@@ -34,16 +33,14 @@ class FrontController {
         $uri = trim($_SERVER["REQUEST_URI"],'/');
 
         list($controller, $action) = explode('/',$uri, 2);
-		list($action, $params) = explode('?', $action, 2);
+		if (stripos($action, '?'))
+            $action = substr($action, 0, stripos($action,'?'));
 
         if(!empty($controller)) {
             $this->controller = ucfirst(strtolower($controller)) . 'Controller';
         }
         if(!empty($action)) {
             $this->action = strtolower($action);
-        }
-        if(!empty($params)) {
-            $this->params = explode('&', strtolower($params));
         }
 	}
 
@@ -60,13 +57,7 @@ class FrontController {
     public function run() {
         if (class_exists($this->controller)) {
             if (method_exists($this->controller, $this->action)) {
-
-                if (empty($this->params)) {
-                    call_user_func( array(new $this->controller, $this->action) );
-                } else {
-                    call_user_func_array( array(new $this->controller, $this->action), $this->params);
-                }
-
+                call_user_func( array(new $this->controller, $this->action) );
             } else {
                 throw new Exception('Controller exists, but method does not.');
             }

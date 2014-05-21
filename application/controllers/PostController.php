@@ -73,11 +73,11 @@ class PostController extends FrontController {
 		Factory::getView('Post', $data);
     }
 
-    public function update($id) {
+    public function update() {
 
     }
 
-    public function delete($id) {
+    public function delete() {
 
     }
 
