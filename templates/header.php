@@ -45,21 +45,34 @@
                             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
                         </form>
 
-                        <!-- NOTE that this section should only be visible to the admin -->
+                        <!-- NOTE that this section should only be visible to the admin ------------------------------------->
                         <ul class="nav navbar-nav navbar-right">
                             <li <?php if($section === 'create') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'post'.DS.'create');?>">
                                     <span class="glyphicon glyphicon-asterisk"></span>
                                     New Post
                             </a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
-                                glyphicon-edit"></span> Edit Post<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="<?php echo(BASE_URL.DS.'post'.DS.'update');?>">Update</a></li>
-                                    <li><a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');?>">Delete</a></li>
-                                </ul>
-                            </li>
+
+							<?php if ($section == 'postview') { ?>
+								<li class="dropdown">
+									<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
+									glyphicon-edit"></span> Edit Post<b class="caret"></b></a>
+									<ul class="dropdown-menu">
+										<li>
+											<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
+												if (isset($this->data['id'])) echo '?id='.$this->data['id'];
+											?>">Update</a>
+										</li>
+										<li>
+											<a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');
+												if (isset($this->data['id'])) echo '?id='.$this->data['id'];
+											?>" onClick="return confirm('Are you sure you want to delete this post?')">Delete</a>
+										</li>
+									</ul>
+								</li>
+							<?php } ?>
                         </ul>
+						<!--------------------------------------------------------------------------------------------------->
+
                     </div>
 
                 </div>

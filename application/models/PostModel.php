@@ -24,9 +24,8 @@ class PostModel extends Model {
 		$this->getControllerData();
 
 		try {
-			$stmt = $this->db->prepare("INSERT INTO ".$this->table." (title,body,created,modified) VALUES (:title, :body, NOW(), NOW())");
+			$stmt = $this->db->prepare("INSERT INTO ".$this->table." (title,body,created) VALUES (:title, :body, NOW())");
 
-//			$stmt->bindParam(':table', $this->table);
 			$stmt->bindParam(':title', $this->data['postTitle']);
 			$stmt->bindParam(':body', $this->data['postBody']);
 
@@ -57,13 +56,47 @@ class PostModel extends Model {
 	public function readRecent($N) {
 		$data = array();
 
-		$totalPosts = $this->getRowCount();
+		// Get ids of rows and number of rows
+		$ids = $this->getRowIds();
+		$totalPosts = count($ids);
+
+		// Just in case we are asking for too many
+		if ($totalPosts < $N)
+			$N = $totalPosts;
 
 		// Call read() on the latest $N posts, store in $data array
-		for($i=$totalPosts; $i>$totalPosts-$N; $i--) {
-			$data[] = $this->read($i);
+		for($i=$totalPosts-1; $i>$totalPosts-$N-1; $i--) {
+			$data[] = $this->read($ids[$i]);
 		}
 
 		return $data;
 	}
+
+	public function update($id) {
+		$this->getControllerData();
+
+		try {
+			$stmt = $this->db->prepare("UPDATE ".$this->table." SET title = :title, body = :body, modified = NOW() WHERE id = ". $id);
+
+			$stmt->bindParam(':title', $this->data['postTitle']);
+			$stmt->bindParam(':body', $this->data['postBody']);
+
+			$stmt->execute();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
+	public function delete($id) {
+
+		try {
+			$this->db->query("DELETE FROM ".$this->table." WHERE id = ". $id);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+
+//		$registry->set('message', "Your post has been successfully deleted.");
+	}
+
+
 }

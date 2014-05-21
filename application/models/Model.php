@@ -60,7 +60,7 @@ abstract class Model {
 	 */
 	protected function getRowCount() {
 		try {
-			$stmt = $this->db->query('SELECT COUNT(*) AS id FROM posts');
+			$stmt = $this->db->query('SELECT COUNT(*) AS id FROM '. $this->table);
 		} catch (PDOException $e) {
 			echo "Connection Error: " . $e->getMessage();
 		}
@@ -70,5 +70,31 @@ abstract class Model {
 		$stmt->closeCursor();
 
 		return $count['id'];
+	}
+
+	/**
+	 * Returns the row id numbers as a numbered array (as they may not be sequential).
+	 *
+	 * @return array
+	 */
+	protected function getRowIds() {
+		try {
+			$stmt = $this->db->query('SELECT posts.id FROM '. $this->table);
+		} catch (PDOException $e) {
+			echo "Connection Error: " . $e->getMessage();
+		}
+
+		// Unfortunately this stores each id as an array within $idsArray
+		$idsArray = $stmt->fetchAll(PDO::FETCH_NUM);
+
+		// This makes a cleaner, 1D array (couldn't make this pretty)
+		$ids = array();
+		foreach($idsArray as $id) {
+			$ids[] = $id[0];
+		}
+
+		$stmt->closeCursor();
+
+		return $ids;
 	}
 }

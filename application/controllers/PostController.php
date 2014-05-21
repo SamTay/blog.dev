@@ -53,10 +53,14 @@ class PostController extends FrontController {
         }
     }
 
+	/**
+	 * Views post with id given from argument or URI
+	 *
+	 * @param null $id
+	 */
+	public function view($id=null) {
 
-    public function view($id=null) {
-
-		//If view() called with no argument
+		// If view() called with no argument
 		if (is_null($id)) {
 
 			// If param exists in URI, retrieve it
@@ -65,20 +69,59 @@ class PostController extends FrontController {
 
 			// If not, default to view the most recent post
 			} else {
-				$id = Factory::getModel('Post')->getRowCount();
+				$id = Factory::getModel('Post')->getRowIds(getRowCount()-1);
 			}
 		}
 
+		// Get model data and send it to view
 		$data = Factory::getModel('Post')->read($id);
 		Factory::getView('Post', $data);
     }
 
-    public function update() {
+    public function update($id=null) {
+		// If update() called with no argument
+		if (is_null($id)) {
 
+			// If param exists in URI, retrieve it
+			if (self::getParam('id') !== false) {
+				$id = self::getParam('id');
+
+				// If not, throw exception
+			} else {
+				throw new Exception('Post id not found.'); //maybe redirect to error page?
+			}
+		}
+
+		// If the update form has not yet been submitted
+		if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+
+			// Get model data and send it to view
+			$data = Factory::getModel('Post')->read($id);
+			Factory::getView('UpdatePost', $data);
+
+		// Else if the form has been submitted
+		} else {
+			Factory::getModel('Post')->update($id);
+			$this->view($id);
+		}
     }
 
-    public function delete() {
+    public function delete($id=null) {
+		// If delete() called with no argument
+		if (is_null($id)) {
 
+			// If param exists in URI, retrieve it
+			if (self::getParam('id') !== false) {
+				$id = self::getParam('id');
+
+				// If not, throw exception
+			} else {
+				throw new Exception('Post id not found.'); //maybe redirect to error page?
+			}
+		}
+
+		Factory::getModel('Post')->delete($id);
+		call_user_func(array('IndexController', 'index'));
     }
 
 

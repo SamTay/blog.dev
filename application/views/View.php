@@ -21,14 +21,12 @@ abstract class View {
      */
     protected $section;
 
-
     /**
      * This array will be used when retrieving model information.
      *
      * @var array
      */
     protected $data = array();
-
 
     /**
      * The header/footer/body variables correspond to template files that compose
