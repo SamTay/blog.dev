@@ -33,6 +33,10 @@ class PostModel extends Model {
 			echo $e->getMessage();
 		}
 
+		// Store msg for successful operation
+		$registry = Registry::getInstance();
+		$registry->set('msg', "Your post has been successfully created.");
+
 		return $this->db->lastInsertId();
     }
 
@@ -89,6 +93,10 @@ class PostModel extends Model {
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
+
+		// Store msg for successful operation
+		$registry = Registry::getInstance();
+		$registry->set('msg', "Your post has been successfully updated.");
 	}
 
 	/**
@@ -104,7 +112,9 @@ class PostModel extends Model {
 			echo $e->getMessage();
 		}
 
-//		$registry->set('message', "Your post has been successfully deleted.");
+		// Store msg for successful operation
+		$registry = Registry::getInstance();
+		$registry->set('msg', "Your post has been successfully deleted.");
 	}
 
 

@@ -12,7 +12,9 @@
 					&& ($this->data['modified'] != null))
 						echo 'Modified: ' . $this->data['modified']; ?>
 			</p>
+
 			<a href="" class="btn btn-success">Next Post</a>
+
 		</div>
 	</div>
 </div>

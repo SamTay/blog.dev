@@ -3,11 +3,9 @@
 /**
  * This class will allow a single instantiation where site-wide
  * variables can be stored without the use of globals. The single
- * registry object will be passed to the controllers that need
- * them.
+ * registry object will be used by whoever needs it.
  *
- * Prepare to modify this class to be abstract, removing properties
- * and setting set/get functions to protected.
+ * Prepare to modify this class to be abstract.
  */
 class Registry {
     /*
@@ -20,6 +18,7 @@ class Registry {
 
 
 	/**
+	 * Global-ish variables are stored here
 	 *
 	 * @var array
 	 * @access protected
@@ -27,20 +26,18 @@ class Registry {
 	protected static $vars = array();
 
 
-    /*
-     * Dummy construct() forced private to only allow
-     * one instance of this class
-     *
-     * @access private
-     * @return void
-     */
-    private function __construct() {}
+	/**
+	 * Private construct to enforce singleton
+	 */
+	private function __construct() {}
 
 
-    /*
-     * @return new Registry
-     */
-    static function getInstance() {
+	/**
+	 * Get singleton instance
+	 *
+	 * @return null|Registry
+	 */
+	static function getInstance() {
         if (!isset(self::$instance)) {
             self::$instance = new self();
         }
@@ -49,6 +46,8 @@ class Registry {
 
 
     /**
+	 * Sets data[key] = value, unless data[key] is already defined.
+	 *
      * @param string $key
      * @param mixed $value
      * @throws Exception
@@ -65,6 +64,8 @@ class Registry {
 
 
 	/**
+	 * Returns data[key] (null if undefined)
+	 *
 	 * @param string $key
 	 * @return mixed $value
 	 */
@@ -75,7 +76,6 @@ class Registry {
         }
         return null;
 	}
-
 }
 
 

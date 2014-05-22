@@ -78,3 +78,16 @@
                 </div>
             </nav>
         <!-- div element closed in start of footer! -->
+
+			<!-- If there is a message to user -->
+			<?php $registry = Registry::getInstance();
+			if (!is_null($registry->get('msg'))) { ?>
+				<div class="container-fluid">
+<!--					<div class="row">-->
+						<div class="col-md-4 col-md-offset-4 alert alert-success alert-dismissable">
+							<button type="button" class="close" aria-hidden="true">&times;</button>
+							<p><strong><?php echo $registry->get('msg'); ?></strong></p>
+						</div>
+<!--					</div>-->
+				</div>
+			<?php } ?>

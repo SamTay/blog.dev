@@ -25,5 +25,11 @@
         <script src="//code.jquery.com/jquery.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'bootstrap.min.js'); ?>"></script>
-    </body>
+		<script>
+			$(".alert button.close").click(function (e) {
+				$(this).parent().slideUp(300);
+			});
+		</script>
+	</body>
 </html>
+
