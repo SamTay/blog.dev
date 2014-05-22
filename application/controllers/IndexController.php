@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class IndexController
+ *
+ * Simple controller for the home page, right now index() method shows
+ * the most recent $N posts.
+ */
 class IndexController extends FrontController {
 
 	public function __construct() {}

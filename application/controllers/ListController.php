@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class ListController
+ *
+ * Class is not yet in use..
+ */
 class ListController extends FrontController {
 
 	public function __construct() {}

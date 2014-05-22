@@ -6,7 +6,8 @@
 /**
  * Class PostController
  * This class should be used when clicking on a particular post. For any page
- * that views multiple posts, use ListController
+ * that views multiple posts, use ListController. Once ListController is defined,
+ * refactor and put readRecent in there.
  */
 
 class PostController extends FrontController {
@@ -18,14 +19,18 @@ class PostController extends FrontController {
      * Default Action: Read most recent post.
      */
     public function index() {
-//        $this->read(MODEL_Posts->getRecent()); OR some other default page
-        echo('Index action not yet created. Planning on read()ing most recent post.');
-    }
+		//Get most recent post's id
+		$id = Factory::getModel('Post')->getRowIds()[Factory::getModel('Post')->getRowCount() - 1];
+
+		// Get model data and send it to view
+		$data = Factory::getModel('Post')->read($id);
+		Factory::getView('Post', $data);
+	}
 
 
     /**
-     * Creates blog post. If $data is null, ask model for the next posting ID.
-     * Then the form action will load the same uri: blog.dev/post/create/&keys=values&etc,
+     * Creates blog post. If method is not POST, load the createpostview (form).
+     * Then the form action will load the same uri: blog.dev/post/create
      * but will have _POST information to pass to the model.
      */
     public function create() {
@@ -78,7 +83,14 @@ class PostController extends FrontController {
 		Factory::getView('Post', $data);
     }
 
-    public function update($id=null) {
+	/**
+	 * Updates blog post. If id is not retrievable, throws exception.
+	 * This creates and/or modifies the "modified" value in database.
+	 *
+	 * @param null $id
+	 * @throws Exception
+	 */
+	public function update($id=null) {
 		// If update() called with no argument
 		if (is_null($id)) {
 
@@ -101,12 +113,22 @@ class PostController extends FrontController {
 
 		// Else if the form has been submitted
 		} else {
+
+			// Send data to model and view the upated post
 			Factory::getModel('Post')->update($id);
 			$this->view($id);
 		}
     }
 
-    public function delete($id=null) {
+	/**
+	 * Delete function simply deletes post with given id. If no id
+	 * is given, throws an exception. The confirmation to delete
+	 * happens within the HTML "on-click" attribute.
+	 *
+	 * @param null $id
+	 * @throws Exception
+	 */
+	public function delete($id=null) {
 		// If delete() called with no argument
 		if (is_null($id)) {
 
@@ -120,6 +142,7 @@ class PostController extends FrontController {
 			}
 		}
 
+		// Delete the post and load the home page.						REFACTOR to include message about deletion.
 		Factory::getModel('Post')->delete($id);
 		call_user_func(array('IndexController', 'index'));
     }

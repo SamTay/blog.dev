@@ -1,38 +1,22 @@
 <?php
 
 /**
- * Need to Refactor models to keep table as variable (prepare and execute MySQL statements)
+ * Class Model
+ *
+ * Abstract class with basic properties/methods that children classes will use.
  */
 abstract class Model {
 
 	protected $db;
-
-    /**
-     * Name of database table
-     *
-     * @var string
-     */
     protected $table = null;
-
-
-    /**
-     * The field name in the database
-     *
-     * @var string
-     */
-    protected $primaryKey = null;
-
-
-    /**
-     * Container for data retrieved from database
-     *
-     * @var array
-     */
-
     public $data = array();
 
 
-	protected function getControllerData() {
+	/**
+	 * Refers to controller::getParam to store GET/POST/SERVER variables
+	 * in $this->data
+	 */
+	public function getControllerData() {
 
 		// Find the appropriate controller
 		$controller = str_replace('Model', 'Controller', get_class($this));
@@ -54,11 +38,11 @@ abstract class Model {
 	}
 
 	/**
-	 * Return the current number of rows in posts table.
+	 * Return the current number of rows in $this->table.
 	 *
 	 * @return mixed
 	 */
-	protected function getRowCount() {
+	public function getRowCount() {
 		try {
 			$stmt = $this->db->query('SELECT COUNT(*) AS id FROM '. $this->table);
 		} catch (PDOException $e) {
@@ -77,7 +61,7 @@ abstract class Model {
 	 *
 	 * @return array
 	 */
-	protected function getRowIds() {
+	public function getRowIds() {
 		try {
 			$stmt = $this->db->query('SELECT posts.id FROM '. $this->table);
 		} catch (PDOException $e) {

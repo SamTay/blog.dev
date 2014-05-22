@@ -2,14 +2,18 @@
 
 /**
  * Defines a single point of entry for every request,
- * delegating to models and views.
+ * delegating to other controllers. When instantiated,
+ * this class parses URI and runs. The run() method
+ * calls on other controllers' methods as outlined in
+ * the URI:
+ * URL:			blog.dev/post/view
+ * call:		-> PostController->view()
  */
 
 class FrontController {
 
     protected $controller = 'IndexController';
     protected $action = 'index';
-    protected $params = array();
 
     /**
      * Right now, when the FrontController is instantiated, it automatically
@@ -25,7 +29,6 @@ class FrontController {
      *      www.blog.dev/post/view?id=1&pg=4
      *      -> $controller = PostController
      *      -> $action = view()
-     *      -> $params = array('id=1', 'pg=4')
 	 *
 	 * Note that params array may not be necessary because _GET[] exists.
      */
@@ -48,9 +51,6 @@ class FrontController {
      * After parseUri(), the three properties are set and controllers are ready
      * to be deployed. This function first ensures that the controller class and their
      * action methods exist, and then calls those methods directly from here.
-     *
-     * Note: I  need to find a way to make sure that methods can take certain
-     * parameters...
      *
      * @throws Exception
      */

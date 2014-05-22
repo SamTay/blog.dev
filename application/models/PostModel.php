@@ -2,25 +2,24 @@
 
 /**
  * The post class will handle business logic of blog posts,
- * i.e., database connections and execution of CRUD (create,
- * read, update, and delete).
+ * i.e.,execution of CRUD (create, read, update, and delete).
  */
 class PostModel extends Model {
 
     /**
-     * Constructor sets tableName to 'posts' and gives us the primaryKey??
+     * Constructor sets tableName to 'posts' and gets db connection.
      */
     public function __construct() {
         $this->table = 'posts';
 		$this->db = DBConnect::getConnection();
     }
 
-
 	/**
 	 * Creates a post in posts table, returns the ID of post
 	 * @return mixed
 	 */
 	public function create() {
+		// Retrieve the POST data from controller::getParams()
 		$this->getControllerData();
 
 		try {
@@ -72,6 +71,11 @@ class PostModel extends Model {
 		return $data;
 	}
 
+	/**
+	 * Update post with POST data, similiar to create() method.
+	 *
+	 * @param $id
+	 */
 	public function update($id) {
 		$this->getControllerData();
 
@@ -87,6 +91,11 @@ class PostModel extends Model {
 		}
 	}
 
+	/**
+	 * Deletes post from database.
+	 *
+	 * @param $id
+	 */
 	public function delete($id) {
 
 		try {
