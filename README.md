@@ -3,6 +3,15 @@ blog.dev
 
 LAMP MVC Application
 
+05/22/14 Skipped the daily update yesterday, went to happy hour instead. Yesterday was a good day and I finished all basic CRUD functionality. Thomas gave me a few things to work on such as config.xml and using session/observer pattern to recognize if user is admin or not. I'm still a bit unclear on that.
+
+Today I set up config.xml and created Config class to handle parsing xml. I really wanted to come up with some sort of function that is easy to use like get(key), which would then search through the XML structure recursively for that key. Or get(type,key), etc., since keys aren't unique and I might need db->username or admin->username. It proved difficult, simply because I'm not used to using SimpleXMLElement and SimpleXMLIterator objects. I think I would need either that iterator or the RecursiveIteratorIterator to traverse through the xml, but I decided I was wasting too much time on it and instead just created a basic function to retrieve config information. I also began using the Registry class today to store important messages for the user. If registry->var('msg') exists, it is displayed in a nice looking alert box on the next loaded screen (for example, successfully creating/udpating/deleting a post). I then added a dismissable option, and Jay suggested a fadeout. I used a bit of jQuery from the internet for the fadeout, and Brian suggested the slideUp. The slideUp is pretty, and gives the website a more sleek feel. Other than that, I've been reading about the observer pattern but haven't implemented it yet. I'll need to learn a bit more about login/session stuff. Tomorrow I will work on setting up a user login, and how to use session with observer pattern. To do next:
+
+1. Login/Session/Observer jazz
+2. Homepage includes N posts -> create pretty pagination to get the next N posts
+3. Search function
+4. Have buttons in the create/update forms for users to easily add HTML styling, without actually typing HTML.
+
 05/20/14 Currently working on Create. Got everything working on the backend, then fucked it all up when styling it. Going to work from home tonight. Questions for Thomas:
 
 1. Why I need a list model?
