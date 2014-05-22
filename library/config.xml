@@ -1,5 +1,13 @@
 <?xml version='1.0' standalone='yes'?>
-        <database>
+<settings>
+        <db>
+            <host>localhost</host>
+            <username>root</username>
+            <password>7n3ci61t</password>
             <name>blog</name>
-            <
-        </database>
+        </db>
+        <admin>
+            <username>samtay</username>
+            <password>matrix</password>
+        </admin>
+</settings>

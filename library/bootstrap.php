@@ -3,8 +3,6 @@
 include_once('AutoLoader.php');
 AutoLoader::registerDirectory(ROOT);
 
-include_once('config.php');
-
 /**
  * Class Factory
  *
