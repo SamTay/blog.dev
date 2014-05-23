@@ -3,6 +3,17 @@ blog.dev
 
 LAMP MVC Application
 
+05/23/14 Adjusted header according to session variables, but those variables have not yet been defined. Now when "anonymous" users view the site, they have login and register options in the navbar. I set up UserController, UserModel, UserRegisterView, UserLoginView which do what you think they would. All logic is handled in UserModel (i.e., determining proper username, password, if username already exists, etc.), and the UserModel->register() and ->login() methods return arrays of data which also have a bool entry with key 'success', to let the UserController know if the registration/login was successful or not. It then directs appropriately. Pretty cool, total separation of concerns happened naturally. Jay also made the suggestion to encode passwords with md5, which only took one line of code, so why not.
+
+ NOTE that with session variables, it appears I can refactor code to instead use header('location:') instead of call_usr_func(control,method) to default to certain views (like viewing post after creation, or viewing homepage after deletion). This will also fix the dumb "sticky" URI's. Also my important messages currently stored in the registry will instead be stored as a session variable, I think. If I have time to work this weekend, I'd like to finish up login stuff and possibly start adding commenting options and whatnot. Things to do:
+
+1. Still need to learn session stuff
+-> 1.5. Hopefully this will lead to ability to load the last page user was on before login/registration.
+2. Have buttons in the forms' textareas for admin/users to easily add HTML styling, without actually typing HTML.
+3. Homepage includes N posts -> create pretty pagination to get the next N posts (slideUp maybe?) Also put N in configuration, instead of IndexController
+4. Search function
+5. Ask Thomas wtf RESTful is
+
 05/22/14 Skipped the daily update yesterday, went to happy hour instead. Yesterday was a good day and I finished all basic CRUD functionality. Thomas gave me a few things to work on such as config.xml and using session/observer pattern to recognize if user is admin or not. I'm still a bit unclear on that.
 
 Today I set up config.xml and created Config class to handle parsing xml. I really wanted to come up with some sort of function that is easy to use like get(key), which would then search through the XML structure recursively for that key. Or get(type,key), etc., since keys aren't unique and I might need db->username or admin->username. It proved difficult, simply because I'm not used to using SimpleXMLElement and SimpleXMLIterator objects. I think I would need either that iterator or the RecursiveIteratorIterator to traverse through the xml, but I decided I was wasting too much time on it and instead just created a basic function to retrieve config information. I also began using the Registry class today to store important messages for the user. If registry->var('msg') exists, it is displayed in a nice looking alert box on the next loaded screen (for example, successfully creating/udpating/deleting a post). I then added a dismissable option, and Jay suggested a fadeout. I used a bit of jQuery from the internet for the fadeout, and Brian suggested the slideUp. The slideUp is pretty, and gives the website a more sleek feel. Other than that, I've been reading about the observer pattern but haven't implemented it yet. I'll need to learn a bit more about login/session stuff. Tomorrow I will work on setting up a user login, and how to use session with observer pattern. To do next:
