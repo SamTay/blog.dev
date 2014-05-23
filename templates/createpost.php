@@ -1,3 +1,12 @@
+<?php if (isset($this->data['postError'])) { ?>
+	<div class="container-fluid">
+		<div class="col-md-4 col-md-offset-4 alert alert-danger alert-dismissable">
+			<button type="button" class="close" aria-hidden="true">&times;</button>
+			<p><strong><?php echo $this->data['postError']; ?></strong></p>
+		</div>
+	</div>
+<?php } ?>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -5,10 +14,6 @@
 				echo BASE_URL.DS.'post'.DS.$this->section;
 				if (isset($this->data['id'])) echo '?id=' . $this->data['id'];
 			?>">
-
-				<?php if (isset($this->data['postError']))
-					echo '<br><p><strong>'.$this->data['postError'].'</strong></p>';
-				?>
 
 				<div class="form-group">
 					<label for="postTitle">Title</label>

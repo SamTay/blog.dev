@@ -31,13 +31,15 @@
                             <li <?php if($section === 'topposts') echo('class="active"'); ?>><a href="#"><span class="glyphicon glyphicon-star"></span> Top Posts</a></li>
                             <li class="dropdown <?php if($section === 'about' || $section === 'contact') echo('active'); ?>">
                                 <a href="<?php echo(BASE_URL.DS.'about'.DS.'details'); ?>" class="dropdown-toggle"
-                                data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> About Me<b class="caret"></b></a>
+                                data-toggle="dropdown"><span class="glyphicon glyphicon-info-sign"></span>  About Me<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="<?php echo(BASE_URL.DS.'about'.DS.'details');?>">Details</a></li>
                                     <li><a href="<?php echo(BASE_URL.DS.'about'.DS.'contact');?>">Contact</a></li>
                                 </ul>
                             </li>
                         </ul>
+
+
                         <form class="navbar-form navbar-right" role="search">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Search">
@@ -45,32 +47,64 @@
                             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
                         </form>
 
-                        <!-- NOTE that this section should only be visible to the admin ------------------------------------->
-                        <ul class="nav navbar-nav navbar-right">
-                            <li <?php if($section === 'create') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'post'.DS.'create');?>">
-                                    <span class="glyphicon glyphicon-asterisk"></span>
-                                    New Post
-                            </a></li>
+						<!---------------------------------------- ANONYMOUS -------------------------------------->
+						<?php if ('$session' == '$session') { ?>
+							<ul class="nav navbar-nav navbar-right">
 
-							<?php if ($section == 'postview') { ?>
 								<li class="dropdown">
 									<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
-									glyphicon-edit"></span> Edit Post<b class="caret"></b></a>
-									<ul class="dropdown-menu">
-										<li>
-											<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
-												if (isset($this->data['id'])) echo '?id='.$this->data['id'];
-											?>">Update</a>
-										</li>
-										<li>
-											<a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');
-												if (isset($this->data['id'])) echo '?id='.$this->data['id'];
-											?>" onClick="return confirm('Are you sure you want to delete this post?')">Delete</a>
-										</li>
-									</ul>
+									glyphicon-user"></span> Login<b class="caret"></b></a>
+									<form class="dropdown-menu" role="form" method="post" action="<?php
+									echo (BASE_URL.DS.'user'.DS.'login'); ?>">
+										<div class="form-group">
+											<label for="username"> Username </label>
+											<input type="text" class="form-control" id="username" name="username">
+										</div>
+										<div>
+											<label for="password"> Password </label>
+											<input type="text" class="form-control" id="password" name="password">
+										</div>
+										<input type="submit" value="Login" class="btn btn-success">
+									</form>
 								</li>
-							<?php } ?>
-                        </ul>
+
+								<li <?php if($section === 'register') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'user'.DS.'register');?>">
+										<span class="glyphicon glyphicon-asterisk"></span>
+										Register
+									</a>
+								</li>
+
+							</ul>
+						<?php } ?>
+
+                        <!------------------------------------ ADMIN ---------------------------------------------------->
+						<?php if ('$session' == 'admin') { ?>
+							<ul class="nav navbar-nav navbar-right">
+								<li <?php if($section === 'create') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'post'.DS.'create');?>">
+										<span class="glyphicon glyphicon-asterisk"></span>
+										New Post
+								</a></li>
+
+								<?php if ($section == 'postview') { ?>
+									<li class="dropdown">
+										<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
+										glyphicon-edit"></span> Edit Post<b class="caret"></b></a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
+													if (isset($this->data['id'])) echo '?id='.$this->data['id'];
+												?>">Update</a>
+											</li>
+											<li>
+												<a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');
+													if (isset($this->data['id'])) echo '?id='.$this->data['id'];
+												?>" onClick="return confirm('Are you sure you want to delete this post?')">Delete</a>
+											</li>
+										</ul>
+									</li>
+								<?php } ?>
+							</ul>
+						<?php } ?>
 						<!--------------------------------------------------------------------------------------------------->
 
                     </div>

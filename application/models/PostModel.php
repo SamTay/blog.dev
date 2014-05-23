@@ -7,7 +7,7 @@
 class PostModel extends Model {
 
     /**
-     * Constructor sets tableName to 'posts' and gets db connection.
+     * Constructor sets table to 'posts' and gets db connection.
      */
     public function __construct() {
         $this->table = 'posts';

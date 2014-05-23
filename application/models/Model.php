@@ -35,6 +35,15 @@ abstract class Model {
 
 		if ($controller::getParam('postBody') !== false)
 			$this->data['postBody'] = $controller::getParam('postBody');
+
+		if ($controller::getParam('username') !== false)
+			$this->data['username'] = $controller::getParam('username');
+
+		if ($controller::getParam('password') !== false)
+			$this->data['password'] = $controller::getParam('password');
+
+		if ($controller::getParam('passwordCheck') !== false)
+			$this->data['passwordCheck'] = $controller::getParam('passwordCheck');
 	}
 
 	/**

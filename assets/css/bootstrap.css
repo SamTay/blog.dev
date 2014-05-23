@@ -5841,5 +5841,13 @@ html, body {
     border-radius: 10%;
 }
 
+form.dropdown-menu {
+    padding: 10px;
+}
+
+form.dropdown-menu .btn {
+    margin-top: 10px;
+}
+
 
 /*# sourceMappingURL=bootstrap.css.map */

@@ -9,7 +9,7 @@ define('BASE_URL', 'http://blog.dev');
 
 require_once(ROOT . DS . 'library'. DS . 'bootstrap.php');
 
-
+session_start();
 $frontController = new FrontController();
 
 
