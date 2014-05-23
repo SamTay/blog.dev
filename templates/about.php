@@ -1,6 +1,7 @@
 <div class="container center-block row" >
+	<br>
     <div class="col-xs-3">
-        <img src="<?php echo(BASE_URL.DS.'assets'.DS.'img'.DS.'propic.jpg'); ?>" width="100%" alt="Rockstar">
+        <img src="<?php echo(BASE_URL.DS.'assets'.DS.'img'.DS.'propic.jpg'); ?>" class="propic" width="100%" alt="Rockstar">
     </div>
     <div class="col-xs-9">
         <h3>About Me</h3>

@@ -5837,7 +5837,9 @@ html, body {
 .myfooter ul {
     display: inline-block;
 }
-
+.propic {
+    border-radius: 10%;
+}
 
 
 /*# sourceMappingURL=bootstrap.css.map */
