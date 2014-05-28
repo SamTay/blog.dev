@@ -3,6 +3,10 @@ blog.dev
 
 LAMP MVC Application
 
+05/28/14 Lots of stuff done today. Made the comments more pretty and at Thomas's suggestion I added a WYSIWYG editor to my textareas (for creating/updating posts and adding comments). The next steps are to add 1) Pagination 2) Helper Classes and, as part of (2), remove as much duplicate code as possible. Currently working on (1), because I decided I wanted to be able to sort by date or popularity, the latter meaning number of comments. It's proving a little tricky.
+
+Immediate TO DO : finish template/list.php to dynamically create rows/columns based on $this->data
+
 05/27/14 Stayed pretty late today, but got a lot done. Created a comments table; right now I don't want edit/delete options for comments, so there was really no need for a comment controller. Instead comment() is a method of post controller. Users must be signed in to comment, otherwise they are redirected to login. The comments overall are basic but pretty smooth looking. Things to do next:
 
 IMMEDIATE REFACTORING NEEDED:
