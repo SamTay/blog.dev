@@ -53,7 +53,7 @@ class PostController extends FrontController {
 			// If Valid, send post to PostModel for insertion
 			} else {
 				$id = Factory::getModel('Post')->create();
-				$this->view($id);
+				header('location:'.BASE_URL.'/post/view?id='.$id);
 			}
         }
     }
@@ -80,6 +80,7 @@ class PostController extends FrontController {
 
 		// Get model data and send it to view
 		$data = Factory::getModel('Post')->read($id);
+		$data['comments'] = Factory::getModel('Comment')->getComments($id);
 		Factory::getView('Post', $data);
     }
 
@@ -116,7 +117,7 @@ class PostController extends FrontController {
 
 			// Send data to model and view the upated post
 			Factory::getModel('Post')->update($id);
-			$this->view($id);
+			header('location:'.BASE_URL.'/post/view?id='.$id);
 		}
     }
 
@@ -142,11 +143,48 @@ class PostController extends FrontController {
 			}
 		}
 
-		// Delete the post and load the home page.						REFACTOR to include message about deletion.
+		// Delete the post and load the home page.
 		Factory::getModel('Post')->delete($id);
-		call_user_func(array('IndexController', 'index'));
+		header('location:'.BASE_URL);
     }
 
+	/**
+	 * Ensures user is signed in, then stores comment and loads post view
+	 */
+	public function comment($id=null) {
+		// If comment() called with no argument
+		if (is_null($id)) {
 
+			// If param exists in URI, retrieve it
+			if (self::getParam('id') !== false) {
+				$id = self::getParam('id');
+
+				// If not, throw exception
+			} else {
+				throw new Exception('Post id not found.'); //maybe redirect to error page?
+			}
+		}
+
+		$comment = trim(self::getParam('comment'));
+
+		// If user is not signed in, redirect to login
+		if (empty($_SESSION['user'])) {
+			$_SESSION['msg'] = 'You need to be signed in to comment!';
+			$_SESSION['msg-tone'] = 'warning';
+			header('location:' . BASE_URL . '/user/login');
+
+		// If comment is empty, redirect to post viewing with angry message
+		} else if ($comment == "") {
+			$_SESSION['msg'] = 'You cannot insert a blank comment, asshole!';
+			$_SESSION['msg-tone'] = 'danger';
+			header('location:' . BASE_URL . '/post/view?id='.$id);
+
+		// Otherwise, store comment in DB and reload the post view
+		} else {
+			Factory::getModel('Comment')->create($id);
+			header('location:' . BASE_URL . '/post/view?id='.$id);
+		}
+
+	}
 
 }

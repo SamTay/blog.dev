@@ -3,7 +3,7 @@
         <db>
             <host>localhost</host>
             <username>root</username>
-            <password>7n3ci61t</password>
+            <password>root</password>
             <name>blog</name>
         </db>
         <admin>

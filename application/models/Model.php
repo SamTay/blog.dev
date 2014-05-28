@@ -44,6 +44,9 @@ abstract class Model {
 
 		if ($controller::getParam('passwordCheck') !== false)
 			$this->data['passwordCheck'] = $controller::getParam('passwordCheck');
+
+		if ($controller::getParam('comment') !== false)
+			$this->data['comment'] = $controller::getParam('comment');
 	}
 
 	/**

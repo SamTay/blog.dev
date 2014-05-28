@@ -36,7 +36,7 @@ class UserController extends FrontController {
 			// If registration is successful, login and send to home page.
 			if ($data['success']) {
 				Factory::getModel(str_replace('Controller', '', __CLASS__))->login();
-				call_user_func(array('IndexController','index'));
+				header('location:'.BASE_URL);
 			}
 			// If unsuccessful, send back to form UserRegisterView with error message
 			else {
@@ -56,12 +56,17 @@ class UserController extends FrontController {
 
 			//eventually I will use session variables to keep track of where user logged in
 			if ($data['success']) {
-//				header('location:'.BASE_URL);
-				call_user_func(array('IndexController','index'));
+				header('location:'.BASE_URL);
 			} else {
 				Factory::getView(str_replace('Controller', '', __CLASS__) . ucwords(__FUNCTION__), $data);
 			}
 		}
+	}
+
+	public function logout() {
+		unset($_SESSION['user']);
+		$_SESSION['msg'] = 'You&rsquo;ve successfully logged out.';
+		header('location:'.BASE_URL.'/user/login');
 	}
 
 

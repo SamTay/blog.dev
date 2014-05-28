@@ -67,8 +67,7 @@ class UserModel extends Model {
 				echo $e->getMessage();
 			}
 			// Store msg for successful operation
-			$registry = Registry::getInstance();
-			$registry->set('msg', "Your account has been successfully created.");
+			$_SESSION['msg'] = "Your account has been successfully created.";
 			$this->data['success'] = true;
 		}
 		else {
@@ -106,18 +105,58 @@ class UserModel extends Model {
 				$_SESSION['user'] = $this->data['username'];
 				$this->data['success'] = true;
 				// Store msg for successful operation
-				$registry = Registry::getInstance();
-				$registry->set('msg', "You've succcessfully logged in.");
+				$_SESSION['msg'] = "You&rsquo;ve successfully logged in.";
 
 			// Else let the controller know that success is false.
-			} else
+			} else {
 				$this->data['success'] = false;
+				$this->data['Error'] = 'Sorry, that is the incorrect password. Try again.';
+			}
+		} else {
+			$this->data['success'] = false;
+			$this->data['Error'] = 'That username does not exist. Try registering first.';
+		}
+		return $this->data;
 
-			return $this->data;
 		}
 
-
+	/**
+	 * Retrieve username with primary key $id
+	 *
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getUser($id) {
+		try {
+			$stmt = $this->db->prepare("SELECT users.username FROM ".$this->table." WHERE id=:id");
+			$stmt->bindParam(':id', $id);
+			$stmt->execute();
+		} catch (PDOException $e) {
+			echo "Connection Error: " . $e->getMessage();
 		}
+		$rowArray = $stmt->fetch(PDO::FETCH_NUM);
+		$stmt->closeCursor();
+		return $rowArray[0];
+	}
+
+	/**
+	 * Retrieve id with username $username
+	 *
+	 * @param $username
+	 * @return mixed
+	 */
+	public function getUserId($username) {
+		try {
+			$stmt = $this->db->prepare("SELECT users.id FROM ".$this->table." WHERE username=:username");
+			$stmt->bindParam(':username', $username);
+			$stmt->execute();
+		} catch (PDOException $e) {
+			echo "Connection Error: " . $e->getMessage();
+		}
+		$rowArray = $stmt->fetch(PDO::FETCH_NUM);
+		$stmt->closeCursor();
+		return $rowArray[0];
+	}
 
 
 	/**

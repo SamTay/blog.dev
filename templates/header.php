@@ -47,65 +47,66 @@
                             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
                         </form>
 
+						<ul class="nav navbar-nav navbar-right">
 						<!---------------------------------------- ANONYMOUS -------------------------------------->
-						<?php if ('$session' == '$session') { ?>
-							<ul class="nav navbar-nav navbar-right">
+						<?php if (empty($_SESSION['user'])) { ?>
 
-								<li class="dropdown">
-									<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
-									glyphicon-user"></span> Login<b class="caret"></b></a>
-									<form class="dropdown-menu" role="form" method="post" action="<?php
-									echo (BASE_URL.DS.'user'.DS.'login'); ?>">
-										<div class="form-group">
-											<label for="username"> Username </label>
-											<input type="text" class="form-control" id="username" name="username">
-										</div>
-										<div>
-											<label for="password"> Password </label>
-											<input type="text" class="form-control" id="password" name="password">
-										</div>
-										<input type="submit" value="Login" class="btn btn-success">
-									</form>
-								</li>
+							<li class="dropdown">
+								<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
+								glyphicon-user"></span> Login<b class="caret"></b></a>
+								<form class="dropdown-menu" role="form" method="post" action="<?php
+								echo (BASE_URL.DS.'user'.DS.'login'); ?>">
+									<div class="form-group">
+										<input type="text" class="form-control" id="username" name="username" placeholder="Username">
+									</div>
+									<div>
+										<input type="text" class="form-control" id="password" name="password" placeholder="Password">
+									</div>
+									<input type="submit" value="Login" class="btn btn-success">
+								</form>
+							</li>
 
-								<li <?php if($section === 'register') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'user'.DS.'register');?>">
-										<span class="glyphicon glyphicon-asterisk"></span>
-										Register
-									</a>
-								</li>
+							<li <?php if($section === 'register') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'user'.DS.'register');?>">
+									<span class="glyphicon glyphicon-asterisk"></span>
+									Register
+								</a>
+							</li>
 
-							</ul>
 						<?php } ?>
 
-                        <!------------------------------------ ADMIN ---------------------------------------------------->
-						<?php if ('$session' == 'admin') { ?>
-							<ul class="nav navbar-nav navbar-right">
-								<li <?php if($section === 'create') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'post'.DS.'create');?>">
-										<span class="glyphicon glyphicon-asterisk"></span>
-										New Post
-								</a></li>
-
-								<?php if ($section == 'postview') { ?>
-									<li class="dropdown">
-										<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
-										glyphicon-edit"></span> Edit Post<b class="caret"></b></a>
-										<ul class="dropdown-menu">
-											<li>
-												<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
-													if (isset($this->data['id'])) echo '?id='.$this->data['id'];
-												?>">Update</a>
-											</li>
-											<li>
-												<a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');
-													if (isset($this->data['id'])) echo '?id='.$this->data['id'];
-												?>" onClick="return confirm('Are you sure you want to delete this post?')">Delete</a>
-											</li>
-										</ul>
-									</li>
-								<?php } ?>
-							</ul>
+                        <!------------------------------------ ADMIN USER ---------------------------------------------------->
+						<?php $config = Config::getConfig();
+						$admin = $config->get('admin','username');
+						if ($_SESSION['user'] == $admin) { ?>
+							<li <?php if($section === 'create') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'post'.DS.'create');?>">
+									<span class="glyphicon glyphicon-asterisk"></span>
+									New Post
+							</a></li>
 						<?php } ?>
 						<!--------------------------------------------------------------------------------------------------->
+
+						<!------------------------------------ REGULAR USER ---------------------------------------------------->
+						<?php if (!empty($_SESSION['user']) && $_SESSION['user'] != $admin) {}
+
+							/* Decide if regular users will have any extra action here */
+						 ?>
+						<!--------------------------------------------------------------------------------------------------->
+
+						<!------------------------------------ ALL USERS SIGNED IN ---------------------------------------------------->
+						<?php if (!empty($_SESSION['user'])) { ?>
+						<li class="dropdown">
+								<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
+								glyphicon-off"></span> <?php echo($_SESSION['user']); ?><b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="<?php echo(BASE_URL.DS.'user'.DS.'logout');?>">
+											Logout
+									</a></li>
+								</ul>
+						</li>
+
+						<?php } ?>
+						<!--------------------------------------------------------------------------------------------------->
+						</ul>
 
                     </div>
 
@@ -114,14 +115,15 @@
         <!-- div element closed in start of footer! -->
 
 			<!-- If there is a message to user -->
-			<?php $registry = Registry::getInstance();
-			if (!is_null($registry->get('msg'))) { ?>
+			<?php if (!empty($_SESSION['msg'])) { ?>
 				<div class="container-fluid">
-<!--					<div class="row">-->
-						<div class="col-md-4 col-md-offset-4 alert alert-success alert-dismissable">
+						<div class="col-md-4 col-md-offset-4 alert alert-<?php echo !empty($_SESSION['msg-tone'])
+							? $_SESSION['msg-tone'] : 'success';  ?> alert-dismissable">
 							<button type="button" class="close" aria-hidden="true">&times;</button>
-							<p><strong><?php echo $registry->get('msg'); ?></strong></p>
+							<p><strong><?php echo $_SESSION['msg']; ?></strong></p>
 						</div>
-<!--					</div>-->
 				</div>
-			<?php } ?>
+			<?php }
+				unset($_SESSION['msg']);
+				unset($_SESSION['msg-tone']);
+			?>

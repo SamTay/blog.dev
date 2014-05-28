@@ -12,16 +12,7 @@ class PostView extends View {
 
 	protected function setBody() {
 		$this->body[] = ROOT.DS.'templates'.DS.'post.php';
-	}
-
-	public function renderPage() {
-
-		$body = $this->data['body'];
-		$title = $this->data['title'];
-		$created = $this->data['created'];
-		$modified = $this->data['modified'];
-
-
-		parent::renderPage();
+//		if (!empty($this->data['comments']))
+			$this->body[] = ROOT.DS.'templates'.DS.'comments.php';
 	}
 }

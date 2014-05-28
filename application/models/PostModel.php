@@ -34,8 +34,7 @@ class PostModel extends Model {
 		}
 
 		// Store msg for successful operation
-		$registry = Registry::getInstance();
-		$registry->set('msg', "Your post has been successfully created.");
+		$_SESSION['msg'] = "Your post has been successfully created.";
 
 		return $this->db->lastInsertId();
     }
@@ -95,8 +94,7 @@ class PostModel extends Model {
 		}
 
 		// Store msg for successful operation
-		$registry = Registry::getInstance();
-		$registry->set('msg', "Your post has been successfully updated.");
+		$_SESSION['msg'] = "Your post has been successfully updated.";
 	}
 
 	/**
@@ -113,8 +111,7 @@ class PostModel extends Model {
 		}
 
 		// Store msg for successful operation
-		$registry = Registry::getInstance();
-		$registry->set('msg', "Your post has been successfully deleted.");
+		$_SESSION['msg'] = "Your post has been successfully deleted.";
 	}
 
 
