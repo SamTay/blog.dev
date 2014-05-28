@@ -3,6 +3,20 @@ blog.dev
 
 LAMP MVC Application
 
+05/27/14 Stayed pretty late today, but got a lot done. Created a comments table; right now I don't want edit/delete options for comments, so there was really no need for a comment controller. Instead comment() is a method of post controller. Users must be signed in to comment, otherwise they are redirected to login. The comments overall are basic but pretty smooth looking. Things to do next:
+
+IMMEDIATE REFACTORING NEEDED:
+A) Go into each controller and ensure user has appropriate priveleges where necessary (i.e., post/create, post/delete).
+B) Refactor getControllerData and all models that use it - right now it's fucking stupid. Change it to accept array as parameter, and the array should specify the keys with which to call controller::getParams.
+C) Handle deleted things appropriately!
+
+Then,
+
+1. Ask Thomas how to store current URL in a session variable ONLY when login/register is clicked, so that users can be appropriately redirected?
+1.5 Also, should post/delete actually remove a post from database, or simply mark it as deleted? Either way, there's a spot for observer (comments need to be deleted then too).
+2. Ask Brian about jQuery comment button to toggle the <li><form> element's visibility.
+3. Ask Brian about the JS necessary to use <button> in <form>. (For the pretty glyphicon)
+
 05/23/14 Adjusted header according to session variables, but those variables have not yet been defined. Now when "anonymous" users view the site, they have login and register options in the navbar. I set up UserController, UserModel, UserRegisterView, UserLoginView which do what you think they would. All logic is handled in UserModel (i.e., determining proper username, password, if username already exists, etc.), and the UserModel->register() and ->login() methods return arrays of data which also have a bool entry with key 'success', to let the UserController know if the registration/login was successful or not. It then directs appropriately. Pretty cool, total separation of concerns happened naturally. Jay also made the suggestion to encode passwords with md5, which only took one line of code, so why not.
 
  NOTE that with session variables, it appears I can refactor code to instead use header('location:') instead of call_usr_func(control,method) to default to certain views (like viewing post after creation, or viewing homepage after deletion). This will also fix the dumb "sticky" URI's. Also my important messages currently stored in the registry will instead be stored as a session variable, I think. If I have time to work this weekend, I'd like to finish up login stuff and possibly start adding commenting options and whatnot. Things to do:
