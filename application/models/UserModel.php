@@ -25,7 +25,7 @@ class UserModel extends Model {
 	 */
 	public function register() {
 		// Get data from UserController
-		$this->getControllerData();
+		$this->getControllerData(array('username', 'password', 'passwordCheck'));
 
 		$valid = true;
 		// Check username
@@ -80,7 +80,7 @@ class UserModel extends Model {
 
 	public function login() {
 		// Get data from UserController
-		$this->getControllerData();
+		$this->getControllerData(array('username', 'password'));
 
 		// Trim username, encode password
 		$this->data['username'] = trim($this->data['username']);

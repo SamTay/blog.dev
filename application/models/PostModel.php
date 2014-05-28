@@ -7,7 +7,7 @@
 class PostModel extends Model {
 
     /**
-     * Constructor sets table to 'posts' and gets db connection.
+     * Constructor sets table to 'posts', gets db connection, and defines observers.
      */
     public function __construct() {
         $this->table = 'posts';
@@ -20,7 +20,7 @@ class PostModel extends Model {
 	 */
 	public function create() {
 		// Retrieve the POST data from controller::getParams()
-		$this->getControllerData();
+		$this->getControllerData(array('postTitle', 'postBody'));
 
 		try {
 			$stmt = $this->db->prepare("INSERT INTO ".$this->table." (title,body,created) VALUES (:title, :body, NOW())");
@@ -39,6 +39,12 @@ class PostModel extends Model {
 		return $this->db->lastInsertId();
     }
 
+	/**
+	 * Returns all post data identified by row $id (that is, one post at a time)
+	 *
+	 * @param $id
+	 * @return mixed
+	 */
 	public function read($id) {
 
 		// Select row with $id
@@ -51,10 +57,24 @@ class PostModel extends Model {
 		// Store row in associate array $data
 		$data = $stmt->fetch(PDO::FETCH_ASSOC);
 
+		if (!$data)
+			$data['success'] = false;
+		else
+			$data['success'] = true;
+
 		$stmt->closeCursor();
 		return $data;
 	}
 
+	/**
+	 * This function is pretty inefficent, as it simply calls read() to retrieve
+	 * one post at at time. In the future, for lists such as this, I will obviously
+	 * just query DB using say, id BETWEEN ids[totalPosts-1] AND ids[totalPosts-N-1].
+	 * This will require fetchAll, or while() {fetch}.
+	 *
+	 * @param $N
+	 * @return array
+	 */
 	public function readRecent($N) {
 		$data = array();
 
@@ -75,12 +95,41 @@ class PostModel extends Model {
 	}
 
 	/**
+	 * Read all posts sorted by $sort, or default if $sort is not
+	 * called correctly. Return posts as array.
+	 *
+	 * @param $sort
+	 * @return mixed
+	 */
+	public function readAll($sort) {
+
+		// Ensure sort option is enabled
+		if (array_search($sort,ListController::getSortOptions()) === false)
+			$sort = array_values(ListController::getSortKey())[0];
+
+		if ($sort == 'popularity') {
+			echo 'This sort method is not yet defined';
+			die;
+		}
+		try {
+			$stmt = $this->db->prepare("SELECT posts.title, posts.body, posts.created, posts.id FROM posts ORDER BY " . $sort);
+			$stmt->execute();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$stmt->closeCursor();
+
+		return $data;
+	}
+
+	/**
 	 * Update post with POST data, similiar to create() method.
 	 *
 	 * @param $id
 	 */
 	public function update($id) {
-		$this->getControllerData();
+		$this->getControllerData(array('postTitle','postBody'));
 
 		try {
 			$stmt = $this->db->prepare("UPDATE ".$this->table." SET title = :title, body = :body, modified = NOW() WHERE id = ". $id);
@@ -109,6 +158,8 @@ class PostModel extends Model {
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
+
+		Factory::getModel('Comment')->delete($id);
 
 		// Store msg for successful operation
 		$_SESSION['msg'] = "Your post has been successfully deleted.";

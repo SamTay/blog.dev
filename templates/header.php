@@ -60,7 +60,7 @@
 										<input type="text" class="form-control" id="username" name="username" placeholder="Username">
 									</div>
 									<div>
-										<input type="text" class="form-control" id="password" name="password" placeholder="Password">
+										<input type="password" class="form-control" id="password" name="password" placeholder="Password">
 									</div>
 									<input type="submit" value="Login" class="btn btn-success">
 								</form>

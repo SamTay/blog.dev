@@ -23,7 +23,7 @@
 
 				<div class="form-group">
 					<label for="postBody">Body</label>
-					<textarea class="form-control" rows="15" id="postBody" name="postBody"><?php /* NOTE THAT htmlspecialchars() WOULD NOT ALLOW BODY TO SHOW! */
+					<textarea class="wysiwyg form-control" rows="15" id="postBody" name="postBody"><?php /* NOTE THAT htmlspecialchars() WOULD NOT ALLOW BODY TO SHOW! */
 						if (isset($this->data['postBody'])) echo $this->data['postBody'];
 					?></textarea>
 				</div>

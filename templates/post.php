@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
 
-			<div class="panel panel-default">
+			<div class="panel panel-success">
 				<div class="panel-heading">
 					<h2 class="text-center panel-title"><?php echo $this->data['title']; ?></h2>
 				</div>
@@ -28,7 +28,7 @@
 
 				<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
 				if (isset($this->data['id'])) echo '?id='.$this->data['id'];
-				?>" class="btn btn-info"><span class="glyphicon
+				?>" class="btn btn-primary"><span class="glyphicon
 				glyphicon-edit"></span>  Update</a>
 
 				<a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');
@@ -43,7 +43,7 @@
 			<!-- ONLY FOR REGULAR USER VIEW -->
 			<?php if (!empty($_SESSION['user'])) { ?>
 
-				<a href="#" class="btn btn-primary"><span class="glyphicon
+				<a href="#" class="btn btn-info"><span class="glyphicon
 				glyphicon-comment"></span>  Comment</a>
 
 			<?php } ?>

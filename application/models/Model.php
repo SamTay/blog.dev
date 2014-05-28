@@ -16,7 +16,7 @@ abstract class Model {
 	 * Refers to controller::getParam to store GET/POST/SERVER variables
 	 * in $this->data
 	 */
-	public function getControllerData() {
+	public function getControllerData($params) {
 
 		// Find the appropriate controller
 		$controller = str_replace('Model', 'Controller', get_class($this));
@@ -27,26 +27,10 @@ abstract class Model {
 		}
 
 		//If these global variables are set, store them in $data
-		if ($controller::getParam('id') !== false)
-			$this->data['id'] = $controller::getParam('id');
-
-		if ($controller::getParam('postTitle') !== false)
-			$this->data['postTitle'] = $controller::getParam('postTitle');
-
-		if ($controller::getParam('postBody') !== false)
-			$this->data['postBody'] = $controller::getParam('postBody');
-
-		if ($controller::getParam('username') !== false)
-			$this->data['username'] = $controller::getParam('username');
-
-		if ($controller::getParam('password') !== false)
-			$this->data['password'] = $controller::getParam('password');
-
-		if ($controller::getParam('passwordCheck') !== false)
-			$this->data['passwordCheck'] = $controller::getParam('passwordCheck');
-
-		if ($controller::getParam('comment') !== false)
-			$this->data['comment'] = $controller::getParam('comment');
+		foreach($params as $param) {
+			if ($controller::getParam($param) !== false)
+				$this->data[$param] = $controller::getParam($param);
+		}
 	}
 
 	/**

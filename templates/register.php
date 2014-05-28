@@ -29,12 +29,12 @@
 
 				<div class="form-group">
 					<label for="password">Create a password</label>
-					<input type="text" class="form-control" id="password" name="password">
+					<input type="password" class="form-control" id="password" name="password">
 				</div>
 
 				<div class="form-group">
 					<label for="passwordCheck">Confirm your password</label>
-					<input type="text" class="form-control" id="passwordCheck" name="passwordCheck">
+					<input type="password" class="form-control" id="passwordCheck" name="passwordCheck">
 				</div>
 
 				<!-- TO PREVENT BOTS! HIDDEN INPUT! -->

@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
+			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h3 class="panel-title">Comments (<?php echo count($this->data['comments']);?>)</h3>
 				</div>
@@ -20,9 +20,9 @@
 						echo BASE_URL.DS.'post'.DS.'comment?id='.$this->data['id'];?>">
 							<div class="form-group">
 								<label for="comment"><?php echo $_SESSION['user'] . ":"; ?></label>
-								<textarea class="form-control" rows="4" id="comment" name="comment"></textarea>
+								<textarea class="halfthebuttons form-control" rows="4" id="comment" name="comment"></textarea>
 							</div>
-							<input type="submit" value="Comment" class="btn btn-primary">
+							<input type="submit" value="Comment" class="btn btn-info">
 					</li>
 					<?php } ?>
 

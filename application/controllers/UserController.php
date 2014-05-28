@@ -54,9 +54,9 @@ class UserController extends FrontController {
 		} else {
 			$data = Factory::getModel(str_replace('Controller', '', __CLASS__))->login();
 
-			//eventually I will use session variables to keep track of where user logged in
+			// Load the page the user was visiting before login!
 			if ($data['success']) {
-				header('location:'.BASE_URL);
+				header('location:'.$_SERVER['HTTP_REFERER']);
 			} else {
 				Factory::getView(str_replace('Controller', '', __CLASS__) . ucwords(__FUNCTION__), $data);
 			}
@@ -66,7 +66,7 @@ class UserController extends FrontController {
 	public function logout() {
 		unset($_SESSION['user']);
 		$_SESSION['msg'] = 'You&rsquo;ve successfully logged out.';
-		header('location:'.BASE_URL.'/user/login');
+		header('location:'.$_SERVER['HTTP_REFERER']);
 	}
 
 

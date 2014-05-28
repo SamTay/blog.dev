@@ -1,5 +1,6 @@
 <div class="container">
-    <div class="row">
+	<!-- ADJUST THIS TO DYNAMIC ROWS/COLUMNS ACCORDING TO $THIS->DATA -->
+	<div class="row">
 		<?php $length = 350; ?>
 		<?php for($i=0; $i<$this->N; $i++) { ?>
 			<div class="col-md-<?php echo($this->colWidth); ?>">
@@ -16,5 +17,5 @@
 			</div>
 		<?php } ?>
 
-    </div>
+	</div>
 </div>

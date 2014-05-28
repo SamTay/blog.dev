@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class CommentModel
+ *
+ * This model deals with the comments table. Comments have restricted
+ * access, and can only be created by users. They are deleted only
+ * when a post is deleted, which is why this class implements Observer
+ * pattern.
+ */
 class CommentModel extends Model {
 
 	/**
@@ -16,7 +24,7 @@ class CommentModel extends Model {
 	 * @param $postid
 	 */
 	public function create($postid) {
-		$this->getControllerData();
+		$this->getControllerData(array('comment'));
 		$user = $_SESSION['user'];
 		$userid = Factory::getModel('User')->getUserId($user);
 
@@ -64,4 +72,20 @@ class CommentModel extends Model {
 
 		return $data;
 	}
+
+	/**
+	 * Deletes all comments associated with postid. This function should only
+	 * be called when said post is being deleted.
+	 *
+	 * @param $postid
+	 */
+	public function delete($postid) {
+		try {
+			$this->db->query("DELETE FROM ".$this->table." WHERE postid = ". $postid);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
+
 }

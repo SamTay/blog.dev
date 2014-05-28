@@ -1,7 +1,5 @@
 <?php
 
-/* Find DELETE and kill those rows
-   Find MODEL / VIEW and modify those once classes are defined */
 
 /**
  * Class PostController
@@ -34,6 +32,7 @@ class PostController extends FrontController {
      * but will have _POST information to pass to the model.
      */
     public function create() {
+		$this->adminPrivelege();
 
 		// If request is not POST, get CreatePostView
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -74,14 +73,24 @@ class PostController extends FrontController {
 
 			// If not, default to view the most recent post
 			} else {
-				$id = Factory::getModel('Post')->getRowIds(getRowCount()-1);
+				$id = Factory::getModel('Post')->getRowIds()[Factory::getModel('Post')->getRowCount() - 1];
 			}
 		}
 
-		// Get model data and send it to view
+		// Get model data
 		$data = Factory::getModel('Post')->read($id);
-		$data['comments'] = Factory::getModel('Comment')->getComments($id);
-		Factory::getView('Post', $data);
+
+		// If post info was received, get the comments and generate view
+		if ($data['success']) {
+			$data['comments'] = Factory::getModel('Comment')->getComments($id);
+			Factory::getView('Post', $data);
+
+		// Otherwise, get most recent post												/* REFACTOR TO INCLUDE ERROR PAGE */
+		} else {
+			$_SESSION['msg'] = 'Sorry, that post doesn&rsquo;t exist. This is the most recent post.';
+			$_SESSION['msg-tone'] = 'warning';
+			header('location: ' . BASE_URL . DS . 'post' . DS . 'view');
+		}
     }
 
 	/**
@@ -92,6 +101,8 @@ class PostController extends FrontController {
 	 * @throws Exception
 	 */
 	public function update($id=null) {
+		$this->adminPrivelege();
+
 		// If update() called with no argument
 		if (is_null($id)) {
 
@@ -130,6 +141,8 @@ class PostController extends FrontController {
 	 * @throws Exception
 	 */
 	public function delete($id=null) {
+		$this->adminPrivelege();
+
 		// If delete() called with no argument
 		if (is_null($id)) {
 
@@ -152,6 +165,7 @@ class PostController extends FrontController {
 	 * Ensures user is signed in, then stores comment and loads post view
 	 */
 	public function comment($id=null) {
+		$this->userPrivelege();
 		// If comment() called with no argument
 		if (is_null($id)) {
 
@@ -167,14 +181,8 @@ class PostController extends FrontController {
 
 		$comment = trim(self::getParam('comment'));
 
-		// If user is not signed in, redirect to login
-		if (empty($_SESSION['user'])) {
-			$_SESSION['msg'] = 'You need to be signed in to comment!';
-			$_SESSION['msg-tone'] = 'warning';
-			header('location:' . BASE_URL . '/user/login');
-
-		// If comment is empty, redirect to post viewing with angry message
-		} else if ($comment == "") {
+		// If comment is empty, redirect to post/view with angry message
+		if ($comment == "") {
 			$_SESSION['msg'] = 'You cannot insert a blank comment, asshole!';
 			$_SESSION['msg-tone'] = 'danger';
 			header('location:' . BASE_URL . '/post/view?id='.$id);
