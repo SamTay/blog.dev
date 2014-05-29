@@ -87,14 +87,14 @@ class FrontController {
 	}
 
 	/**
-	 * This method is called by controllers with actions requiring admin priveleges.
+	 * This method is called by controllers with actions requiring admin privileges.
 	 * One call will simply allow that action to continue, or redirect (from this method)
 	 * with appropriate messages.
 	 */
-	protected function adminPrivelege() {
+	protected function adminPrivilege() {
 		$config = Config::getConfig();
 		if ($_SESSION['user'] != $config->get('admin', 'username')) {
-			$_SESSION['msg'] = 'Action requires admin priveleges. Please sign in.';
+			$_SESSION['msg'] = 'Action requires admin privileges. Please sign in.';
 			$_SESSION['msg-tone'] = 'danger';
 			header('location:' . BASE_URL . '/user/login');
 			die;
@@ -102,11 +102,11 @@ class FrontController {
 	}
 
 	/**
-	 * This method is called by controllers with actions requiring user priveleges.
+	 * This method is called by controllers with actions requiring user privileges.
 	 * One call will simply allow that action to continue, or redirect (from this method)
 	 * with appropriate messages.
 	 */
-	protected function userPrivelege() {
+	protected function userPrivilege() {
 		if (empty($_SESSION['user'])) {
 			$_SESSION['msg'] = 'You need to be signed in for that action. Registering takes two seconds, cmon.';
 			$_SESSION['msg-tone'] = 'warning';

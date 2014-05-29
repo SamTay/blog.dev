@@ -10,7 +10,7 @@ Immediate TO DO : finish template/list.php to dynamically create rows/columns ba
 05/27/14 Stayed pretty late today, but got a lot done. Created a comments table; right now I don't want edit/delete options for comments, so there was really no need for a comment controller. Instead comment() is a method of post controller. Users must be signed in to comment, otherwise they are redirected to login. The comments overall are basic but pretty smooth looking. Things to do next:
 
 IMMEDIATE REFACTORING NEEDED:
-A) Go into each controller and ensure user has appropriate priveleges where necessary (i.e., post/create, post/delete).
+A) Go into each controller and ensure user has appropriate privileges where necessary (i.e., post/create, post/delete).
 B) Refactor getControllerData and all models that use it - right now it's fucking stupid. Change it to accept array as parameter, and the array should specify the keys with which to call controller::getParams.
 C) Handle deleted things appropriately!
 

@@ -32,7 +32,7 @@ class PostController extends FrontController {
      * but will have _POST information to pass to the model.
      */
     public function create() {
-		$this->adminPrivelege();
+		$this->adminPrivilege();
 
 		// If request is not POST, get CreatePostView
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -101,7 +101,7 @@ class PostController extends FrontController {
 	 * @throws Exception
 	 */
 	public function update($id=null) {
-		$this->adminPrivelege();
+		$this->adminPrivilege();
 
 		// If update() called with no argument
 		if (is_null($id)) {
@@ -141,7 +141,7 @@ class PostController extends FrontController {
 	 * @throws Exception
 	 */
 	public function delete($id=null) {
-		$this->adminPrivelege();
+		$this->adminPrivilege();
 
 		// If delete() called with no argument
 		if (is_null($id)) {
@@ -165,7 +165,7 @@ class PostController extends FrontController {
 	 * Ensures user is signed in, then stores comment and loads post view
 	 */
 	public function comment($id=null) {
-		$this->userPrivelege();
+		$this->userPrivilege();
 		// If comment() called with no argument
 		if (is_null($id)) {
 
