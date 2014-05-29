@@ -20,7 +20,7 @@
 						echo BASE_URL.DS.'post'.DS.'comment?id='.$this->data['id'];?>">
 							<div class="form-group">
 								<label for="comment"><?php echo $_SESSION['user'] . ":"; ?></label>
-								<textarea class="halfthebuttons form-control" rows="4" id="comment" name="comment"></textarea>
+								<a id="comment"><textarea class="halfthebuttons form-control" rows="4" id="comment" name="comment"></textarea></a>
 							</div>
 							<input type="submit" value="Comment" class="btn btn-info">
 					</li>

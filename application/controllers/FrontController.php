@@ -35,9 +35,11 @@ class FrontController {
     public function parseUri() {
         $uri = trim($_SERVER["REQUEST_URI"],'/');
 
+		// Leave off the query strings
+		if (stripos($uri, '?'))
+			$uri = substr($uri, 0, stripos($uri,'?'));
+		
         list($controller, $action) = explode('/',$uri, 2);
-		if (stripos($action, '?'))
-            $action = substr($action, 0, stripos($action,'?'));
 
         if(!empty($controller)) {
             $this->controller = ucfirst(strtolower($controller)) . 'Controller';

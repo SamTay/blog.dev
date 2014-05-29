@@ -11,6 +11,11 @@ abstract class Model {
     protected $table = null;
     public $data = array();
 
+	public function __construct() {
+		$this->db = DBConnect::getConnection();
+		$this->table = 'posts';
+	}
+
 
 	/**
 	 * Refers to controller::getParam to store GET/POST/SERVER variables

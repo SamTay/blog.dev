@@ -27,8 +27,12 @@
 
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         <ul class="nav navbar-nav">
-							<li <?php if($section === 'home') echo('class="active"'); ?>><a href="<?php echo(BASE_URL); ?>"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                            <li <?php if($section === 'topposts') echo('class="active"'); ?>><a href="#"><span class="glyphicon glyphicon-star"></span> Top Posts</a></li>
+							<li <?php if($section === 'home') echo('class="active"'); ?>>
+								<a href="<?php echo(BASE_URL); ?>"><span class="glyphicon glyphicon-home"></span> Home</a>
+							</li>
+                            <li <?php if($section === 'list-popularity') echo('class="active"'); ?>>
+								<a href="<?php echo(BASE_URL.DS.'list?sort=popularity'); ?>"><span class="glyphicon glyphicon-star"></span> Top Posts</a>
+							</li>
                             <li class="dropdown <?php if($section === 'about' || $section === 'contact') echo('active'); ?>">
                                 <a href="<?php echo(BASE_URL.DS.'about'.DS.'details'); ?>" class="dropdown-toggle"
                                 data-toggle="dropdown"><span class="glyphicon glyphicon-info-sign"></span>  About Me<b class="caret"></b></a>
@@ -40,11 +44,13 @@
                         </ul>
 
 
-                        <form class="navbar-form navbar-right" role="search">
+                        <form class="navbar-form navbar-right" role="search" method="post" action="<?php echo BASE_URL.DS.'list'.DS.'search'; ?>">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search">
+                                <input type="text" class="form-control" name="needle" placeholder="Search">
                             </div>
+							<input type="submit" value="Search">
                             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+
                         </form>
 
 						<ul class="nav navbar-nav navbar-right">

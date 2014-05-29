@@ -21,6 +21,9 @@
 				</div>
 			</div>
 
+			<!-- Only non-intrusive place for the comments anchor tag -->
+			<a id="comments"></a>
+
 			<!-- ONLY FOR ADMIN VIEW -->
 			<?php $config = Config::getConfig();
 			$admin = $config->get('admin','username');
@@ -43,7 +46,7 @@
 			<!-- ONLY FOR REGULAR USER VIEW -->
 			<?php if (!empty($_SESSION['user'])) { ?>
 
-				<a href="#" class="btn btn-info"><span class="glyphicon
+				<a href="#comment" class="btn btn-info"><span class="glyphicon
 				glyphicon-comment"></span>  Comment</a>
 
 			<?php } ?>

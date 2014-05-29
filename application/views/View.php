@@ -82,7 +82,7 @@ abstract class View {
 
         include_once($this->header);
         foreach($this->body as $template)
-            include_once($template);
+            include($template);
         include_once($this->footer);
     }
 

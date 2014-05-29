@@ -6,14 +6,6 @@
  */
 class PostModel extends Model {
 
-    /**
-     * Constructor sets table to 'posts', gets db connection, and defines observers.
-     */
-    public function __construct() {
-        $this->table = 'posts';
-		$this->db = DBConnect::getConnection();
-    }
-
 	/**
 	 * Creates a post in posts table, returns the ID of post
 	 * @return mixed
@@ -90,35 +82,6 @@ class PostModel extends Model {
 		for($i=$totalPosts-1; $i>$totalPosts-$N-1; $i--) {
 			$data[] = $this->read($ids[$i]);
 		}
-
-		return $data;
-	}
-
-	/**
-	 * Read all posts sorted by $sort, or default if $sort is not
-	 * called correctly. Return posts as array.
-	 *
-	 * @param $sort
-	 * @return mixed
-	 */
-	public function readAll($sort) {
-
-		// Ensure sort option is enabled
-		if (array_search($sort,ListController::getSortOptions()) === false)
-			$sort = array_values(ListController::getSortKey())[0];
-
-		if ($sort == 'popularity') {
-			echo 'This sort method is not yet defined';
-			die;
-		}
-		try {
-			$stmt = $this->db->prepare("SELECT posts.title, posts.body, posts.created, posts.id FROM posts ORDER BY " . $sort);
-			$stmt->execute();
-		} catch (PDOException $e) {
-			echo $e->getMessage();
-		}
-		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		$stmt->closeCursor();
 
 		return $data;
 	}
