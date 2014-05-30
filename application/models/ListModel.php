@@ -40,7 +40,11 @@ class ListModel extends Model {
 				}
 				break;
 		}
+		// Store data in generic model container
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		foreach($data as &$post) {
+			$post = new GenericModel($post);
+		}
 		$stmt->closeCursor();
 
 		return $data;
@@ -64,8 +68,19 @@ class ListModel extends Model {
 		}
 
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		foreach($data as &$post) {
+			$post = new GenericModel($post);
+		}
 		$stmt->closeCursor();
 
 		return $data;
+	}
+
+	/**
+	 * Returns N most recent posts for the home page
+	 * @param $N
+	 */
+	public function recent($N) {
+
 	}
 }

@@ -16,8 +16,14 @@ class ListController extends FrontController {
 	// Define how the list looks right here! Just make sure postsPerRow divides 12
 	protected $postsPerRow = 4;
 	protected $rowsPerPage = 2;
+
+	protected $postsPerPage;
 	
-	public function __construct() {}
+	public function __construct($postsPerRow=4, $rowsPerPage=2) {
+		$this->postsPerRow = $postsPerRow;
+		$this->rowsPerPage = $rowsPerPage;
+		$this->postsPerPage = $postsPerRow*$rowsPerPage;
+	}
 
     /**
      * Default action for ListController is view
@@ -32,10 +38,7 @@ class ListController extends FrontController {
 	public function view() {
 
 		// Set pg identifier
-		if ($this::getParam('pg') && $this::getParam('pg')>0)
-			$pg = (int)$this::getParam('pg');
-		else
-			$pg = 1;
+		$pg = ($this::getParam('pg') && $this::getParam('pg')>0) ? (int)$this::getParam('pg') : 1;
 
 		// Set sort option
 		if ($this::getParam('sort') && array_search($this::getParam('sort'),self::$sortOptions) !== false)
@@ -43,20 +46,20 @@ class ListController extends FrontController {
 		else
 			$sort = self::$sortOptions[0];
 
-		$postsPerPage = $this->postsPerRow*$this->rowsPerPage;
-		$totalPosts = Factory::getModel(str_replace('Controller','',__CLASS__))->getRowCount();
+		//Retrieve model data
+		$data = Factory::getModel(str_replace('Controller','',__CLASS__))->readAll(self::$sortKey[$sort]);
 
-		$totalPages = ceil($totalPosts / $postsPerPage);
+		$totalPosts = count($data);
+		$totalPages = ceil($totalPosts / $this->postsPerPage);
 
 		if ($pg > $totalPages) {
-            //TODO: Refactor any messages to user in generic session model singleton class
-			$_SESSION['msg'] = 'There aren&rsquo;t that many pages in this list!';
-			$_SESSION['msg-tone'] = 'warning';
+			SessionModel::set('msg', 'There aren&rsquo;t that many pages in this list!');
+			SessionModel::set('msg-tone', 'warning');
 			header('Location: ' . BASE_URL . DS . 'list' . DS . 'view?pg='.$totalPages.'&sort='.$sort);
 			die;
 		}
 
-		$data = Factory::getModel(str_replace('Controller','',__CLASS__))->readAll(self::$sortKey[$sort]);
+
         //TODO: Stay away from strict array keys and use generic model to handle get/set
         /**
          * $data
@@ -82,8 +85,8 @@ class ListController extends FrontController {
 		if (self::getParam('needle'))
 			$needle = self::getParam('needle');
 		if (empty($needle)) {
-			$_SESSION['msg'] = 'Don&rsquo;t search for nothing, idiot!';
-			$_SESSION['msg-tone'] = 'warning';
+			SessionModel::set('msg', 'Don&rsquo;t search for nothing, idiot!');
+			SessionModel::set('msg-tone', 'warning');
 			header('location:'.$_SERVER['HTTP_REFERER']);
 			die;
 		}

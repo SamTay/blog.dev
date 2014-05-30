@@ -33,8 +33,11 @@ abstract class Model {
 
 		//If these global variables are set, store them in $data
 		foreach($params as $param) {
-			if ($controller::getParam($param) !== false)
+			if ($controller::getParam($param) !== false) {
 				$this->data[$param] = $controller::getParam($param);
+			} else {
+				throw new Exception("Model could not retrieve parameter: $param from controller.");
+			}
 		}
 	}
 
@@ -47,7 +50,7 @@ abstract class Model {
 		try {
 			$stmt = $this->db->query('SELECT COUNT(*) AS id FROM '. $this->table);
 		} catch (PDOException $e) {
-			echo "Connection Error: " . $e->getMessage();
+			echo 'Connection Error: ' . $e->getMessage();
 		}
 
 		$count = $stmt->fetch(PDO::FETCH_ASSOC);

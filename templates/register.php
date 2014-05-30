@@ -1,12 +1,3 @@
-<?php if (isset($this->data['Error'])) { ?>
-	<div class="container-fluid">
-		<div class="col-md-4 col-md-offset-4 alert alert-danger alert-dismissable">
-			<button type="button" class="close" aria-hidden="true">&times;</button>
-			<p><strong><?php echo $this->data['Error']; ?></strong></p>
-		</div>
-	</div>
-<?php } ?>
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-4 col-md-offset-2">

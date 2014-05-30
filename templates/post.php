@@ -7,16 +7,16 @@
 
 			<div class="panel panel-success">
 				<div class="panel-heading">
-					<h2 class="text-center panel-title"><?php echo $this->data['title']; ?></h2>
+					<h2 class="text-center panel-title"><?php echo $this->data['post']->title; ?></h2>
 				</div>
 				<div class="panel-body">
-					<?php echo $this->data['body']; ?>
+					<?php echo $this->data['post']->body; ?>
 					<br><br>
 					<p class = "date">
-						Created: <?php echo $this->data['created']; ?> <br>
-						<?php if ( ($this->data['created'] != $this->data['modified'])
-							&& ($this->data['modified'] != null))
-								echo 'Modified: ' . $this->data['modified']; ?>
+						Created: <?php echo $this->data['post']->created; ?> <br>
+						<?php if ( ($this->data['post']->created != $this->data['post']->modified)
+							&& ($this->data['post']->modified != null))
+								echo 'Modified: ' . $this->data['post']->modified; ?>
 					</p>
 				</div>
 			</div>
@@ -30,12 +30,12 @@
 			if ($_SESSION['user'] == $admin) { ?>
 
 				<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
-				if (isset($this->data['id'])) echo '?id='.$this->data['id'];
+				if ($this->data['post']->id) echo '?id='.$this->data['post']->id;
 				?>" class="btn btn-primary"><span class="glyphicon
 				glyphicon-edit"></span>  Update</a>
 
 				<a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');
-				if (isset($this->data['id'])) echo '?id='.$this->data['id'];
+				if ($this->data['post']->id) echo '?id='.$this->data['post']->id;
 				?>" onClick="return confirm('Are you sure you want to delete this post?')"
 				class="btn btn-danger"><span class="glyphicon
 				glyphicon-remove"></span>  Delete</a>

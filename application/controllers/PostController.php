@@ -59,38 +59,26 @@ class PostController extends FrontController {
 
 	/**
 	 * Views post with id given from argument or URI
-	 *
-	 * @param null $id
 	 */
-	public function view($id=null) {
+	public function view() {
 
-		// If view() called with no argument
-		if (is_null($id)) {
+		// If param exists in URI, retrieve it
+		if (self::getParam('id')) {
+			$id = self::getParam('id');
 
-			// If param exists in URI, retrieve it
-			if (self::getParam('id')) {
-				$id = self::getParam('id');
-
-			// If not, default to view the most recent post
-			} else {
-				$id = Factory::getModel('Post')->getRowIds()[Factory::getModel('Post')->getRowCount() - 1];
-			}
+		// If not, default to view the most recent post
+		} else {
+			$id = Factory::getModel('Post')->getRowIds()[Factory::getModel('Post')->getRowCount() - 1];
+			SessionModel::set('msg', 'Sorry, that post doesn&rsquo;t exist. This is the most recent post.');
+			SessionModel::set('msg-tone', 'warning');
 		}
 
 		// Get model data
-		$data = Factory::getModel('Post')->read($id);
+		$post = Factory::getModel('Post')->read($id);
+		$comments = Factory::getModel('Comment')->getComments($id);
+		$data = array('post' => $post, 'comments' => $comments);
 
-		// If post info was received, get the comments and generate view
-		if ($data['success']) {
-			$data['comments'] = Factory::getModel('Comment')->getComments($id);
-			Factory::getView('Post', $data);
-
-		// Otherwise, get most recent post												/* REFACTOR TO INCLUDE ERROR PAGE */
-		} else {
-			$_SESSION['msg'] = 'Sorry, that post doesn&rsquo;t exist. This is the most recent post.';
-			$_SESSION['msg-tone'] = 'warning';
-			header('location: ' . BASE_URL . DS . 'post' . DS . 'view');
-		}
+		Factory::getView('Post', $data);
     }
 
 	/**
@@ -164,27 +152,17 @@ class PostController extends FrontController {
 	/**
 	 * Ensures user is signed in, then stores comment and loads post view
 	 */
-	public function comment($id=null) {
+	public function comment() {
 		$this->userPrivilege();
-		// If comment() called with no argument
-		if (is_null($id)) {
 
-			// If param exists in URI, retrieve it
-			if (self::getParam('id') !== false) {
-				$id = self::getParam('id');
+		list($id, $comment) = array(self::getParam('id'), self::getParam('comment'));
 
-				// If not, throw exception
-			} else {
-				throw new Exception('Post id not found.'); //maybe redirect to error page?
-			}
-		}
-
-		$comment = trim(self::getParam('comment'));
-
+		if ($id === false)
+			throw new Exception('Post id was not received by PostController->comment()');
 		// If comment is empty, redirect to post/view with angry message
-		if ($comment == "") {
-			$_SESSION['msg'] = 'You cannot insert a blank comment, asshole!';
-			$_SESSION['msg-tone'] = 'danger';
+		if ($comment === false) {
+			SessionModel::set('msg','You cannot insert a blank comment, asshole!');
+			SessionModel::set('msg-tone', 'danger');
 			header('location:' . BASE_URL . '/post/view?id='.$id);
 
 		// Otherwise, store comment in DB and reload the post view

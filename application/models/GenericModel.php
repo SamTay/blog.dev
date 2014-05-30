@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Class Model
+ * Class GenericModel is used as a container for model data
  *
- * Abstract class with basic properties/methods that children classes will use.
  */
 class GenericModel {
 
@@ -26,10 +25,8 @@ class GenericModel {
 
     public function __set($key = false, $value = false){
         if($key){
-            $this->items[$key] = value;
+            $this->items[$key] = $value;
         }
         return $this;
     }
 }
-
-//$data->get('totalPostsCount');

@@ -8,9 +8,9 @@
 				<ul class="list-group">
 					<?php foreach($this->data['comments'] as $comment) { ?>
 						<li class="list-group-item">
-							<p><strong><?php echo $comment['username'].": "; ?></strong></p>
-							<p><?php echo $comment['comment']; ?></p>
-							<p class = "date"><?php echo $comment['created']; ?></p>
+							<p><strong><?php echo $comment->username.": "; ?></strong></p>
+							<p><?php echo $comment->comment; ?></p>
+							<p class = "date"><?php echo $comment->created; ?></p>
 						</li>
 					<?php } ?>
 

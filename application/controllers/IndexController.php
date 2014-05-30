@@ -13,7 +13,7 @@ class IndexController extends FrontController {
     public function index() {
 		$N = 6; // defines how many recent posts to show
 
-		$data = Factory::getModel('Post')->readRecent($N);
+		$data = Factory::getModel('List')->recent($N);
 
         Factory::getView('Index', $data);
     }
