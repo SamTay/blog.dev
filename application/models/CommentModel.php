@@ -9,6 +9,17 @@
  * pattern.
  */
 class CommentModel extends Model {
+    /**
+     * PHP UNIT TEST
+
+    Insert Post
+    Have the post id
+    Create a comment using dummy post that was just created
+    Ensure that test passed
+    Create a comment with text as post id assert failure
+    Create a comment with no post id assert failure
+    Delete dummy post
+     */
 
 	/**
 	 * Constructor sets table to 'comments' and gets db connection.

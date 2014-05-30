@@ -15,7 +15,8 @@ class PostModel extends Model {
 		$this->getControllerData(array('postTitle', 'postBody'));
 
 		try {
-			$stmt = $this->db->prepare("INSERT INTO ".$this->table." (title,body,created) VALUES (:title, :body, NOW())");
+            //TODO: Single vs double quotes. Only use double if vars in string.
+			$stmt = $this->db->prepare("INSERT INTO $this->table (title,body,created) VALUES (:title, :body, NOW())");
 
 			$stmt->bindParam(':title', $this->data['postTitle']);
 			$stmt->bindParam(':body', $this->data['postBody']);
@@ -46,6 +47,7 @@ class PostModel extends Model {
 			echo "Connection Error: " . $e->getMessage();
 		}
 
+        //TODO: Refactor to use generic model
 		// Store row in associate array $data
 		$data = $stmt->fetch(PDO::FETCH_ASSOC);
 

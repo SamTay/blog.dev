@@ -1,13 +1,20 @@
 <?xml version='1.0' standalone='yes'?>
 <settings>
-        <db>
-            <host>localhost</host>
-            <username>root</username>
-            <password>root</password>
-            <name>blog</name>
-        </db>
-        <admin>
-            <username>samtay</username>
-            <password>matrix</password>
-        </admin>
+    <db>
+        <host>localhost</host>
+        <username>root</username>
+        <password>root</password>
+        <name>blog</name>
+    </db>
+    <admin>
+        <username>samtay</username>
+        <password>matrix</password>
+    </admin>
+    <system>
+        <installed>1</installed>
+    </system>
+    <frontend>
+        <pagination_limit>5</pagination_limit>
+        <character_limit_for_blog_preview>250</character_limit_for_blog_preview>
+    </frontend>
 </settings>

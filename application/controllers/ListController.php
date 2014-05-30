@@ -49,6 +49,7 @@ class ListController extends FrontController {
 		$totalPages = ceil($totalPosts / $postsPerPage);
 
 		if ($pg > $totalPages) {
+            //TODO: Refactor any messages to user in generic session model singleton class
 			$_SESSION['msg'] = 'There aren&rsquo;t that many pages in this list!';
 			$_SESSION['msg-tone'] = 'warning';
 			header('Location: ' . BASE_URL . DS . 'list' . DS . 'view?pg='.$totalPages.'&sort='.$sort);
@@ -56,6 +57,12 @@ class ListController extends FrontController {
 		}
 
 		$data = Factory::getModel(str_replace('Controller','',__CLASS__))->readAll(self::$sortKey[$sort]);
+        //TODO: Stay away from strict array keys and use generic model to handle get/set
+        /**
+         * $data
+            ->set('sort', $sort)
+            ->set('pg', $pg);
+         */
 		$data['sort'] = $sort;
 		$data['pg'] = $pg;
 		$data['postsPerRow'] = $this->postsPerRow;
