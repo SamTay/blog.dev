@@ -10,7 +10,7 @@ class GenericModel {
 
     public function __construct($initData = array()){
         foreach($initData as $idx => $data){
-            $this->__set($idx, $data);
+            $this->set($idx, $data);
         }
     }
 
@@ -23,10 +23,16 @@ class GenericModel {
         return false;
     }
 
-    public function __set($key = false, $value = false){
+    public function set($key = false, $value = false){
         if($key){
             $this->items[$key] = $value;
         }
         return $this;
     }
+
+	public function __set($key = false, $value = false){
+		if($key){
+			$this->items[$key] = $value;
+		}
+	}
 }
