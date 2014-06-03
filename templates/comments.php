@@ -17,7 +17,7 @@
 					<?php if (!empty($_SESSION['user'])) { ?>
 					<li role="form" class="list-group-item">
 						<form method="post" action="<?php
-						echo BASE_URL.DS.'post'.DS.'comment?id='.$this->data['id'];?>">
+						echo BASE_URL.DS.'post'.DS.'comment?id='.$this->data['post']->id;?>">
 							<div class="form-group">
 								<label for="comment"><?php echo $_SESSION['user'] . ":"; ?></label>
 								<a id="comment"><textarea class="halfthebuttons form-control" rows="4" id="comment" name="comment"></textarea></a>

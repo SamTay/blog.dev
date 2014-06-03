@@ -10,6 +10,12 @@
 
 class PostController extends FrontController {
 
+	/**
+	 * PHP UNIT TEST
+	 */
+	public function unitTest() {
+		Factory::getModel('Comment')->unitTest();
+	}
 
 	public function __construct() {}
 
@@ -38,23 +44,18 @@ class PostController extends FrontController {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 			Factory::getView('CreatePost');
 
-		// Else check for valid entries
-        } else {
-			$data = array();
-			$data['postTitle'] = trim($_POST["postTitle"]);				/* REFACTOR to check if POST variables exist or not */
-			$data['postBody'] = trim($_POST["postBody"]);
+		// Else check for valid entries, return to form if invalid
+        } else try {
+			$data = self::getParam(array('postTitle', 'postBody'));
+		} catch (Exception $e) {
+			$data['postError'] = 'You must specify a title and body.';
+			Factory::getView('CreatePost', $data);
+		}
 
-			// If invalid, get CreatePostView again
-			if ($data['postTitle']=="" OR $data['postBody']=="") {
-				$data['postError'] = 'You must specify a title and body.';
-				Factory::getView('CreatePost', $data);
+		// If Valid, send post to PostModel for insertion
+		$id = Factory::getModel(str_replace('Controller','Model',__CLASS__))->create();
+		header('location:'.BASE_URL.'/post/view?id='.$id);
 
-			// If Valid, send post to PostModel for insertion
-			} else {
-				$id = Factory::getModel('Post')->create();
-				header('location:'.BASE_URL.'/post/view?id='.$id);
-			}
-        }
     }
 
 	/**

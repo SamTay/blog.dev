@@ -76,6 +76,7 @@ class FrontController {
 	 * @return bool
 	 */
 	public static function getParam($keys) {
+
 		// For array parameters
 		if (is_array($keys)){
 			$values = array();
@@ -86,8 +87,10 @@ class FrontController {
 					$values[$key] = trim($_POST[$key]);
 				} else if (!empty(trim($_SERVER[$key]))) {
 					$values[$key] = trim($_SERVER[$key]);
-				} else
+				} else {
 					$values[$key] = false;
+					throw new Exception('Global parameters could not be retrieved');
+				}
 			}
 
 			return $values;

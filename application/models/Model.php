@@ -23,21 +23,33 @@ abstract class Model {
 	 */
 	public function getControllerData($params) {
 
-		// Find the appropriate controller
-		$controller = str_replace('Model', 'Controller', get_class($this));
+			// Find the appropriate controller
+			$controller = str_replace('Model', 'Controller', get_class($this));
 
-		// Or just use front controller
-		if (!class_exists($controller)) {
-			$controller = 'FrontController';
-		}
-
-		//If these global variables are set, store them in $data
-		foreach($params as $param) {
-			if ($controller::getParam($param) !== false) {
-				$this->data[$param] = $controller::getParam($param);
-			} else {
-				throw new Exception("Model could not retrieve parameter: $param from controller.");
+			// Or just use front controller
+			if (!class_exists($controller)) {
+				$controller = 'FrontController';
 			}
+
+			//If these global variables are set, store them in $data
+			foreach($params as $param) {
+				if ($controller::getParam($param) !== false && !isset($this->data[$param])) {
+					$this->data[$param] = $controller::getParam($param);
+				} else {
+					throw new Exception("Model could not retrieve parameter: $param from controller.");
+				}
+			}
+	}
+
+	/**
+	 * This method will most likely be used solely for testing purposes
+	 *
+	 * @param $params
+	 */
+	public function setControllerData($params) {
+		// Load in the new values
+		foreach ($params as $key=>$value) {
+			$this->data[$key] = $value;
 		}
 	}
 
