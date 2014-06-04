@@ -39,7 +39,7 @@ class FrontController {
 		if (stripos($uri, '?'))
 			$uri = substr($uri, 0, stripos($uri,'?'));
 		
-        list($controller, $action) = explode('/',$uri, 2);
+        list($controller, $action) = array_pad(explode('/',$uri, 2), 2, null);
 
         if(!empty($controller)) {
             $this->controller = ucfirst(strtolower($controller)) . 'Controller';
@@ -74,6 +74,7 @@ class FrontController {
 	 *
 	 * @param $keys
 	 * @return bool
+	 * @throws Exception
 	 */
 	public static function getParam($keys) {
 

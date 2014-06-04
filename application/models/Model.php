@@ -23,22 +23,24 @@ abstract class Model {
 	 */
 	public function getControllerData($params) {
 
-			// Find the appropriate controller
-			$controller = str_replace('Model', 'Controller', get_class($this));
+		// Find the appropriate controller
+		$controller = str_replace('Model', 'Controller', get_class($this));
 
-			// Or just use front controller
-			if (!class_exists($controller)) {
-				$controller = 'FrontController';
-			}
+		// Or just use front controller
+		if (!class_exists($controller)) {
+			$controller = 'FrontController';
+		}
 
-			//If these global variables are set, store them in $data
-			foreach($params as $param) {
-				if ($controller::getParam($param) !== false && !isset($this->data[$param])) {
+		//If these global variables are set, store them in $data
+		foreach($params as $param) {
+			if (empty($this->data[$param])) {
+				if ($controller::getParam($param) !== false) {
 					$this->data[$param] = $controller::getParam($param);
 				} else {
 					throw new Exception("Model could not retrieve parameter: $param from controller.");
 				}
 			}
+		}
 	}
 
 	/**

@@ -34,10 +34,13 @@ class PostModel extends Model {
 	/**
 	 * Returns all post data identified by row $id (that is, one post at a time)
 	 *
+	 * @throws Exception
 	 * @param $id
 	 * @return mixed
 	 */
 	public function read($id) {
+
+		$this->validate($id);
 
 		// Select row with $id
 		try {
@@ -55,9 +58,13 @@ class PostModel extends Model {
 	/**
 	 * Update post with POST data, similiar to create() method.
 	 *
+	 * @throws Exception
 	 * @param $id
 	 */
 	public function update($id) {
+
+		$this->validate($id);
+
 		$this->getControllerData(array('postTitle','postBody'));
 
 		try {
@@ -78,9 +85,12 @@ class PostModel extends Model {
 	/**
 	 * Deletes post from database.
 	 *
+	 * @throws Exception
 	 * @param $id
 	 */
 	public function delete($id) {
+
+		$this->validate($id);
 
 		try {
 			$this->db->query("DELETE FROM $this->table WHERE id = $id");
@@ -88,11 +98,22 @@ class PostModel extends Model {
 			echo $e->getMessage();
 		}
 
+		// Delete any associated comments
 		Factory::getModel('Comment')->delete($id);
 
 		// Store msg for successful operation
 		SessionModel::set('msg','Your post has been successfully deleted.');
 	}
 
+	/**
+	 * @param $id
+	 * @throws Exception
+	 */
+	public function validate($id) {
+		// Make sure $id exists
+		if (!in_array($id, $this->getRowIds())) {
+			throw new Exception(__CLASS__.": Attempting to access post $id which does not exist in posts table");
+		}
+	}
 
 }

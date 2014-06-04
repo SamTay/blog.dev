@@ -16,23 +16,23 @@ use \PostModel;
 class PostModelTest extends \PHPUnit_Framework_Testcase {
 
 	public $postModel;
+	public $successPostId;
 
-	public function __construct($name = NULL, array $data = array(), $dataName = '') {parent::__construct($name, $data, $dataName);}
 
 	public function setUp() {
 		$this->postModel = new PostModel;
 	}
 
 	/**
+	 * Test garbage thrown at create() method
+	 *
 	 * @param string $title
 	 * @param string $body
-	 * @param $expectedPostId
-	 * @param $expectedErrorMessage
 	 *
 	 * @covers \sites\blog.dev\application\models\PostModel::create
-	 * @dataProvider dummyPostValues
+	 * @dataProvider provideDummyGarbage
 	 */
-	public function testCreatePost($title, $body, $expectedPostId, $expectedErrorMessage) {
+	public function testCreatePostsGarbage($title, $body) {
 
 		$this->postModel->setControllerData(array('postTitle'=>$title, 'postBody'=>$body));
 
@@ -42,26 +42,77 @@ class PostModelTest extends \PHPUnit_Framework_Testcase {
 			$errorMessage = $e->getMessage();
 		}
 
-		$this->assertInternalType($expectedPostId, $postid);
-
+		$this->assertInternalType('string',$errorMessage);
 
 	}
 
-	public function dummyPostValues() {
+	/**
+	 * Test successful create() method
+	 *
+	 * @param string $title
+	 * @param string $body
+	 *
+	 * @covers \sites\blog.dev\application\models\PostModel::create
+	 * @dataProvider provideDummySuccess
+	 */
+	public function testCreatePostsSuccess($title,$body) {
+
+		$this->postModel->setControllerData(array('postTitle'=>$title, 'postBody'=>$body));
+
+		try {
+			$postid = $this->postModel->create();
+		} catch (\Exception $e) {
+			$errorMessage = $e->getMessage();
+		}
+
+		$this->assertInternalType('string',$postid);
+		$this->successPostId = $postid;
+	}
+
+	public function testCreatePostSuccess() {
+		$this->postModel->setControllerData(array('postTitle'=>'hackTitle', 'postBody'=>'hackBody'));
+		try {
+			$postid = $this->postModel->create();
+		} catch (\Exception $e) {
+			$errorMessage = $e->getMessage();
+		}
+		$this->assertInternalType('string',$postid);
+		return $postid;
+	}
+
+	/**
+	 * @depends testCreatePostSuccess
+	 * @covers \sites\blog.dev\application\models\PostModel::read
+	 */
+	public function testReadPostSuccess($postid) {
+		$data = $this->postModel->read($postid);
+		$this->assertInstanceOf('GenericModel', $data);
+		return $postid;
+	}
+
+	/**
+	 * @depends testReadPostSuccess
+	 * @covers \sites\blog.dev\application\models\PostModel::delete
+	 */
+	public function testDeletePostSuccess($postid) {
+		$this->postModel->delete($postid);
+		$this->assertEquals(\SessionModel::get('msg'), 'Your post has been successfully deleted.');
+	}
+
+	public function provideDummySuccess() {
 		return array(
-			array('Unit Test Title', 'Unit Test Body','string',null),
-			array('', 'emptyTitle', null, 'string'),
-			array('emptyBody','', null, 'string')
+			array('should','work'),
+			array('E', 'F')
 		);
 	}
 
+	public function provideDummyGarbage() {
+		return array(
+			array('', ''),
+			array('', 'emptyTitle'),
+			array('emptyBody','')
+		);
+	}
 
-//	/**
-//	 * @depends testCreatePost
-//	 */
-//	public function testReadPost($postid) {
-//		$data = $this->postModel->read($postid);
-//		$this->assertInstanceOf('GenericModel', $data);
-//	}
 }
  
