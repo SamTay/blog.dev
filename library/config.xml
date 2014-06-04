@@ -23,7 +23,7 @@
             backupGlobals="true"
             backupStaticAttributes="false"
             cacheTokens="false"
-            colors="false"
+            colors="true"
             convertErrorsToExceptions="true"
             convertNoticesToExceptions="true"
             convertWarningsToExceptions="true"
@@ -40,6 +40,7 @@
             timeoutForMediumTests="10"
             timeoutForLargeTests="60"
             strict="false"
-            verbose="false">
+            verbose="true"
+            debug="true">
     </phpunit>
 </settings>

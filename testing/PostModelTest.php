@@ -15,12 +15,13 @@ use \PostModel;
 
 class PostModelTest extends \PHPUnit_Framework_Testcase {
 
-	public $postModel;
-	public $successPostId;
+	public static $startingTotal;
+	public static $postModel;
 
 
-	public function setUp() {
-		$this->postModel = new PostModel;
+	public static  function setUpBeforeClass() {
+		self::$postModel = new PostModel;
+		self::$startingTotal = self::$postModel->getRowCount();
 	}
 
 	/**
@@ -34,10 +35,10 @@ class PostModelTest extends \PHPUnit_Framework_Testcase {
 	 */
 	public function testCreatePostsGarbage($title, $body) {
 
-		$this->postModel->setControllerData(array('postTitle'=>$title, 'postBody'=>$body));
+		self::$postModel->setControllerData(array('postTitle'=>$title, 'postBody'=>$body));
 
 		try {
-			$postid = $this->postModel->create();
+			$postid = self::$postModel->create();
 		} catch (\Exception $e) {
 			$errorMessage = $e->getMessage();
 		}
@@ -57,22 +58,21 @@ class PostModelTest extends \PHPUnit_Framework_Testcase {
 	 */
 	public function testCreatePostsSuccess($title,$body) {
 
-		$this->postModel->setControllerData(array('postTitle'=>$title, 'postBody'=>$body));
+		self::$postModel->setControllerData(array('postTitle'=>$title, 'postBody'=>$body));
 
 		try {
-			$postid = $this->postModel->create();
+			$postid = self::$postModel->create();
 		} catch (\Exception $e) {
 			$errorMessage = $e->getMessage();
 		}
 
 		$this->assertInternalType('string',$postid);
-		$this->successPostId = $postid;
 	}
 
 	public function testCreatePostSuccess() {
-		$this->postModel->setControllerData(array('postTitle'=>'hackTitle', 'postBody'=>'hackBody'));
+		self::$postModel->setControllerData(array('postTitle'=>'hackTitle', 'postBody'=>'hackBody'));
 		try {
-			$postid = $this->postModel->create();
+			$postid = self::$postModel->create();
 		} catch (\Exception $e) {
 			$errorMessage = $e->getMessage();
 		}
@@ -85,9 +85,22 @@ class PostModelTest extends \PHPUnit_Framework_Testcase {
 	 * @covers \sites\blog.dev\application\models\PostModel::read
 	 */
 	public function testReadPostSuccess($postid) {
-		$data = $this->postModel->read($postid);
+		$data = self::$postModel->read($postid);
 		$this->assertInstanceOf('GenericModel', $data);
 		return $postid;
+	}
+
+	/**
+	 * @dataProvider provideIdGarbage
+	 * @expectedException Exception
+	 * @param $postid
+	 */
+	public function testReadPostGarbage($postid) {
+		try {
+			$data = self::$postModel->read($postid);
+		} catch (Exception $e){
+			$msg = $e->getMessage();
+		}
 	}
 
 	/**
@@ -95,7 +108,7 @@ class PostModelTest extends \PHPUnit_Framework_Testcase {
 	 * @covers \sites\blog.dev\application\models\PostModel::delete
 	 */
 	public function testDeletePostSuccess($postid) {
-		$this->postModel->delete($postid);
+		self::$postModel->delete($postid);
 		$this->assertEquals(\SessionModel::get('msg'), 'Your post has been successfully deleted.');
 	}
 
@@ -114,5 +127,25 @@ class PostModelTest extends \PHPUnit_Framework_Testcase {
 		);
 	}
 
+	public function provideIdGarbage() {
+		return array(
+			array(''),
+			array('hello'),
+			array('@@'),
+			array(null)
+		);
+	}
+
+	/**
+	 * Delete any posts added during this test
+	 */
+	public static function  tearDownAfterClass() {
+		$endingTotal = self::$postModel->getRowCount();
+		$ids = self::$postModel->getRowIds();
+
+		for($i=$endingTotal-1; $i>=self::$startingTotal;$i--) {
+			self::$postModel->delete($ids[$i]);
+		}
+	}
 }
  

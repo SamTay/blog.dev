@@ -112,7 +112,7 @@ class PostModel extends Model {
 	public function validate($id) {
 		// Make sure $id exists
 		if (!in_array($id, $this->getRowIds())) {
-			throw new Exception(__CLASS__.": Attempting to access post $id which does not exist in posts table");
+			throw new Exception(__CLASS__.": Attempting to access post $id which does not exist in posts table.");
 		}
 	}
 

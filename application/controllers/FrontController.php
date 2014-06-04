@@ -73,7 +73,7 @@ class FrontController {
 	 * returns false. Additionally can pass and return arrays.
 	 *
 	 * @param $keys
-	 * @return bool
+	 * @return mixed
 	 * @throws Exception
 	 */
 	public static function getParam($keys) {
@@ -90,13 +90,10 @@ class FrontController {
 					$values[$key] = trim($_SERVER[$key]);
 				} else {
 					$values[$key] = false;
-					throw new Exception('Global parameters could not be retrieved');
 				}
 			}
-
 			return $values;
 		}
-
 	
 		// For single parameters
 		if (array_key_exists($keys, $_GET) && !empty(trim($_GET[$keys])))
