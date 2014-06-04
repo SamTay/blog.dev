@@ -82,11 +82,11 @@ class FrontController {
 		if (is_array($keys)){
 			$values = array();
 			foreach($keys as $key) {
-				if (!empty(trim($_GET[$key]))) {
+				if (array_key_exists($key, $_GET) && !empty(trim($_GET[$key]))) {
 					$values[$key] = trim($_GET[$key]);
-				} else if (!empty(trim($_POST[$key]))) {
+				} else if (array_key_exists($key, $_POST) && !empty(trim($_POST[$key]))) {
 					$values[$key] = trim($_POST[$key]);
-				} else if (!empty(trim($_SERVER[$key]))) {
+				} else if (array_key_exists($key, $_SERVER) && !empty(trim($_SERVER[$key]))) {
 					$values[$key] = trim($_SERVER[$key]);
 				} else {
 					$values[$key] = false;
@@ -99,11 +99,11 @@ class FrontController {
 
 	
 		// For single parameters
-		if (!empty(trim($_GET[$keys])))
+		if (array_key_exists($keys, $_GET) && !empty(trim($_GET[$keys])))
 			return trim($_GET[$keys]);
-		if (!empty(trim($_POST[$keys])))
+		if (array_key_exists($keys, $_POST) && !empty(trim($_POST[$keys])))
 			return trim($_POST[$keys]);
-		if (!empty(trim($_SERVER[$keys])))
+		if (array_key_exists($keys, $_SERVER) && !empty(trim($_SERVER[$keys])))
 			return trim($_SERVER[$keys]);
 
 		return false;

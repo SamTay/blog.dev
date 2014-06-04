@@ -5,7 +5,7 @@ class PostView extends View {
 
 	public function __construct($data) {
 		$this->data = $data;
-		$this->setTitle($this->data['title']);
+		$this->setTitle($this->data['post']->title);
 		$this->setSection('postview');
 		$this->renderPage();
 	}

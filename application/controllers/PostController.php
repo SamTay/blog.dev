@@ -43,6 +43,7 @@ class PostController extends FrontController {
 		// If request is not POST, get CreatePostView
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 			Factory::getView('CreatePost');
+			die;
 
 		// Else check for valid entries, return to form if invalid
         } else try {
@@ -50,11 +51,17 @@ class PostController extends FrontController {
 		} catch (Exception $e) {
 			$data['postError'] = 'You must specify a title and body.';
 			Factory::getView('CreatePost', $data);
+			die;
 		}
 
 		// If Valid, send post to PostModel for insertion
-		$id = Factory::getModel(str_replace('Controller','Model',__CLASS__))->create();
-		header('location:'.BASE_URL.'/post/view?id='.$id);
+		try {
+			$id = Factory::getModel(str_replace('Controller','',__CLASS__))->create();
+			header('location:'.BASE_URL.'/post/view?id='.$id);
+			die;
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
 
     }
 
@@ -109,7 +116,7 @@ class PostController extends FrontController {
 		if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 
 			// Get model data and send it to view
-			$data = Factory::getModel('Post')->read($id);
+			$data['post'] = Factory::getModel('Post')->read($id);
 			Factory::getView('UpdatePost', $data);
 
 		// Else if the form has been submitted
