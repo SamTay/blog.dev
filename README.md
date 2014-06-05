@@ -3,6 +3,12 @@ blog.dev
 
 LAMP MVC Application
 
+06/05/14 This project hasn't been updated in a while. The past week has been solely testing and refactoring. Next Up,
+
+1. Fix Models to ensure that when exceptions are caught, they are rethrown! The controller should be catching them as well!
+2. AJAX Login Form
+--> Teamtreehouse: JS & JQuery
+
 05/28/14 Lots of stuff done today. Made the comments more pretty and at Thomas's suggestion I added a WYSIWYG editor to my textareas (for creating/updating posts and adding comments). The next steps are to add 1) Pagination 2) Helper Classes and, as part of (2), remove as much duplicate code as possible. Currently working on (1), because I decided I wanted to be able to sort by date or popularity, the latter meaning number of comments. It's proving a little tricky.
 
 Immediate TO DO : finish template/list.php to dynamically create rows/columns based on $this->data
