@@ -81,7 +81,7 @@ abstract class Model {
 	 */
 	public function getRowIds() {
 		try {
-			$stmt = $this->db->query('SELECT posts.id FROM '. $this->table);
+			$stmt = $this->db->query('SELECT '.$this->table.'.id FROM '. $this->table);
 		} catch (PDOException $e) {
 			echo "Connection Error: " . $e->getMessage();
 		}

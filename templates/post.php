@@ -27,7 +27,7 @@
 			<!-- ONLY FOR ADMIN VIEW -->
 			<?php $config = Config::getConfig();
 			$admin = $config->get('admin','username');
-			if ($_SESSION['user'] == $admin) { ?>
+			if (SessionModel::get('user') == $admin) { ?>
 
 				<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
 				if ($this->data['post']->id) echo '?id='.$this->data['post']->id;
@@ -44,7 +44,7 @@
 			<!----------------------->
 
 			<!-- ONLY FOR REGULAR USER VIEW -->
-			<?php if (!empty($_SESSION['user'])) { ?>
+			<?php if (SessionModel::get('user')) { ?>
 
 				<a href="#comment" class="btn btn-info"><span class="glyphicon
 				glyphicon-comment"></span>  Comment</a>

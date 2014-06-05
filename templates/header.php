@@ -99,7 +99,7 @@
 						<!--------------------------------------------------------------------------------------------------->
 
 						<!------------------------------------ ALL USERS SIGNED IN ---------------------------------------------------->
-						<?php if (!empty($_SESSION['user'])) { ?>
+						<?php if (SessionModel::get('user')) { ?>
 						<li class="dropdown">
 								<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
 								glyphicon-off"></span> <?php echo($_SESSION['user']); ?><b class="caret"></b></a>
