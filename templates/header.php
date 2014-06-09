@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+
+<?php
+$sessionMsg = SessionModel::get('msg');
+$sessionMsgTone = SessionModel::get('msg-tone');
+$user = SessionModel::get('user');
+
+
+?>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -53,83 +61,93 @@
 
                         </form>
 
-						<ul class="nav navbar-nav navbar-right">
-						<!---------------------------------------- ANONYMOUS -------------------------------------->
-						<?php if (empty($_SESSION['user'])) { ?>
+						<div id="user-specific-header">
+							<ul id="user-specific-header-contents" class="nav navbar-nav navbar-right">
+							<!---------------------------------------- ANONYMOUS -------------------------------------->
+							<?php if (empty($user)) { ?>
 
+								<li class="dropdown">
+									<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
+									glyphicon-user"></span> Login<b class="caret"></b></a>
+									<form id="login" class="dropdown-menu" role="form" method="post" action="<?php
+									echo (BASE_URL.DS.'user'.DS.'login'); ?>">
+										<div class="form-group">
+											<input type="text" class="form-control" id="username" name="username" placeholder="Username">
+										</div>
+										<div>
+											<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+										</div>
+										<input type="hidden" id="ajax" name="ajax" value="true">
+										<input type="submit" value="Login" class="btn btn-success">
+									</form>
+								</li>
+
+								<li <?php if($section === 'register') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'user'.DS.'register');?>">
+										<span class="glyphicon glyphicon-asterisk"></span>
+										Register
+									</a>
+								</li>
+
+							<?php } ?>
+
+							<!------------------------------------ ADMIN USER ---------------------------------------------------->
+							<?php $config = Config::getConfig();
+							$admin = $config->get('admin','username');
+							if ($user == $admin) { ?>
+								<li <?php if($section === 'create') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'post'.DS.'create');?>">
+										<span class="glyphicon glyphicon-asterisk"></span>
+										New Post
+								</a></li>
+							<?php } ?>
+							<!--------------------------------------------------------------------------------------------------->
+
+							<!------------------------------------ REGULAR USER ---------------------------------------------------->
+							<?php if ($user && $user != $admin) {}
+
+								/* Decide if regular users will have any extra action here */
+							 ?>
+							<!--------------------------------------------------------------------------------------------------->
+
+							<!------------------------------------ ALL USERS SIGNED IN ---------------------------------------------------->
+							<?php if ($user) { ?>
 							<li class="dropdown">
-								<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
-								glyphicon-user"></span> Login<b class="caret"></b></a>
-								<form class="dropdown-menu" role="form" method="post" action="<?php
-								echo (BASE_URL.DS.'user'.DS.'login'); ?>">
-									<div class="form-group">
-										<input type="text" class="form-control" id="username" name="username" placeholder="Username">
-									</div>
-									<div>
-										<input type="password" class="form-control" id="password" name="password" placeholder="Password">
-									</div>
-									<input type="submit" value="Login" class="btn btn-success">
-								</form>
+									<a href="" class="dropdown-toggle signout" data-toggle="dropdown"><span class="glyphicon
+									glyphicon-off"></span> <?php echo$user; ?><b class="caret"></b> </a>
+									<ul class="dropdown-menu">
+										<li><a href="<?php echo(BASE_URL.DS.'user'.DS.'logout');?>">
+												Logout
+										</a></li>
+									</ul>
 							</li>
 
-							<li <?php if($section === 'register') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'user'.DS.'register');?>">
-									<span class="glyphicon glyphicon-asterisk"></span>
-									Register
-								</a>
-							</li>
-
-						<?php } ?>
-
-                        <!------------------------------------ ADMIN USER ---------------------------------------------------->
-						<?php $config = Config::getConfig();
-						$admin = $config->get('admin','username');
-						if (SessionModel::get('user') == $admin) { ?>
-							<li <?php if($section === 'create') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'post'.DS.'create');?>">
-									<span class="glyphicon glyphicon-asterisk"></span>
-									New Post
-							</a></li>
-						<?php } ?>
-						<!--------------------------------------------------------------------------------------------------->
-
-						<!------------------------------------ REGULAR USER ---------------------------------------------------->
-						<?php if (!empty(SessionModel::get('user')) && SessionModel::get('user') != $admin) {}
-
-							/* Decide if regular users will have any extra action here */
-						 ?>
-						<!--------------------------------------------------------------------------------------------------->
-
-						<!------------------------------------ ALL USERS SIGNED IN ---------------------------------------------------->
-						<?php if (SessionModel::get('user')) { ?>
-						<li class="dropdown">
-								<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
-								glyphicon-off"></span> <?php echo($_SESSION['user']); ?><b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li><a href="<?php echo(BASE_URL.DS.'user'.DS.'logout');?>">
-											Logout
-									</a></li>
-								</ul>
-						</li>
-
-						<?php } ?>
-						<!--------------------------------------------------------------------------------------------------->
-						</ul>
+							<?php } ?>
+							<!--------------------------------------------------------------------------------------------------->
+							</ul>
+						</div>
 
                     </div>
 
                 </div>
-            </nav>
-        <!-- div element closed in start of footer! -->
+
+			<?php if ($sessionMsgTone=='danger') echo '</nav>'; // Keep danger messages obtrusive ?>
+
 
 			<!-- If there is a message to user -->
-			<?php if (!empty($_SESSION['msg'])) { ?>
-				<div class="container-fluid">
-						<div class="col-md-4 col-md-offset-4 alert alert-<?php echo !empty($_SESSION['msg-tone'])
-							? $_SESSION['msg-tone'] : 'success';  ?> alert-dismissable">
-							<button type="button" class="close" aria-hidden="true">&times;</button>
-							<p><strong><?php echo $_SESSION['msg']; ?></strong></p>
-						</div>
+			<?php if ($sessionMsg) { ?>
+				<div id="session-msg">
+					<div id="session-msg<?php if ($sessionMsgTone=='danger') echo "-$sessionMsgTone";
+					?>-contents" class="center col-md-3 alert alert-<?php echo !empty($sessionMsgTone)
+						? $sessionMsgTone : 'success';  ?> alert-dismissable">
+						<?php if ($sessionMsgTone=='danger') echo '<button type="button" class="close" area-hidden="true">&times;</button>'; ?>
+						<strong><?php echo $sessionMsg; ?></strong>
+					</div>
 				</div>
 			<?php }
-				unset($_SESSION['msg']);
-				unset($_SESSION['msg-tone']);
+			unset($_SESSION['msg']);
+			unset($_SESSION['msg-tone']);
 			?>
+
+			<?php if ($sessionMsgTone!='danger') echo '</nav>'; ?>
+
+
+<!-- div element closed in start of footer! -->

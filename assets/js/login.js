@@ -1,42 +1,27 @@
 
 
-function AjaxUserManagement() {
+function AjaxLogin() {
     this.construct();
 }
 
 $(document).ready(function(){
 
-    AjaxUserManagement.prototype = {
-        construct: function(){
-            this.setObservers();
-        },
-        setObservers: function(){
-            // Form Post Action Ajax
-            //this.sendLogin();
-            this.observers = [];
-        },
-        setFailed: function(){
-            // Send Failed Message using this.setNotification();
-        },
-        setSuccess: function(){
-            // Send Success Message using this.setNotification();
-            // this.updateHeader();
-        },
-        setNotification: function(){
-            // Display Message
-        },
+    AjaxLogin.prototype = {
+        construct: function(){},
         sendLogin: function(){
-            // Ajax Post Method
-            // IF SUCCESS Fire this.setSuccess();
-            // ELSE Fire this.setFailed();
-        },
-        getStatus: function(){
-            // Leave Blank
-        },
-        updateHeader: function(){
+            $.post($('#login').attr("action"), $("#login").serialize(), function(data){
+                $('#user-specific-header').load(document.URL + ' #user-specific-header-content');
+                $('#user-specific-options').load(document.URL + ' #user-specific-options-content');
+                $('#user-specific-comment').load(document.URL + ' #user-specific-comment-content');
+                $('#session-msg').load(document.URL + ' #session-msg-content').delay(1000);
+            });
         }
-    };
+    }
 
-    var ajaxUserManagement = new AjaxUserManagement();
+    $('#login').submit(function(e){
+        e.preventDefault();
+        var ajaxLogin = new AjaxLogin();
+        ajaxLogin.sendLogin();
+    });
 
 });

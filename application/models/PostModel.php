@@ -22,7 +22,7 @@ class PostModel extends Model {
 
 			$stmt->execute();
 		} catch (PDOException $e) {
-			echo $e->getMessage();
+			throw new Exception('Database Error: '.$e->getMessage());
 		}
 
 		// Store msg for successful operation
@@ -46,7 +46,7 @@ class PostModel extends Model {
 		try {
 			$stmt = $this->db->query("SELECT * FROM posts WHERE id =  $id");
 		} catch (PDOException $e) {
-			echo "Connection Error:  $e->getMessage()";
+			throw new Exception("Database Error:  $e->getMessage()");
 		}
 
      	$data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -75,7 +75,7 @@ class PostModel extends Model {
 
 			$stmt->execute();
 		} catch (PDOException $e) {
-			echo $e->getMessage();
+			throw new Exception("Database Error: $e->getMessage()");
 		}
 
 		// Store msg for successful operation
@@ -95,7 +95,7 @@ class PostModel extends Model {
 		try {
 			$this->db->query("DELETE FROM $this->table WHERE id = $id");
 		} catch (PDOException $e) {
-			echo $e->getMessage();
+			throw new Exception("Database Error: $e->getMessage");
 		}
 
 		// Delete any associated comments
