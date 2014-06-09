@@ -1,7 +1,7 @@
 
     </div> <!-- closes the page-wrap div -->
 
-        <footer>
+        <footer id="footer">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-6 col-xs-offset-3 myfooter">

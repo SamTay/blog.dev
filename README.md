@@ -3,6 +3,11 @@ blog.dev
 
 LAMP MVC Application
 
+06/09/14 Ajax is working, but currently having some technical issues on the frontend. Sorted by priority,
+1) .load function replaces contents in an annoying way, creating nested divs. NEED to find a work around and change my new nested divs back to normal, because they didn't work.
+2) As explained in documentation, load function skips over script blocks when loading portion of page - wtf is a workaround for that?
+This causes -> i. wysiwyg not re-loading, ii. delay of sessionmessage.slideUp does not restart, so those messages aren't seen.
+
 06/05/14 This project hasn't been updated in a while. The past week has been solely testing and refactoring. Next Up,
 
 1. Fix Models to ensure that when exceptions are caught, they are rethrown! The controller should be catching them as well!

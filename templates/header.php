@@ -94,7 +94,7 @@ $user = SessionModel::get('user');
 							<?php $config = Config::getConfig();
 							$admin = $config->get('admin','username');
 							if ($user == $admin) { ?>
-								<li <?php if($section === 'create') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'post'.DS.'create');?>">
+								<li<?php if($section === 'create') echo(' class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'post'.DS.'create');?>">
 										<span class="glyphicon glyphicon-asterisk"></span>
 										New Post
 								</a></li>
