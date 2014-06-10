@@ -52,17 +52,16 @@ $user = SessionModel::get('user');
                         </ul>
 
 
-                        <form class="navbar-form navbar-right" role="search" method="post" action="<?php echo BASE_URL.DS.'list'.DS.'search'; ?>">
+                        <form id="search" class="navbar-form navbar-right" role="search" method="post" action="<?php echo BASE_URL.DS.'list'.DS.'search'; ?>">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="needle" placeholder="Search">
                             </div>
-							<input type="submit" value="Search">
+							<input style="display: none" type="submit" value="Search">
                             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
 
                         </form>
 
-						<div id="user-specific-header">
-							<ul id="user-specific-header-contents" class="nav navbar-nav navbar-right">
+							<ul id="user-specific-header" class="nav navbar-nav navbar-right">
 							<!---------------------------------------- ANONYMOUS -------------------------------------->
 							<?php if (empty($user)) { ?>
 
@@ -83,8 +82,7 @@ $user = SessionModel::get('user');
 								</li>
 
 								<li <?php if($section === 'register') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'user'.DS.'register');?>">
-										<span class="glyphicon glyphicon-asterisk"></span>
-										Register
+										<span class="glyphicon glyphicon-asterisk"></span> Register
 									</a>
 								</li>
 
@@ -122,9 +120,7 @@ $user = SessionModel::get('user');
 
 							<?php } ?>
 							<!--------------------------------------------------------------------------------------------------->
-							</ul>
-						</div>
-
+						</ul>
                     </div>
 
                 </div>
@@ -134,13 +130,10 @@ $user = SessionModel::get('user');
 
 			<!-- If there is a message to user -->
 			<?php if ($sessionMsg) { ?>
-				<div id="session-msg">
-					<div id="session-msg<?php if ($sessionMsgTone=='danger') echo "-$sessionMsgTone";
-					?>-contents" class="center col-md-3 alert alert-<?php echo !empty($sessionMsgTone)
+				<div style="display: none" id="session-msg" class="center col-md-3 alert alert-<?php echo !empty($sessionMsgTone)
 						? $sessionMsgTone : 'success';  ?> alert-dismissable">
 						<?php if ($sessionMsgTone=='danger') echo '<button type="button" class="close" area-hidden="true">&times;</button>'; ?>
 						<strong><?php echo $sessionMsg; ?></strong>
-					</div>
 				</div>
 			<?php }
 			unset($_SESSION['msg']);

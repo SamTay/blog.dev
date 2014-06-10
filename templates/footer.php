@@ -1,7 +1,7 @@
 
     </div> <!-- closes the page-wrap div -->
 
-        <footer id="footer">
+        <footer>
             <div class="container">
                 <div class="row">
                     <div class="col-xs-6 col-xs-offset-3 myfooter">
@@ -24,7 +24,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo(BASE_URL.DS.'assets'.DS.'css'.DS.'bootstrap-wysihtml5.css'); ?>" />
 		<script src="//code.jquery.com/jquery.js"></script>
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'wysihtml5-0.3.0.js');?>" type="text/javascript"></script>
-		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'jquery-1.7.2.min.js');?>" type="text/javascript"></script>
+<!--		<script src="--><?php //echo(BASE_URL.DS.'assets'.DS.'js'.DS.'jquery-1.7.2.min.js');?><!--" type="text/javascript"></script>-->
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'bootstrap.min.js'); ?>"></script>
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'bootstrap3-wysihtml5.js'); ?>" type="text/javascript"></script>
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'login.js'); ?>" type="text/javascript"></script>

@@ -25,35 +25,33 @@
 			<a id="comments"></a>
 
 			<div id="user-specific-options">
-				<div id="user-specific-options-contents">
-					<!-- ONLY FOR ADMIN VIEW -->
-					<?php $config = Config::getConfig();
-					$admin = $config->get('admin','username');
-					if (SessionModel::get('user') == $admin) { ?>
+				<!-- ONLY FOR ADMIN VIEW -->
+				<?php $config = Config::getConfig();
+				$admin = $config->get('admin','username');
+				if (SessionModel::get('user') == $admin) { ?>
 
-						<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
-						if ($this->data['post']->id) echo '?id='.$this->data['post']->id;
-						?>" class="btn btn-primary"><span class="glyphicon
-						glyphicon-edit"></span>  Update</a>
+					<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
+					if ($this->data['post']->id) echo '?id='.$this->data['post']->id;
+					?>" class="btn btn-primary"><span class="glyphicon
+					glyphicon-edit"></span>  Update</a>
 
-						<a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');
-						if ($this->data['post']->id) echo '?id='.$this->data['post']->id;
-						?>" onClick="return confirm('Are you sure you want to delete this post?')"
-						class="btn btn-danger"><span class="glyphicon
-						glyphicon-remove"></span>  Delete</a>
+					<a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');
+					if ($this->data['post']->id) echo '?id='.$this->data['post']->id;
+					?>" onClick="return confirm('Are you sure you want to delete this post?')"
+					class="btn btn-danger"><span class="glyphicon
+					glyphicon-remove"></span>  Delete</a>
 
-					<?php } ?>
-					<!----------------------->
+				<?php } ?>
+				<!----------------------->
 
-					<!-- ONLY FOR REGULAR USER VIEW -->
-					<?php if (SessionModel::get('user')) { ?>
+				<!-- ONLY FOR REGULAR USER VIEW -->
+				<?php if (SessionModel::get('user')) { ?>
 
-						<a href="#comment" class="btn btn-info"><span class="glyphicon
-						glyphicon-comment"></span>  Comment</a>
+					<button id="comment-selector" class="btn btn-info"><span class="glyphicon
+					glyphicon-comment"></span>  Comment</button>
 
-					<?php } ?>
-					<!----------------------->
-				</div>
+				<?php } ?>
+				<!----------------------->
 			</div>
 
 		</div>

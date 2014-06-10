@@ -10,7 +10,7 @@ class SearchView extends ListView {
 
 	public function __construct($data) {
 		$this->data = $data;
-		$this->setTitle("Search Results for '$this->data['view']->needle'");
+		$this->setTitle('Search Results for '.$this->data['view']->needle);
 		$this->setSection('search');
 		$this->action = 'search';
 		$this->renderPage();

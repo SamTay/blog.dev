@@ -63,6 +63,7 @@ class UserController extends FrontController {
 			// Otherwise, reload to the previous page
 			} else {
 				header('location:'.$_SERVER['HTTP_REFERER']);
+				die;
 			}
 		} catch (Exception $e) {
 			echo $e->getMessage();
