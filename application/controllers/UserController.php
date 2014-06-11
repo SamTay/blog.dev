@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class UserController
  *
@@ -30,18 +29,20 @@ class UserController extends FrontController {
 			Factory::getView(str_replace('Controller', '', __CLASS__) . ucwords(__FUNCTION__));
 
 		// Else call on UserModel to handle POST data
-		} else {
-			$data = Factory::getModel(str_replace('Controller', '', __CLASS__))->register();
+		} else try {
+			$success = Factory::getModel(str_replace('Controller', '', __CLASS__))->register();
 
-			// If registration is successful, login and send to home page.
-			if ($data['success']) {
+			// If registration is successful, login and send to last visited page.
+			if ($success) {
 				Factory::getModel(str_replace('Controller', '', __CLASS__))->login();
-				header('location:'.BASE_URL);
 			}
 			// If unsuccessful, send back to form UserRegisterView with error message
 			else {
-				Factory::getView(str_replace('Controller', '', __CLASS__) . ucwords(__FUNCTION__), $data);
+				list($data['username'], $data['password'], $data['passwordCheck']) = array(self::getParam('username'), self::getParam('password'), self::getParam('passwordCheck'));
+				Factory::getView(str_replace('Controller', '', __CLASS__) . ucwords(__FUNCTION__));
 			}
+		} catch (Exception $e) {
+			echo $e->getMessage();
 		}
 	}
 
@@ -51,24 +52,27 @@ class UserController extends FrontController {
 			Factory::getView(str_replace('Controller', '', __CLASS__) . ucwords(__FUNCTION__));
 
 		// Else call on UserModel to handle POST data
-		} else {
-			$data = Factory::getModel(str_replace('Controller', '', __CLASS__))->login();
+		} else try {
+			$success = Factory::getModel(str_replace('Controller', '', __CLASS__))->login();
 
-			// Load the page the user was visiting before login!
-			if ($data['success']) {
-				header('location:'.$_SERVER['HTTP_REFERER']);
+			// Unobtrusive JS -> if ajax submission, return true/false to JS
+			if ($success && $this->getParam('ajax') == true) {
+				include(ROOT.DS.'application'.DS.'models'.DS.'jsonData.php');
+
+			// Otherwise, reload to the previous page
 			} else {
-				Factory::getView(str_replace('Controller', '', __CLASS__) . ucwords(__FUNCTION__), $data);
+				header('location: ' . BASE_URL.DS.'user'.DS.'login');
+				die;
 			}
+		} catch (Exception $e) {
+			echo $e->getMessage();
 		}
 	}
 
 	public function logout() {
 		unset($_SESSION['user']);
-		$_SESSION['msg'] = 'You&rsquo;ve successfully logged out.';
+		SessionModel::set('msg', 'You&rsquo;ve successfully logged out.');
 		header('location:'.$_SERVER['HTTP_REFERER']);
 	}
-
-
 
 }

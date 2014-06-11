@@ -5812,7 +5812,7 @@ html, body {
 }
 
 .page-wrap {
-    min-height: 96%;
+    min-height: 92%;
 }
 
 .page-wrap:after {
@@ -5862,4 +5862,17 @@ form.dropdown-menu .btn {
     color: #fff;
 }
 
+.found {
+    background-color: #67b168;
+}
+
+.center {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signout {
+    margin-right: 10px;
+}
 /*# sourceMappingURL=bootstrap.css.map */

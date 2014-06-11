@@ -34,7 +34,6 @@ class DBConnect {
 		$name = $config->get('db','name');
 		$username = $config->get('db','username');
 		$password = $config->get('db','password');
-
 		if (!isset(self::$db)) {
 			try {
 				self::$db = new PDO('mysql:host='.$host.';dbname='.$name, $username, $password);
@@ -43,6 +42,7 @@ class DBConnect {
 				echo "Connection Error: " . $e->getMessage();
 			}
 		}
+
 
 		return self::$db;
 	}

@@ -27,25 +27,24 @@ class ListView extends View {
 	protected $end;
 
 	/**
-	 * This is a fucking hack and should be done better; basically
-	 * takes away sorting methods during search
-	 *
-	 * @var string
+	 * Keeps track of what the user is doing (view, search)
+	 * @var
 	 */
 	protected $action;
+	
 
 	public function __construct($data) {
 		$this->data = $data;
 		$this->setTitle('Greatest Posts of All Time');
-		$this->setSection('list-' . $this->data['sort']);
+		$this->setSection('list-' . $this->data['view']->sort);
 		$this->action = 'view';
 		$this->renderPage();
 	}
 
 	protected function setBody() {
-		$this->colWidth = 12/$this->data['postsPerRow'];
-		$this->start = ($this->data['pg']-1)*$this->data['postsPerPage'];
-		$this->end = min($this->data['totalPosts'], $this->data['pg']*$this->data['postsPerPage']) - 1;
+		$this->colWidth = 12/$this->data['view']->postsPerRow;
+		$this->start = ($this->data['view']->pg-1)*$this->data['view']->postsPerPage;
+		$this->end = min($this->data['view']->totalPosts, $this->data['view']->pg*$this->data['view']->postsPerPage) - 1;
 
 		$this->body[] = ROOT.DS.'templates'.DS.'banner2.php';
 		$this->body[] = ROOT.DS.'templates'.DS.'pagination.php';
@@ -53,4 +52,8 @@ class ListView extends View {
 		$this->body[] = ROOT.DS.'templates'.DS.'pagination.php';
 	}
 
+	public function keepSearchParam() {
+		if ($this->section == 'search')
+			echo '&needle='.$this->data['view']->needle;
+	}
 }

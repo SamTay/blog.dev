@@ -39,7 +39,7 @@ class FrontController {
 		if (stripos($uri, '?'))
 			$uri = substr($uri, 0, stripos($uri,'?'));
 		
-        list($controller, $action) = explode('/',$uri, 2);
+        list($controller, $action) = array_pad(explode('/',$uri, 2), 2, null);
 
         if(!empty($controller)) {
             $this->controller = ucfirst(strtolower($controller)) . 'Controller';
@@ -63,27 +63,45 @@ class FrontController {
             } else {
                 throw new Exception('Controller exists, but method does not.');
             }
-            } else {
+        } else {
             throw new Exception('Controller does not exist');
         }
     }
 
 	/**
 	 * Checks if parameter is set in _GET, _POST, _SERVER and if so, returns the value. If not set,
-	 * returns false.
+	 * returns false. Additionally can pass and return arrays.
 	 *
-	 * @param $key
-	 * @return bool
+	 * @param $keys
+	 * @return mixed
+	 * @throws Exception
 	 */
-	public static function getParam($key) {
-		if (isset($_GET[$key]))
-			return $_GET[$key];
+	public static function getParam($keys) {
 
-		if (isset($_POST[$key]))
-			return $_POST[$key];
-
-		if (isset($_SERVER[$key]))
-			return $_SERVER[$key];
+		// For array parameters
+		if (is_array($keys)){
+			$values = array();
+			foreach($keys as $key) {
+				if (array_key_exists($key, $_GET) && !empty(trim($_GET[$key]))) {
+					$values[$key] = trim($_GET[$key]);
+				} else if (array_key_exists($key, $_POST) && !empty(trim($_POST[$key]))) {
+					$values[$key] = trim($_POST[$key]);
+				} else if (array_key_exists($key, $_SERVER) && !empty(trim($_SERVER[$key]))) {
+					$values[$key] = trim($_SERVER[$key]);
+				} else {
+					$values[$key] = false;
+				}
+			}
+			return $values;
+		}
+	
+		// For single parameters
+		if (array_key_exists($keys, $_GET) && !empty(trim($_GET[$keys])))
+			return trim($_GET[$keys]);
+		if (array_key_exists($keys, $_POST) && !empty(trim($_POST[$keys])))
+			return trim($_POST[$keys]);
+		if (array_key_exists($keys, $_SERVER) && !empty(trim($_SERVER[$keys])))
+			return trim($_SERVER[$keys]);
 
 		return false;
 	}
@@ -95,9 +113,9 @@ class FrontController {
 	 */
 	protected function adminPrivilege() {
 		$config = Config::getConfig();
-		if ($_SESSION['user'] != $config->get('admin', 'username')) {
-			$_SESSION['msg'] = 'Action requires admin privileges. Please sign in.';
-			$_SESSION['msg-tone'] = 'danger';
+		if (SessionModel::get('user') != $config->get('admin', 'username')) {
+			SessionModel::set('msg', 'Action requires admin privileges. Please sign in.');
+			SessionModel::set('msg-tone', 'danger');
 			header('location:' . BASE_URL . '/user/login');
 			die;
 		}
@@ -109,9 +127,9 @@ class FrontController {
 	 * with appropriate messages.
 	 */
 	protected function userPrivilege() {
-		if (empty($_SESSION['user'])) {
-			$_SESSION['msg'] = 'You need to be signed in for that action. Registering takes two seconds, cmon.';
-			$_SESSION['msg-tone'] = 'warning';
+		if (empty(SessionModel::get('user'))) {
+			SessionModel::set('msg', 'You need to be signed in for that action. Registering takes two seconds, cmon.');
+			SessionModel::set('msg-tone', 'danger');
 			header('location:' . BASE_URL . '/user/login');
 			die;
 		}

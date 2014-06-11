@@ -14,15 +14,15 @@ class UpdatePostView extends CreatePostView {
 		if (!is_null($data))
 			$this->data = $data;
 
-		$this->id = $this->data['id'];
+		$this->data['id'] = $this->data['post']->id;
 		$this->setTitle('Update Post');
 		$this->setSection('update');
 		$this->renderPage();
 	}
 
 	protected function setBody() {
-		$this->data['postTitle'] = $this->data['title'];
-		$this->data['postBody'] = $this->data['body'];
+		$this->data['postTitle'] = $this->data['post']->title;
+		$this->data['postBody'] = $this->data['post']->body;
 
 		$this->body[] = ROOT.DS.'templates'.DS.'createpost.php';
 	}

@@ -25,100 +25,92 @@ class UserModel extends Model {
 	 */
 	public function register() {
 		// Get data from UserController
-		$this->getControllerData(array('username', 'password', 'passwordCheck'));
-
-		$valid = true;
-		// Check username
-		if (strlen($this->data['username']) < 5) {
-			$this->data['Error'] = 'Username must be at least 5 characters.';
-			$valid = false;
-		}
-		if ($valid AND !$this->validateChar($this->data['username'])) {
-			$this->data['Error'] = 'Username must consist of letters, numbers, and underscores.';
-			$valid = false;
-		}
-		if ($valid AND $this->userExists($this->data['username'])) {
-			$this->data['Error'] = 'Username already exists, please pick another one.';
-			$valid = false;
+		try {
+			$this->getControllerData(array('username', 'password', 'passwordCheck'));
+		} catch (Exception $e) {
+			SessionModel::set('msg', 'Please make sure you fill out each field.');
+			SessionModel::set('msg-tone', 'danger');
+			return false;
 		}
 
-		// Check password
-		if ($valid AND $this->data['password'] != $this->data['passwordCheck']) {
-			$this->data['Error'] = 'Your two passwords did not match.';
-			$valid = false;
-		}
-		if ($valid AND $this->data['password']=="") {
-			$this->data['Error'] = 'You must specify a password.';
-			$valid = false;
+		$valid = $this->checkUsername();
+
+		if ($valid) {
+			$valid = $this->checkPassword();
 		}
 
-		// IF valid
-		if ($valid){
+		if ($valid) {
 			//Encode with MD5 hash - suggested from Jay
 			$this->data['password'] = md5($this->data['password']);
 
 			// Insert (username, password) into users table
 			try {
-				$stmt = $this->db->prepare("INSERT INTO ".$this->table." (username,password) VALUES (:username, :password)");
+				$stmt = $this->db->prepare("INSERT INTO $this->table (username,password) VALUES (:username, :password)");
 				$stmt->bindParam(':username', $this->data['username']);
 				$stmt->bindParam(':password', $this->data['password']);
 				$stmt->execute();
 			} catch (PDOException $e) {
-				echo $e->getMessage();
+				SessionModel::set('msg',$e->getMessage());
+				$valid = false;
 			}
-			// Store msg for successful operation
-			$_SESSION['msg'] = "Your account has been successfully created.";
-			$this->data['success'] = true;
-		}
-		else {
-			$this->data['success'] = false;
+
+			if ($valid) {
+				SessionModel::set('msg','Your account has been successfully created.');
+			}
 		}
 
-		// Return data to controller
-		return $this->data;
+		if (!$valid) {
+			SessionModel::set('msg-tone', 'danger');
+		}
+
+		return $valid;
 	}
 
 	public function login() {
 		// Get data from UserController
-		$this->getControllerData(array('username', 'password'));
+		try {
+			$this->getControllerData(array('username', 'password'));
+		} catch (Exception $e) {
+			SessionModel::set('msg', 'Please make sure you fill out each field when logging in.');
+			SessionModel::set('msg-tone', 'danger');
+			return false;
+		}
 
-		// Trim username, encode password
-		$this->data['username'] = trim($this->data['username']);
+		// Encode password
 		$this->data['password'] = md5($this->data['password']);
 
 		// If the username exists in db, check username & password combo
 		if($this->userExists($this->data['username'])) {
 			try {
-				$stmt = $this->db->prepare("SELECT COUNT(*) FROM ".$this->table." WHERE username = :username AND password = :password");
+				$stmt = $this->db->prepare("SELECT COUNT(*) FROM $this->table WHERE username = :username AND password = :password");
 				$stmt->bindParam(':username', $this->data['username']);
 				$stmt->bindParam(':password', $this->data['password']);
 				$stmt->execute();
 			} catch (PDOException $e) {
-				echo "Connection Error: " . $e->getMessage();
+				echo "Connection Error: . $e->getMessage()";
 			}
 			$rowArray = $stmt->fetch(PDO::FETCH_NUM);
 			$count = (int)$rowArray[0];
 			$stmt->closeCursor();
 
-			// If username & password combo is found, set session variable and set success to true
+			// If username & password combo is found, set session variables and return true
 			if ($count>0) {
-				$_SESSION['user'] = $this->data['username'];
-				$this->data['success'] = true;
-				// Store msg for successful operation
-				$_SESSION['msg'] = "You&rsquo;ve successfully logged in.";
-
-			// Else let the controller know that success is false.
+				SessionModel::set('user', $this->data['username']);
+				SessionModel::set('msg', 'You&rsquo;ve successfully logged in.');
+				return true;
+			// Else password not correct
 			} else {
-				$this->data['success'] = false;
-				$this->data['Error'] = 'Sorry, that is the incorrect password. Try again.';
+				SessionModel::set('msg','Sorry, that is the incorrect password. Try again.');
 			}
+		// Else the username did not exist
 		} else {
-			$this->data['success'] = false;
-			$this->data['Error'] = 'That username does not exist. Try registering first.';
+			SessionModel::set('msg','That username does not exist. Try registering first.');
 		}
-		return $this->data;
 
-		}
+		// If true was not returned above, there must be a problem. Return false.
+		SessionModel::set('msg-tone', 'danger');
+		return false;
+	}
 
 	/**
 	 * Retrieve username with primary key $id
@@ -128,7 +120,7 @@ class UserModel extends Model {
 	 */
 	public function getUser($id) {
 		try {
-			$stmt = $this->db->prepare("SELECT users.username FROM ".$this->table." WHERE id=:id");
+			$stmt = $this->db->prepare("SELECT users.username FROM $this->table WHERE id=:id");
 			$stmt->bindParam(':id', $id);
 			$stmt->execute();
 		} catch (PDOException $e) {
@@ -147,45 +139,73 @@ class UserModel extends Model {
 	 */
 	public function getUserId($username) {
 		try {
-			$stmt = $this->db->prepare("SELECT users.id FROM ".$this->table." WHERE username=:username");
+			$stmt = $this->db->prepare("SELECT users.id FROM $this->table WHERE username=:username");
 			$stmt->bindParam(':username', $username);
 			$stmt->execute();
 		} catch (PDOException $e) {
-			echo "Connection Error: " . $e->getMessage();
+			echo "Connection Error: $e->getMessage()";
 		}
 		$rowArray = $stmt->fetch(PDO::FETCH_NUM);
 		$stmt->closeCursor();
 		return $rowArray[0];
 	}
 
+	/**
+	 * Checks username and sets error message appropriately
+	 */
+	public function checkUsername() {
+
+		if (strlen($this->data['username']) < 5) {
+			SessionModel::set('msg', 'Username must be at least 5 characters.');
+			return false;
+		}
+		if (!$this->validateChar()) {
+			SessionModel::set('msg', 'Username must consist of letters, numbers, and underscores.');
+			return false;
+		}
+		if ($this->userExists()) {
+			SessionModel::set('msg', 'Username already exists, please pick another one.');
+			return false;
+		}
+		return true;
+	}
+
+	public function checkPassword() {
+		if ($this->data['password'] != $this->data['passwordCheck']) {
+			SessionModel::set('msg', 'Your two passwords did not match.');
+			return false;
+		}
+		if ($this->data['password']=="") {
+			SessionModel::set('msg', 'You must specify a password.');
+			return false;
+		}
+	}
 
 	/**
 	 * Validate username characters, NOT length (only because I wanted
 	 * to separate the messages for length vs characters).
 	 *
-	 * @param $username
 	 * @return bool
 	 */
-	private function validateChar($username) {
+	private function validateChar() {
 		// Allowed non-alphanumeric characters
 		$allowed = array('_');
 
 		// Make sure everything else is alphanumeric
-		$username = str_replace($allowed, '', $username);
-		return ctype_alnum($username);
+		$this->data['username']= str_replace($allowed, '', $this->data['username']);
+		return ctype_alnum($this->data['username']);
 	}
 
 	/**
 	 * Checks if user exists, returns true if user already exists and
 	 * false if username is available.
 	 *
-	 * @param $username
 	 * @return bool
 	 */
-	private function userExists($username) {
+	private function userExists() {
 		try {
-			$stmt = $this->db->prepare("SELECT COUNT(*) FROM ".$this->table." WHERE username = :username");
-			$stmt->bindParam(':username', $username);
+			$stmt = $this->db->prepare("SELECT COUNT(*) FROM $this->table WHERE username = :username");
+			$stmt->bindParam(':username', $this->data['username']);
 			$stmt->execute();
 
 			// Count the rows selected
@@ -200,7 +220,7 @@ class UserModel extends Model {
 		return ($count > 0);
 	}
 
-	public function update($username) {}
+	public function update() {}
 
-	public function delete($username) {}
+	public function delete() {}
 }

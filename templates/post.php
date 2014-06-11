@@ -7,16 +7,16 @@
 
 			<div class="panel panel-success">
 				<div class="panel-heading">
-					<h2 class="text-center panel-title"><?php echo $this->data['title']; ?></h2>
+					<h2 class="text-center panel-title"><?php echo $this->data['post']->title; ?></h2>
 				</div>
 				<div class="panel-body">
-					<?php echo $this->data['body']; ?>
+					<?php echo $this->data['post']->body; ?>
 					<br><br>
 					<p class = "date">
-						Created: <?php echo $this->data['created']; ?> <br>
-						<?php if ( ($this->data['created'] != $this->data['modified'])
-							&& ($this->data['modified'] != null))
-								echo 'Modified: ' . $this->data['modified']; ?>
+						Created: <?php echo $this->data['post']->created; ?> <br>
+						<?php if ( ($this->data['post']->created != $this->data['post']->modified)
+							&& ($this->data['post']->modified != null))
+								echo 'Modified: ' . $this->data['post']->modified; ?>
 					</p>
 				</div>
 			</div>
@@ -24,33 +24,35 @@
 			<!-- Only non-intrusive place for the comments anchor tag -->
 			<a id="comments"></a>
 
-			<!-- ONLY FOR ADMIN VIEW -->
-			<?php $config = Config::getConfig();
-			$admin = $config->get('admin','username');
-			if ($_SESSION['user'] == $admin) { ?>
+			<div id="user-specific-options">
+				<!-- ONLY FOR ADMIN VIEW -->
+				<?php $config = Config::getConfig();
+				$admin = $config->get('admin','username');
+				if (SessionModel::get('user') == $admin) { ?>
 
-				<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
-				if (isset($this->data['id'])) echo '?id='.$this->data['id'];
-				?>" class="btn btn-primary"><span class="glyphicon
-				glyphicon-edit"></span>  Update</a>
+					<a href="<?php echo(BASE_URL.DS.'post'.DS.'update');
+					if ($this->data['post']->id) echo '?id='.$this->data['post']->id;
+					?>" class="btn btn-primary"><span class="glyphicon
+					glyphicon-edit"></span>  Update</a>
 
-				<a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');
-				if (isset($this->data['id'])) echo '?id='.$this->data['id'];
-				?>" onClick="return confirm('Are you sure you want to delete this post?')"
-				class="btn btn-danger"><span class="glyphicon
-				glyphicon-remove"></span>  Delete</a>
+					<a href="<?php echo(BASE_URL.DS.'post'.DS.'delete');
+					if ($this->data['post']->id) echo '?id='.$this->data['post']->id;
+					?>" onClick="return confirm('Are you sure you want to delete this post?')"
+					class="btn btn-danger"><span class="glyphicon
+					glyphicon-remove"></span>  Delete</a>
 
-			<?php } ?>
-			<!----------------------->
+				<?php } ?>
+				<!----------------------->
 
-			<!-- ONLY FOR REGULAR USER VIEW -->
-			<?php if (!empty($_SESSION['user'])) { ?>
+				<!-- ONLY FOR REGULAR USER VIEW -->
+				<?php if (SessionModel::get('user')) { ?>
 
-				<a href="#comment" class="btn btn-info"><span class="glyphicon
-				glyphicon-comment"></span>  Comment</a>
+					<button id="comment-selector" class="btn btn-info"><span class="glyphicon
+					glyphicon-comment"></span>  Comment</button>
 
-			<?php } ?>
-			<!----------------------->
+				<?php } ?>
+				<!----------------------->
+			</div>
 
 		</div>
 	</div>

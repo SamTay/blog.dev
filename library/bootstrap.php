@@ -1,4 +1,12 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+ini_set('date.timezone', 'America/New_York');
+
+define('DS', DIRECTORY_SEPARATOR);
+define('ROOT', '/sites/blog.dev');		// [blog.dev]/index.php
+define('BASE_URL', 'http://blog.dev');
 
 include_once('AutoLoader.php');
 AutoLoader::registerDirectory(ROOT);

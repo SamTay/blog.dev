@@ -33,8 +33,25 @@ abstract class Model {
 
 		//If these global variables are set, store them in $data
 		foreach($params as $param) {
-			if ($controller::getParam($param) !== false)
-				$this->data[$param] = $controller::getParam($param);
+			if (empty($this->data[$param])) {
+				if ($controller::getParam($param) !== false) {
+					$this->data[$param] = $controller::getParam($param);
+				} else {
+					throw new Exception("Model could not retrieve parameter: $param from controller.");
+				}
+			}
+		}
+	}
+
+	/**
+	 * This method will most likely be used solely for testing purposes
+	 *
+	 * @param $params
+	 */
+	public function setControllerData($params) {
+		// Load in the new values
+		foreach ($params as $key=>$value) {
+			$this->data[$key] = $value;
 		}
 	}
 
@@ -47,7 +64,7 @@ abstract class Model {
 		try {
 			$stmt = $this->db->query('SELECT COUNT(*) AS id FROM '. $this->table);
 		} catch (PDOException $e) {
-			echo "Connection Error: " . $e->getMessage();
+			echo 'Connection Error: ' . $e->getMessage();
 		}
 
 		$count = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -64,7 +81,7 @@ abstract class Model {
 	 */
 	public function getRowIds() {
 		try {
-			$stmt = $this->db->query('SELECT posts.id FROM '. $this->table);
+			$stmt = $this->db->query('SELECT '.$this->table.'.id FROM '. $this->table);
 		} catch (PDOException $e) {
 			echo "Connection Error: " . $e->getMessage();
 		}

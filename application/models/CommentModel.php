@@ -29,7 +29,7 @@ class CommentModel extends Model {
 		$userid = Factory::getModel('User')->getUserId($user);
 
 		try {
-			$stmt = $this->db->prepare("INSERT INTO ".$this->table." (postid,userid,comment,created) VALUES (:postid,:userid,:comment, NOW())");
+			$stmt = $this->db->prepare("INSERT INTO $this->table (postid,userid,comment,created) VALUES (:postid,:userid,:comment, NOW())");
 
 			$stmt->bindParam(':postid', $postid);
 			$stmt->bindParam(':userid', $userid);
@@ -41,7 +41,7 @@ class CommentModel extends Model {
 		}
 
 		// Store msg for successful operation
-		$_SESSION['msg'] = "Your comment has been added.";
+		SessionModel::set('msg', 'Your comment has been added.');
 	}
 
 	/**
@@ -54,19 +54,23 @@ class CommentModel extends Model {
 	public function getComments($postid) {
 		// Select the relevant attributes
 		try {
-			$stmt = $this->db->prepare("SELECT comments.id, comments.userid, comments.comment, comments.created"
-				. " FROM " . $this->table . " WHERE postid = :postid ORDER BY created");
+			$stmt = $this->db->prepare("SELECT comments.id, comments.userid, comments.comment, comments.created
+				 FROM  $this->table  WHERE postid = :postid ORDER BY created");
 			$stmt->bindParam(':postid', $postid);
 			$stmt->execute();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
+		// Store data in generic model container
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		foreach($data as &$comment) {
+			$comment = new GenericModel($comment);
+		}
 
 		// Instantiate UserModel to store username string
 		$userDB = Factory::getModel('User');
 		foreach ($data as &$comment) {
-			$comment['username'] = $userDB->getUser($comment['userid']);
+			$comment->username = $userDB->getUser($comment->userid);
 		}
 		unset($userDB);
 
@@ -81,7 +85,7 @@ class CommentModel extends Model {
 	 */
 	public function delete($postid) {
 		try {
-			$this->db->query("DELETE FROM ".$this->table." WHERE postid = ". $postid);
+			$this->db->query("DELETE FROM $this->table WHERE postid =  $postid");
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
