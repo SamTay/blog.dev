@@ -63,40 +63,16 @@ $user = SessionModel::get('user');
 
 							<ul id="user-specific-header" class="nav navbar-nav navbar-right">
 							<!---------------------------------------- ANONYMOUS -------------------------------------->
-							<?php if (empty($user)) { ?>
-
-								<li class="dropdown">
-									<a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
-									glyphicon-user"></span> Login<b class="caret"></b></a>
-									<form id="login" class="dropdown-menu" role="form" method="post" action="<?php
-									echo (BASE_URL.DS.'user'.DS.'login'); ?>">
-										<div class="form-group">
-											<input type="text" class="form-control" id="username" name="username" placeholder="Username">
-										</div>
-										<div>
-											<input type="password" class="form-control" id="password" name="password" placeholder="Password">
-										</div>
-										<input type="hidden" id="ajax" name="ajax" value="true">
-										<input type="submit" value="Login" class="btn btn-success">
-									</form>
-								</li>
-
-								<li <?php if($section === 'register') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'user'.DS.'register');?>">
-										<span class="glyphicon glyphicon-asterisk"></span> Register
-									</a>
-								</li>
-
-							<?php } ?>
+							<?php if (empty($user)) {
+								include_once(ROOT.DS.'templates'.DS.'anonymousOptions.php');
+							} ?>
 
 							<!------------------------------------ ADMIN USER ---------------------------------------------------->
 							<?php $config = Config::getConfig();
 							$admin = $config->get('admin','username');
-							if ($user == $admin) { ?>
-								<li<?php if($section === 'create') echo(' class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'post'.DS.'create');?>">
-										<span class="glyphicon glyphicon-asterisk"></span>
-										New Post
-								</a></li>
-							<?php } ?>
+							if ($user == $admin) {
+								include_once(ROOT.DS.'templates'.DS.'adminOptions.php');
+							} ?>
 							<!--------------------------------------------------------------------------------------------------->
 
 							<!------------------------------------ REGULAR USER ---------------------------------------------------->
@@ -107,40 +83,16 @@ $user = SessionModel::get('user');
 							<!--------------------------------------------------------------------------------------------------->
 
 							<!------------------------------------ ALL USERS SIGNED IN ---------------------------------------------------->
-							<?php if ($user) { ?>
-							<li class="dropdown">
-									<a href="" class="dropdown-toggle signout" data-toggle="dropdown"><span class="glyphicon
-									glyphicon-off"></span> <?php echo$user; ?><b class="caret"></b> </a>
-									<ul class="dropdown-menu">
-										<li><a href="<?php echo(BASE_URL.DS.'user'.DS.'logout');?>">
-												Logout
-										</a></li>
-									</ul>
-							</li>
-
-							<?php } ?>
+							<?php if ($user) {
+								include_once(ROOT.DS.'templates'.DS.'userOptions.php');
+							} ?>
 							<!--------------------------------------------------------------------------------------------------->
 						</ul>
                     </div>
 
                 </div>
 
-			<?php if ($sessionMsgTone=='danger') echo '</nav>'; // Keep danger messages obtrusive ?>
+			<!-- </nav> element closed within sessionMessage template -->
+			<?php include_once(ROOT.DS.'templates'.DS.'sessionMessage.php'); ?>
 
-
-			<!-- If there is a message to user -->
-			<?php if ($sessionMsg) { ?>
-				<div style="display: none" id="session-msg" class="center col-md-3 alert alert-<?php echo !empty($sessionMsgTone)
-						? $sessionMsgTone : 'success';  ?> alert-dismissable">
-						<?php if ($sessionMsgTone=='danger') echo '<button type="button" class="close" area-hidden="true">&times;</button>'; ?>
-						<strong><?php echo $sessionMsg; ?></strong>
-				</div>
-			<?php }
-			unset($_SESSION['msg']);
-			unset($_SESSION['msg-tone']);
-			?>
-
-			<?php if ($sessionMsgTone!='danger') echo '</nav>'; ?>
-
-
-<!-- div element closed in start of footer! -->
+		<!-- </div> element closed in start of footer! -->
