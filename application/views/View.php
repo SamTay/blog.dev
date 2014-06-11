@@ -61,7 +61,7 @@ abstract class View {
      * derived classes.
      */
     protected function setHeader() {
-        $this->header = ROOT.DS.'templates'.DS.'header.php';
+        $this->header = ROOT.DS.'templates'.DS.'header'.DS.'header.php';
     }
     protected function setFooter() {
         $this->footer = ROOT.DS.'templates'.DS.'footer.php';

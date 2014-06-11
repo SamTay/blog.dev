@@ -3,6 +3,9 @@
 <?php
 $sessionMsg = SessionModel::get('msg');
 $sessionMsgTone = SessionModel::get('msg-tone');
+unset($_SESSION['msg']);
+unset($_SESSION['msg-tone']);
+
 $user = SessionModel::get('user');
 
 
@@ -64,14 +67,14 @@ $user = SessionModel::get('user');
 							<ul id="user-specific-header" class="nav navbar-nav navbar-right">
 							<!---------------------------------------- ANONYMOUS -------------------------------------->
 							<?php if (empty($user)) {
-								include_once(ROOT.DS.'templates'.DS.'anonymousOptions.php');
+								include_once(ROOT.DS.'templates'.DS.'header'.DS.'anonymousOptions.php');
 							} ?>
 
 							<!------------------------------------ ADMIN USER ---------------------------------------------------->
 							<?php $config = Config::getConfig();
 							$admin = $config->get('admin','username');
 							if ($user == $admin) {
-								include_once(ROOT.DS.'templates'.DS.'adminOptions.php');
+								include_once(ROOT.DS.'templates'.DS.'header'.DS.'adminOptions.php');
 							} ?>
 							<!--------------------------------------------------------------------------------------------------->
 
@@ -84,7 +87,7 @@ $user = SessionModel::get('user');
 
 							<!------------------------------------ ALL USERS SIGNED IN ---------------------------------------------------->
 							<?php if ($user) {
-								include_once(ROOT.DS.'templates'.DS.'userOptions.php');
+								include_once(ROOT.DS.'templates'.DS.'header'.DS.'userOptions.php');
 							} ?>
 							<!--------------------------------------------------------------------------------------------------->
 						</ul>
@@ -93,6 +96,6 @@ $user = SessionModel::get('user');
                 </div>
 
 			<!-- </nav> element closed within sessionMessage template -->
-			<?php include_once(ROOT.DS.'templates'.DS.'sessionMessage.php'); ?>
+			<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'sessionMessage.php'); ?>
 
 		<!-- </div> element closed in start of footer! -->

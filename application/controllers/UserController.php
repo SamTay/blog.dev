@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class UserController
  *
@@ -57,12 +56,12 @@ class UserController extends FrontController {
 			$success = Factory::getModel(str_replace('Controller', '', __CLASS__))->login();
 
 			// Unobtrusive JS -> if ajax submission, return true/false to JS
-			if ($this->getParam('ajax') == true) {
-				return $success;
+			if ($success && $this->getParam('ajax') == true) {
+				include(ROOT.DS.'application'.DS.'models'.DS.'jsonData.php');
 
 			// Otherwise, reload to the previous page
 			} else {
-				header('location:'.$_SERVER['HTTP_REFERER']);
+				header('location: ' . BASE_URL.DS.'user'.DS.'login');
 				die;
 			}
 		} catch (Exception $e) {
@@ -75,29 +74,5 @@ class UserController extends FrontController {
 		SessionModel::set('msg', 'You&rsquo;ve successfully logged out.');
 		header('location:'.$_SERVER['HTTP_REFERER']);
 	}
-
-//	public function login() {
-//		// If request is not POST, get UserLoginView
-//		if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-//			Factory::getView(str_replace('Controller', '', __CLASS__) . ucwords(__FUNCTION__));
-//
-//
-//			// Else call on UserModel to handle POST data
-//		} else try {
-//			// If login successful, load the page the user was visiting before login
-//			if (Factory::getModel(str_replace('Controller', '', __CLASS__))->login()) {
-//				SessionModel::set('msg','Page was reloaded, NOT AJAX!'); // REMOVE after testing ajax
-//				header('location:'.$_SERVER['HTTP_REFERER']);
-//				// Else load the default login page with previous username/password attempt
-//			} else {
-//				list($data['username'], $data['password']) = array(self::getParam('username'), self::getParam('password'));
-//				Factory::getView(str_replace('Controller', '', __CLASS__) . ucwords(__FUNCTION__), $data);
-//			}
-//		} catch (Exception $e) {
-//			echo $e->getMessage();
-//		}
-//	}
-
-
 
 }

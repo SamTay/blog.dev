@@ -1,4 +1,3 @@
-
 <?php
 //Error Reporting On
 
