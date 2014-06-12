@@ -65,37 +65,20 @@ $user = SessionModel::get('user');
                         </form>
 
 							<ul id="user-specific-header" class="nav navbar-nav navbar-right">
-							<!---------------------------------------- ANONYMOUS -------------------------------------->
-							<?php if (empty($user)) {
-								include_once(ROOT.DS.'templates'.DS.'header'.DS.'anonymousOptions.php');
-							} ?>
+							<!-------------- ANONYMOUS -------------->
+							<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'anonymousOptions.php'); ?>
 
-							<!------------------------------------ ADMIN USER ---------------------------------------------------->
-							<?php $config = Config::getConfig();
-							$admin = $config->get('admin','username');
-							if ($user == $admin) {
-								include_once(ROOT.DS.'templates'.DS.'header'.DS.'adminOptions.php');
-							} ?>
-							<!--------------------------------------------------------------------------------------------------->
+							<!-------------- ADMIN USER -------------->
+							<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'adminOptions.php'); ?>
 
-							<!------------------------------------ REGULAR USER ---------------------------------------------------->
-							<?php if ($user && $user != $admin) {}
-
-								/* Decide if regular users will have any extra action here */
-							 ?>
-							<!--------------------------------------------------------------------------------------------------->
-
-							<!------------------------------------ ALL USERS SIGNED IN ---------------------------------------------------->
-							<?php if ($user) {
-								include_once(ROOT.DS.'templates'.DS.'header'.DS.'userOptions.php');
-							} ?>
-							<!--------------------------------------------------------------------------------------------------->
+							<!-------------- ALL USERS SIGNED IN -------------->
+							<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'userOptions.php'); ?>
 						</ul>
                     </div>
 
                 </div>
 
-			<!-- </nav> element closed within sessionMessage template -->
+			</nav>
+			<!-------------- SESSION MESSAGE -------------->
 			<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'sessionMessage.php'); ?>
-
 		<!-- </div> element closed in start of footer! -->

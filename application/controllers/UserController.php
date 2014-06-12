@@ -54,16 +54,8 @@ class UserController extends FrontController {
 		// Else call on UserModel to handle POST data
 		} else try {
 			$success = Factory::getModel(str_replace('Controller', '', __CLASS__))->login();
+			$this->unobtrusiveJS($success);
 
-			// Unobtrusive JS -> if ajax submission, return true/false to JS
-			if ($success && $this->getParam('ajax') == true) {
-				include(ROOT.DS.'application'.DS.'models'.DS.'jsonData.php');
-
-			// Otherwise, reload to the previous page
-			} else {
-				header('location: ' . BASE_URL.DS.'user'.DS.'login');
-				die;
-			}
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
@@ -72,7 +64,20 @@ class UserController extends FrontController {
 	public function logout() {
 		unset($_SESSION['user']);
 		SessionModel::set('msg', 'You&rsquo;ve successfully logged out.');
-		header('location:'.$_SERVER['HTTP_REFERER']);
+		$this->unobtrusiveJS(true);
+	}
+
+	/**
+	 * Determines if requested by AJAX and redirects appropriately
+	 */
+	public function unobtrusiveJS($success) {
+		if (self::isAjax()) {
+			include(ROOT.DS.'application'.DS.'models'.DS.'jsonData.php');
+			// Otherwise, reload to the previous page
+		} else {
+			header('location:'.$_SERVER['HTTP_REFERER']);
+			die;
+		}
 	}
 
 }

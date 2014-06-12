@@ -5875,4 +5875,12 @@ form.dropdown-menu .btn {
 .signout {
     margin-right: 10px;
 }
+
+.fixedElement {
+    background: transparent;
+    position:fixed;
+    top:50px;
+    z-index:100;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
