@@ -1,7 +1,7 @@
 <li class="options userOptions dropdown<?php
 if (empty($user)) {echo ' hidden';} ?>">
 	<a href="" class="dropdown-toggle signout" data-toggle="dropdown"><span class="glyphicon
-		glyphicon-off"></span><span id="username-text"> <?php echo $user; ?></span><b class="caret"></b>
+		glyphicon-off"></span><span class="username-text"> <?php echo $user; ?></span><b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
 		<li>

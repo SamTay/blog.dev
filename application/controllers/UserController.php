@@ -73,7 +73,8 @@ class UserController extends FrontController {
 	public function unobtrusiveJS($success) {
 		if (self::isAjax()) {
 			include(ROOT.DS.'application'.DS.'models'.DS.'jsonData.php');
-			// Otherwise, reload to the previous page
+
+		 // Otherwise, reload to the previous page
 		} else {
 			header('location:'.$_SERVER['HTTP_REFERER']);
 			die;

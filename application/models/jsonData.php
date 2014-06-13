@@ -13,9 +13,9 @@ $user = SessionModel::get('user');
 $config = Config::getConfig();
 $admin = $config->get('admin','username');
 
-$header = ($user) ? 'user' : 'anonymous';
+$access = ($user) ? 'user' : 'anonymous';
 if ($user == $admin) {
-	$header = 'admin';
+	$access = 'admin';
 }
 
 
@@ -24,7 +24,7 @@ $data = array(
 	'msg' => '<span id="msgSet"><strong>'.$sessionMsg.'</strong></span>',
 	'msgTone' => ($sessionMsgTone) ? $sessionMsgTone : 'success',
 	'user' => $user,
-	'headerOptions' => $header
+	'access' => $access
 );
 
 echo json_encode($data);
