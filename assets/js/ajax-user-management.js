@@ -26,7 +26,7 @@ $(document).ready(function(){
             $("#logout").on('click', function(e){
             	e.preventDefault();
             	self.sendLogout();
-            })
+            });
 
             $("#login").on('submit', function(e){
                 e.preventDefault();
