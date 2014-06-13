@@ -61,10 +61,10 @@ class FrontController {
             if (method_exists($this->controller, $this->action)) {
                 call_user_func( array(new $this->controller, $this->action) );
             } else {
-                throw new Exception('Controller exists, but method does not.');
+                throw new Exception("Controller exists, but method $this->action does not.");
             }
         } else {
-            throw new Exception('Controller does not exist');
+            throw new Exception("Controller $this->controller does not exist");
         }
     }
 
@@ -134,123 +134,9 @@ class FrontController {
 			die;
 		}
 	}
+
+	public static function isAjax() {
+		return (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* This is the FrontController taken from SitePoint. The one above is written with the same idea in mind,
-but more focused on my particular blog application.
-
-
-class FrontController {
-
-    const DEFAULT_CONTROLLER = "IndexController";
-    const DEFAULT_ACTION = "index";
-
-
-    protected $controller = self::DEFAULT_CONTROLLER;
-    protected $action = self::DEFAULT_ACTION;
-    protected $params = array();
-    protected $basePath = "/";
-
-
-    private static $instance;
-
-
-    private function __construct() {}
-
-
-    public static function getInstance() {
-        if (empty(self::$instance)) {
-            self::$instance = new FrontController();
-        }
-        return self::$instance;
-
-    }
-
-
-    public function parseUri() {
-
-        $path = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");
-
-        list($controller, $action, $params) = explode("/", $path, 3);
-
-        if (isset($controller)) {
-            $this->setController($controller);
-        }
-        if (isset($action)) {
-            $this->setAction($action);
-        }
-        if (isset($params)) {
-            $this->setParams(explode('/',$params));
-        }
-    }
-
-
-    public function setController($controller) {
-        $controller = ucfirst(strtolower($controller)) . "Controller";
-        if (!class_exists($controller)) {
-            throw new InvalidArgumentException('This controller is not defined!');
-        }
-        $this->controller = $controller;
-        return $this;
-    }
-
-
-    public function setAction($action) {
-        $reflector = new ReflectionClass($this->controller);
-        if (!$reflector->hasMethod($action)) {
-            throw new InvalidArgumentException('This controller action method is not defined!');
-        }
-        $this->action = $action;
-        return $this;
-    }
-
-
-    public function setParams(array $params) {
-        $this->params = $params;
-        return $this;
-    }
-
-
-    public function run() {
-        call_user_func_array(array(new $this->controller, $this->action), $this->params);
-    }
-}
-
-*/

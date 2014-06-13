@@ -113,7 +113,7 @@ class ListController extends FrontController {
 			->set('rowsPerPage', $this->rowsPerPage)
 			->set('postsPerPage', $this->postsPerPage)
 			->set('totalPosts', $totalPosts)
-			->set('totalPages', ceil($totalPosts / $this->postsPerPage));
+			->set('totalPages', max(ceil($totalPosts / $this->postsPerPage), 1));
 
 		// If 0 results, allow view with no posts and error message
 		if ($totalPosts === 0) {

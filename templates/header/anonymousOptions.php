@@ -1,4 +1,4 @@
-<li class="dropdown">
+<li class="anonymousOptions options dropdown<?php if (!empty($user)) echo ' hidden'; ?>">
 	<a id="login-dropdown" href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon
 									glyphicon-user"></span> Login<b class="caret"></b></a>
 	<form id="login" class="dropdown-menu" role="form" method="post" action="<?php
@@ -14,7 +14,10 @@
 	</form>
 </li>
 
-<li <?php if($section === 'register') echo('class="active"'); ?>><a href="<?php echo(BASE_URL.DS.'user'.DS.'register');?>">
+<li class="anonymousOptions options<?php
+	if(!empty($user)) echo ' hidden';
+	if(!empty($section) && $section === 'register') echo(' active');?>">
+	<a href="<?php echo(BASE_URL.DS.'user'.DS.'register');?>">
 		<span class="glyphicon glyphicon-asterisk"></span> Register
 	</a>
 </li>

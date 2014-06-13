@@ -7,25 +7,34 @@
 			<p>I hope you enjoy being able to comment on meaningless blog posts!</p>
 
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<br>
 			<form role="form" class="myform" method="post" action="<?php
 			echo BASE_URL.DS.'user'.DS.$this->section;?>">
 
-				<div class="form-group">
-					<label for="username">Choose your username</label>
-					<input type="text" class="form-control" id="username" name="username" value="<?php
-					if (isset($this->data['username'])) echo htmlspecialchars($this->data['username']); ?>">
+				<div class="form-group row">
+					<div class="col-md-7">
+						<label for="username">Choose your username</label>
+						<input type="text" class="form-control" id="username" name="username" value="<?php
+						if (isset($this->data['username'])) echo htmlspecialchars($this->data['username']); ?>">
+					</div>
+					<span id="usernameFieldMessage" class="col-md-5 hidden"></span>
 				</div>
 
-				<div class="form-group">
-					<label for="password">Create a password</label>
-					<input type="password" class="form-control" id="password" name="password">
+				<div class="form-group row">
+					<div class="col-md-7">
+						<label for="password">Create a password</label>
+						<input type="password" class="form-control" id="password" name="password">
+					</div>
+					<span id="passwordFieldMessage" class="col-md-5 hidden"></span>
 				</div>
 
-				<div class="form-group">
-					<label for="passwordCheck">Confirm your password</label>
-					<input type="password" class="form-control" id="passwordCheck" name="passwordCheck">
+				<div class="form-group row">
+					<div class="col-md-7">
+						<label for="passwordCheck">Confirm your password</label>
+						<input type="password" class="form-control" id="passwordCheck" name="passwordCheck">
+					</div>
+					<span id="passwordCheckFieldMessage" class="col-md-5 hidden"></span>
 				</div>
 
 				<!-- TO PREVENT BOTS! HIDDEN INPUT! -->

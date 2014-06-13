@@ -26,7 +26,7 @@ $next = $this->data['view']->pg + 1;
 				}
 			}
 
-			if ($this->data['view']->pg == $this->data['view']->totalPages) {
+			if ($this->data['view']->pg >= $this->data['view']->totalPages) {
 				echo '<li class="disabled"><span>&raquo;</span></li>';
 			} else {
 				echo '<li><a href="'.BASE_URL.DS.'list'.DS.$this->action.'?pg='.$next.'&sort='.$this->data['view']->sort;
