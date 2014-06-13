@@ -20,6 +20,7 @@ $(document).ready(function(){
             $("#login-dropdown").on('click', function(){
                 debug ? console.log("dropdown clicked") : "";
                 $("button.close").click();
+                setTimeout('$("#username").focus()', 100);
             });
 
             $("#logout").on('click', function(e){

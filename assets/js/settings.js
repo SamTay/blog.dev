@@ -4,10 +4,6 @@ $(document).ready(function(){
         $('#search').submit();
     });
 
-    $("#comment-selector").on('click',function(){
-        $("html,body").animate({scrollTop: $(document).height()}, "slow");
-    });
-
     $("textarea.wysiwyg").wysihtml5();
 
     $("textarea.halfthebuttons").wysihtml5({
@@ -15,4 +11,10 @@ $(document).ready(function(){
         "lists": false,
         "size": 'xs'
     });
+
+
+    $("#comment-selector").on('click',function(){
+        $("html,body").animate({scrollTop: $(document).height()}, "slow");
+    });
+
 });
