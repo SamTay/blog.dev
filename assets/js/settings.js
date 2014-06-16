@@ -14,7 +14,11 @@ $(document).ready(function(){
 
 
     $("#comment-selector").on('click',function(){
-        $("html,body").animate({scrollTop: $(document).height()}, "slow");
+        var wysihtml5Editor = $('#comment').data("wysihtml5").editor;
+        $("html,body").animate({scrollTop: $(document).height()}, "slow", function(){
+            wysihtml5Editor.focus();
+        });
+
     });
 
 });
