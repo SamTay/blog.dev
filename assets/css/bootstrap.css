@@ -474,8 +474,8 @@ p {
   font-weight: 200;
   line-height: 1.4;
 }
-@media (min-width: 778px) and (max-width: 992px) {
-    .navbar-nav.navbar-right:last-child {
+@media (min-width: 768px) and (max-width: 992px) {
+    .navbar-brand, #search {
         display: none;
     }
 }

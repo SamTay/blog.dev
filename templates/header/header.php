@@ -54,26 +54,29 @@ $user = SessionModel::get('user');
                             </li>
                         </ul>
 
-
-                        <form id="search" class="navbar-form navbar-right" role="search" method="post" action="<?php echo BASE_URL.DS.'list'.DS.'search'; ?>">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="needle" placeholder="Search">
-                            </div>
-							<input style="display: none" type="submit" value="Search">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-
-                        </form>
-
 							<ul id="user-specific-header" class="nav navbar-nav navbar-right">
-							<!-------------- ANONYMOUS -------------->
-							<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'anonymousOptions.php'); ?>
+								<!-------------- ANONYMOUS -------------->
+								<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'anonymousOptions.php'); ?>
 
-							<!-------------- ADMIN USER -------------->
-							<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'adminOptions.php'); ?>
+								<!-------------- ADMIN USER -------------->
+								<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'adminOptions.php'); ?>
 
-							<!-------------- ALL USERS SIGNED IN -------------->
-							<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'userOptions.php'); ?>
-						</ul>
+								<!-------------- ALL USERS SIGNED IN -------------->
+								<?php include_once(ROOT.DS.'templates'.DS.'header'.DS.'userOptions.php'); ?>
+
+								<li>
+									<form id="search" class="navbar-form" role="search" method="post" action="<?php echo BASE_URL.DS.'list'.DS.'search'; ?>">
+										<div class="form-group">
+											<input type="text" class="form-control" name="needle" placeholder="Search">
+										</div>
+										<input style="display: none" type="submit" value="Search">
+										<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+									</form>
+								</li>
+							</ul>
+
+
+
                     </div>
 
                 </div>
