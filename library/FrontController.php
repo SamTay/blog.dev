@@ -116,8 +116,7 @@ class FrontController {
 		if (SessionModel::get('user') != $config->get('admin', 'username')) {
 			SessionModel::set('msg', 'Action requires admin privileges. Please sign in.');
 			SessionModel::set('msg-tone', 'danger');
-			header('location:' . BASE_URL . '/user/login');
-			die;
+			$this->unobtrusiveJS(BASE_URL.'/user/login');
 		}
 	}
 
@@ -130,8 +129,7 @@ class FrontController {
 		if (empty(SessionModel::get('user'))) {
 			SessionModel::set('msg', 'You need to be signed in for that action. Registering takes two seconds, cmon.');
 			SessionModel::set('msg-tone', 'danger');
-			header('location:' . BASE_URL . '/user/login');
-			die;
+			$this->unobtrusiveJS(BASE_URL.'/user/login');
 		}
 	}
 
@@ -146,6 +144,7 @@ class FrontController {
 	public function unobtrusiveJS($location) {
 		// Check if ajax request is being made
 		if (self::isAjax()) {
+			$registry = Registry::getInstance();
 			include(ROOT.DS.'application'.DS.'models'.DS.'jsonData.php');
 		// Otherwise, redirect to the given page
 		} else {

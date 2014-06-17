@@ -36,13 +36,13 @@ $(document).ready(function(){
             self.messageUnset();
 
             if (data.hasOwnProperty('msg')) {
-                $(data.msg).appendTo(self.id);
+                $('<span id="msgSet"><strong>'+data.msg+'</strong></span>').appendTo(self.id);
             }
             if (data.hasOwnProperty('msgTone')) {
                 $(self.id).addClass("alert-" + data.msgTone);
                 if (data.msgTone == 'danger') {
                     $('<button type="button" class="close" area-hidden="true">&times;</button>')
-                        .appendTo(self.id);
+                        .insertBefore('#msgSet');
                 }
             }
         },

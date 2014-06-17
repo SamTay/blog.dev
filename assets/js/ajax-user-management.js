@@ -54,12 +54,13 @@ $(document).ready(function(){
                 type: 'POST',
                 url: $('#login').attr('action'),
                 data: $('#login').serialize(),
+                dataType: "json",
                 success: function(data, textStatus, XMLHttpRequest) {
                     self.notifyObservers(data);
                     self.reset();
                 },
                 error: function(MLHttpRequest, textStatus, errorThrown){
-                    debug ? console.log('sendLogin: error called') : "";
+                    debug ? console.log('sendLogin error called: '+textStatus+' '+errorThrown) : "";
                     $(location).attr('href','http://blog.dev/user/login');
                 }
             });

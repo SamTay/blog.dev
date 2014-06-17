@@ -5,7 +5,6 @@
  * variables can be stored without the use of globals. The single
  * registry object will be used by whoever needs it.
  *
- * Prepare to modify this class to be abstract.
  */
 class Registry {
     /*
@@ -53,7 +52,7 @@ class Registry {
      * @throws Exception
      * @return void
      */
-	public function set($key, $value)
+	public function __set($key, $value)
 	{
 		if(isset(self::$vars[$key])) {
             throw new Exception('Attempted overwriting of variable');
@@ -69,7 +68,7 @@ class Registry {
 	 * @param string $key
 	 * @return mixed $value
 	 */
-	public function get($key)
+	public function __get($key)
 	{
 		if(isset(self::$vars[$key])) {
             return self::$vars[$key];

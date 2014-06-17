@@ -11,7 +11,7 @@ $comments = $this->data['comments'];
 		<div class="col-md-8 col-md-offset-2">
 			<div  id="user-specific-comment" class="panel panel-info">
 				<div class="panel-heading">
-					<h3 class="panel-title">Comments (<?php echo count($comments);?>)</h3>
+					<h3 class="panel-title">Comments (<span id="commentCount"><?php echo count($comments);?></span>)</h3>
 				</div>
 					<ul class="list-group">
 						<?php foreach($comments as $comment) { ?>

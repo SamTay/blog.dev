@@ -22,17 +22,19 @@ class CommentModel extends Model {
 	 * Create a comment under post with id $postid, get username from session variable
 	 *
 	 * @param $postid
+	 * @return bool
 	 */
 	public function create($postid) {
-
 		// Validate comment text
-		$comment = $this->getControllerData(array('comment'));
-		if ($comment === false) {
+		try {
+			$this->getControllerData(array('comment'));
+			//TODO: Account for blank HTML such as '<br>' or '<strong></strong>'
+		} catch (Exception $e) {
 			SessionModel::set('msg','You cannot insert a blank comment, asshole!');
 			SessionModel::set('msg-tone', 'danger');
 			return false;
 		}
-		
+
 		// Validate user access
 		$user = SessionModel::get('user');
 		if ($user === false) {
@@ -47,15 +49,18 @@ class CommentModel extends Model {
 
 			$stmt->bindParam(':postid', $postid);
 			$stmt->bindParam(':userid', $userid);
-			$stmt->bindParam(':comment',$comment);
+			$stmt->bindParam(':comment',$this->data['comment']);
 
 			$stmt->execute();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
+		$registry = Registry::getInstance();
+		$registry->commentId = $this->db->lastInsertId();
 
 		// Store msg for successful operation
 		SessionModel::set('msg', 'Your comment has been added.');
+		return true;
 	}
 
 	/**

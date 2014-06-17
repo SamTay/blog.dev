@@ -14,9 +14,11 @@ $(document).ready(function(){
                 "lists": false,
                 "size": 'xs'
             });
-            this.editor = $('#comment').data("wysihtml5").editor;
+            this.comment = $('#comment');
+            this.editor = this.comment.data("wysihtml5").editor;
             this.form = $("#comment-form");
             this.commentSelect = $("#comment-selector");
+            this.counter = $('#commentCount');
             this.observers = [];
             this.setObservers();
         },
@@ -49,16 +51,20 @@ $(document).ready(function(){
 
             if (data.hasOwnProperty('user') && data.hasOwnProperty('commentText')
                 && data.hasOwnProperty('commentCreated')) {
-                console.log('adding to view: ');
+                debug ? console.log('adding to view: ') : "";
                 $('<li class="list-group-item">'
                     +'<p><strong>'+data.user+':</strong></p>'
                     +'<p>'+data.commentText+'</p>'
                     +'<p class = "date">'+data.commentCreated+'</p>'
                 +'</li>').insertBefore(self.form.parent());
+
+                debug ? console.log('incrementing counter'): "";
+                self.counter.text(parseInt(self.counter.text()) + 1);
             }
         },
         reset: function() {
             // Set textarea = ""
+            this.editor.setValue("").focus();
         },
         sendComment: function(){
             debug ? console.log('Commenting: ') : "";
@@ -69,8 +75,8 @@ $(document).ready(function(){
                 url: self.form.attr('action'),
                 data: self.form.serialize(),
                 success: function(data, textStatus, XMLHttpRequest) {
-                    if (data.success != false) {
-                        console.log(data.success + '!=' + false);
+                    if (data.success) {
+                        console.log('data.success: ' + data.success);
                         self.addToView(data);
                     }
                     self.notifyObservers(data);

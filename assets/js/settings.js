@@ -5,4 +5,8 @@ $(document).ready(function(){
     });
 
     $("textarea.wysiwyg").wysihtml5();
+
+    if ($('#postTitle').length>0) {
+        $('#postTitle').focus();
+    }
 });

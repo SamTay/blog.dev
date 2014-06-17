@@ -168,39 +168,35 @@ class PostController extends FrontController {
     }
 
 	/**
-	 * Ensures user is signed in, then stores comment and loads post view
+	 * Ensures user is signed in, then stores comment and either returns data to ajax
+	 * or redirects to the postview #comment.
 	 */
 	public function comment() {
-		$this->userPrivilege();
-
-		include(ROOT.DS.'application'.DS.'models'.DS.'jsonData.php');
-		die;
-
 		try {
+			// Check user access
 			$this->userPrivilege();
-			
+
+			// Get post ID
 			$id = $this->getParam('id');
 			if ($id === false) {
 				throw new Exception('PostController could not retrieve id from GLOBALs.');
 			}
 
-			if ($id === false)
-				throw new Exception('Post id was not received by PostController->comment()');
-			// If comment is empty, redirect to post/view with angry message
-			if ($comment === false) {
-				SessionModel::set('msg','You cannot insert a blank comment, asshole!');
-				SessionModel::set('msg-tone', 'danger');
-				header('location:' . BASE_URL . '/post/view?id='.$id);
+			// Insert into DB
+			$success = Factory::getModel('Comment')->create($id);
+			$registry = Registry::getInstance();
+			$registry->success = $success;
 
-			// Otherwise, store comment in DB and reload the post view
-			} else {
-				Factory::getModel('Comment')->create($id);
-				header('location:' . BASE_URL . '/post/view?id='.$id.'#comment');
+			// If successful and request is ajax, store the recent comment in registry
+			if ($success !== false && self::isAjax()) {
+				$registry->comment = Factory::getModel('Comment')->read($registry->commentId);
 			}
+
+			// Either pass data to ajax or reload post/view #comment
+			$this->unobtrusiveJS(BASE_URL . '/post/view?id='.$id.'#comment');
+
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
-
 	}
-
 }
