@@ -49,8 +49,9 @@ $(document).ready(function(){
 
             if (data.hasOwnProperty('user') && data.hasOwnProperty('commentText')
                 && data.hasOwnProperty('commentCreated')) {
+                console.log('adding to view: ');
                 $('<li class="list-group-item">'
-                    +'<p><strong>'+data.user+'</strong></p>'
+                    +'<p><strong>'+data.user+':</strong></p>'
                     +'<p>'+data.commentText+'</p>'
                     +'<p class = "date">'+data.commentCreated+'</p>'
                 +'</li>').insertBefore(self.form.parent());
@@ -68,7 +69,8 @@ $(document).ready(function(){
                 url: self.form.attr('action'),
                 data: self.form.serialize(),
                 success: function(data, textStatus, XMLHttpRequest) {
-                    if (data.success !== false) {
+                    if (data.success != false) {
+                        console.log(data.success + '!=' + false);
                         self.addToView(data);
                     }
                     self.notifyObservers(data);

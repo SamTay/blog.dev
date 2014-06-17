@@ -173,6 +173,9 @@ class PostController extends FrontController {
 	public function comment() {
 		$this->userPrivilege();
 
+		include(ROOT.DS.'application'.DS.'models'.DS.'jsonData.php');
+		die;
+
 		try {
 			list($id, $comment) = array(self::getParam('id'), self::getParam('comment'));
 
