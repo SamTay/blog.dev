@@ -30,6 +30,7 @@
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'message-management.js'); ?>" type="text/javascript"></script>
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'access-management.js'); ?>" type="text/javascript"></script>
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'ajax-user-management.js'); ?>" type="text/javascript"></script>
+		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'ajax-comment.js'); ?>" type="text/javascript"></script>
 	</body>
 </html>
 
