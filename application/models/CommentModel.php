@@ -92,6 +92,30 @@ class CommentModel extends Model {
 	}
 
 	/**
+	 * Function to retrieve a single comment (using for ajax commenting)
+	 *
+	 * @param $commentId
+	 * @return bool|GenericModel
+	 */
+	public function read($commentId) {
+		// Select the relevant attributes
+		try {
+			$stmt = $this->db->prepare("SELECT comments.comment, comments.created
+				 FROM  $this->table  WHERE id = :id");
+			$stmt->bindParam(':id', $commentId);
+			$stmt->execute();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+		// Store comment data in generic model container
+		$comment = $stmt->fetch(PDO::FETCH_ASSOC);
+		$comment = (!empty($comment)) ? new GenericModel($comment) : false;
+		$stmt->closeCursor();
+
+		return $comment;
+	}
+
+	/**
 	 * Deletes all comments associated with postid. This function should only
 	 * be called when said post is being deleted.
 	 *
