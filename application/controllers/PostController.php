@@ -177,7 +177,12 @@ class PostController extends FrontController {
 		die;
 
 		try {
-			list($id, $comment) = array(self::getParam('id'), self::getParam('comment'));
+			$this->userPrivilege();
+			
+			$id = $this->getParam('id');
+			if ($id === false) {
+				throw new Exception('PostController could not retrieve id from GLOBALs.');
+			}
 
 			if ($id === false)
 				throw new Exception('Post id was not received by PostController->comment()');

@@ -139,4 +139,18 @@ class FrontController {
 		return (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
 			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 	}
+
+	/**
+	 * Determines if requested by AJAX and redirects appropriately
+	 */
+	public function unobtrusiveJS($location) {
+		// Check if ajax request is being made
+		if (self::isAjax()) {
+			include(ROOT.DS.'application'.DS.'models'.DS.'jsonData.php');
+		// Otherwise, redirect to the given page
+		} else {
+			header('location:'.$location);
+			die;
+		}
+	}
 }
