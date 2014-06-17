@@ -24,8 +24,22 @@ class CommentModel extends Model {
 	 * @param $postid
 	 */
 	public function create($postid) {
-		$this->getControllerData(array('comment'));
-		$user = $_SESSION['user'];
+
+		// Validate comment text
+		$comment = $this->getControllerData(array('comment'));
+		if ($comment === false) {
+			SessionModel::set('msg','You cannot insert a blank comment, asshole!');
+			SessionModel::set('msg-tone', 'danger');
+			return false;
+		}
+		
+		// Validate user access
+		$user = SessionModel::get('user');
+		if ($user === false) {
+			SessionModel::set('msg','You must be signed in to comment!');
+			SessionModel::set('msg-tone', 'danger');
+			return false;
+		}
 		$userid = Factory::getModel('User')->getUserId($user);
 
 		try {
@@ -33,7 +47,7 @@ class CommentModel extends Model {
 
 			$stmt->bindParam(':postid', $postid);
 			$stmt->bindParam(':userid', $userid);
-			$stmt->bindParam(':comment',$this->data['comment']);
+			$stmt->bindParam(':comment',$comment);
 
 			$stmt->execute();
 		} catch (PDOException $e) {
