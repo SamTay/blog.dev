@@ -18,13 +18,13 @@ class ListView extends View {
 	 * Starting index for the given page
 	 * @var
 	 */
-	protected $start;
+	protected $startVisible;
 
 	/**
 	 * Ending index for the given page
 	 * @var
 	 */
-	protected $end;
+	protected $endVisible;
 
 	/**
 	 * Keeps track of what the user is doing (view, search)
@@ -43,8 +43,8 @@ class ListView extends View {
 
 	protected function setBody() {
 		$this->colWidth = 12/$this->data['view']->postsPerRow;
-		$this->start = ($this->data['view']->pg-1)*$this->data['view']->postsPerPage;
-		$this->end = min($this->data['view']->totalPosts, $this->data['view']->pg*$this->data['view']->postsPerPage) - 1;
+		$this->startVisible = ($this->data['view']->pg-1)*$this->data['view']->postsPerPage;
+		$this->endVisible = min($this->data['view']->totalPosts, $this->data['view']->pg*$this->data['view']->postsPerPage) - 1;
 
 		$this->body[] = ROOT.DS.'templates'.DS.'banner2.php';
 		$this->body[] = ROOT.DS.'templates'.DS.'pagination.php';

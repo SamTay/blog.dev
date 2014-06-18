@@ -54,8 +54,9 @@ class ListController extends FrontController {
 		// Otherwise proceed with view method
 		} else {
 
+			$data = array();
 			//Retrieve model data
-			$data = Factory::getModel(str_replace('Controller','',__CLASS__))->read(self::$sortKey[$this->sort]);
+			$data['posts'] = Factory::getModel(str_replace('Controller','',__CLASS__))->read(self::$sortKey[$this->sort]);
 
 			// Set variables for use in View (redirect if necessary)
 			$this->setViewParams($data);
@@ -78,8 +79,9 @@ class ListController extends FrontController {
 			die;
 		}
 
+		$data = array();
 		// Store search results in GenericModel array
-		$data = Factory::getModel(str_replace('Controller', '',__CLASS__))->search(self::$sortKey[$this->sort], $this->needle);
+		$data['posts'] = Factory::getModel(str_replace('Controller', '',__CLASS__))->search(self::$sortKey[$this->sort], $this->needle);
 
 		// Set variables for use in View (redirect if necessary)
 		$this->setViewParams($data);
@@ -104,7 +106,7 @@ class ListController extends FrontController {
 
 	public function setViewParams(&$data) {
 		// Set all relevant parameters to help out the view
-		$totalPosts = count($data);
+		$totalPosts = count($data['posts']);
 		$data['view'] = new GenericModel();
 		$data['view']
 			->set('sort', $this->sort)
