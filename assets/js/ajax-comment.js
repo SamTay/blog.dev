@@ -73,6 +73,7 @@ $(document).ready(function(){
             $.ajax({
                 type: 'POST',
                 url: self.form.attr('action'),
+//                TODO data: 'comment='+$('textarea').text(), // unfortunately .text doesn't work on textarea
                 data: self.form.serialize(),
                 success: function(data, textStatus, XMLHttpRequest) {
                     if (data.success) {
