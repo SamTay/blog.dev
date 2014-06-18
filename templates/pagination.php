@@ -1,38 +1,60 @@
 <?php
-$prev = $this->data['view']->pg - 1;
-$next = $this->data['view']->pg + 1;
+
+$currentPg = $this->data['view']->pg;
+$prev = $currentPg - 1;
+$next = $currentPg + 1;
+$sort = $this->data['view']->sort;
+$totalPages = $this->data['view']->totalPages;
 
 ?>
 
 <div class="container">
 	<div class="row">
 
-		<ul class="pagination rightsided">
-			<?php if ($this->data['view']->pg == 1) {
-				echo '<li class="disabled"><span>&laquo;</span></li>';
-			} else {
-				echo '<li><a href="'.BASE_URL.DS.'list'.DS.$this->action.'?pg='.$prev.'&sort='.$this->data['view']->sort;
-				$this->keepSearchParam();
-				echo '">&laquo;</a>';
-			}
+		<ul id="pagination" class="pagination rightsided">
 
-			for ($pg = 1; $pg <= $this->data['view']->totalPages; $pg++) {
-				if ($this->data['view']->pg == $pg) {
-					echo '<li class="active"><span>'.$pg.'</span></li>';
-				} else {
-					echo '<li><a href="'.BASE_URL.DS.'list'.DS.$this->action.'?pg='.$pg.'&sort='.$this->data['view']->sort;
-					$this->keepSearchParam();
-					echo '">'.$pg.'</a>';
+			<?php
+			echo '<li class="prev-button';
+			if ($currentPg == 1) {
+				echo ' disabled';
+			}
+			echo '"><a href="';
+			if ($currentPg == 1) {
+				echo '#';
+			} else {
+				echo BASE_URL.DS.'list'.DS.$this->action.'?pg='.$prev.'&sort='.$sort;
+				$this->keepSearchParam();
+			}
+			echo '">&laquo;</a></li>';
+
+			for ($pg = 1; $pg <= $totalPages; $pg++) {
+				echo '<li class="pg-button';
+				if ($currentPg == $pg) {
+					echo ' active';
 				}
+				echo '"><a href="';
+				if ($currentPg == $pg) {
+					echo '#';
+				} else {
+					echo BASE_URL.DS.'list'.DS.$this->action.'?pg='.$pg.'&sort='.$sort;
+					$this->keepSearchParam();
+				}
+				echo '">'.$pg.'</a></li>';
 			}
 
-			if ($this->data['view']->pg >= $this->data['view']->totalPages) {
-				echo '<li class="disabled"><span>&raquo;</span></li>';
+			echo '<li class="next-button';
+			if ($currentPg >= $totalPages) {
+				echo ' disabled';
+			}
+			echo '"><a href="';
+			if ($currentPg >= $totalPages) {
+				echo '#';
 			} else {
-				echo '<li><a href="'.BASE_URL.DS.'list'.DS.$this->action.'?pg='.$next.'&sort='.$this->data['view']->sort;
+				echo BASE_URL.DS.'list'.DS.$this->action.'?pg='.$next.'&sort='.$sort;
 				$this->keepSearchParam();
-				echo '">&raquo;</a>';
-			} ?>
+			}
+			echo '">&raquo;</a></li>';
+			?>
 		</ul>
 
 		<ul class="pagination">

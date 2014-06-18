@@ -9,84 +9,116 @@ $(document).ready(function(){
 
     Pagination.prototype = {
         construct: function(){
-            $("textarea.halfthebuttons").wysihtml5({
-                "font-styles": false,
-                "lists": false,
-                "size": 'xs'
+            var self = this;
+            this.$prev = $('.prev-button');
+            this.$pg = $('.pg-button');
+            this.$next = $('.next-button');
+            this.$list = $('#pagination');
+            this.$rowContainer = $('.post-rows');
+            this.totalPages = this.$pg.length/2;
+            this.totalRows = this.$rowContainer.children().length;
+            this.rowsPerPage = Math.ceil(this.totalRows / this.totalPages);
+            this.$rowContainer.children().each(function(i,element) {
+                if ($(element).hasClass('hidden')) {
+                    $(this).hide();
+                    $(this).removeClass('hidden');
+                }
+            })
+
+            this.$pg.each(function(i,element){
+                if ($(element).hasClass('active')) {
+                    self.current = parseInt($(element).text());
+                }
+                $(element).find('a').attr('href','javascript:void(0);');
             });
-            this.observers = [];
+            this.$next.find('a').attr('href', 'javascript:void(0);');
+            this.$prev.find('a').attr('href', 'javascript:void(0);');
+
             this.setObservers();
+            debug ? console.log('Current pg selected: ' + self.current) : "";
         },
         setObservers: function(){
             var self = this;
 
-            self.commentSelect.on('click',function(){
-                console.log('clicked');
-                $("html,body").animate({scrollTop: $(document).height()}, "slow", function(){
-                    self.editor.focus();
-                });
-            });
-            this.form.on('submit', function(e){
-                e.preventDefault();
-                $(".dropdown").removeClass("open");
-                self.sendComment();
-            });
-        },
-        addObserver: function(observer) {
-            this.observers.push(observer);
-            return this;
-        },
-        notifyObservers: function(data) {
-            for (var i=0; i<this.observers.length; i++) {
-                this.observers[i].reset(data);
-            }
-        },
-        addToView: function(data) {
-            var self = this;
-
-            if (data.hasOwnProperty('user') && data.hasOwnProperty('commentText')
-                && data.hasOwnProperty('commentCreated')) {
-                debug ? console.log('adding to view: ') : "";
-                $('<li class="list-group-item">'
-                    +'<p><strong>'+data.user+':</strong></p>'
-                    +'<p>'+data.commentText+'</p>'
-                    +'<p class = "date">'+data.commentCreated+'</p>'
-                    +'</li>').insertBefore(self.form.parent());
-
-                debug ? console.log('incrementing counter'): "";
-                self.counter.text(parseInt(self.counter.text()) + 1);
-            }
-        },
-        reset: function() {
-            // Set textarea = ""
-            this.editor.setValue("").focus();
-        },
-        sendComment: function(){
-            debug ? console.log('Commenting: ') : "";
-            var self = this;
-
-            $.ajax({
-                type: 'POST',
-                url: self.form.attr('action'),
-                data: self.form.serialize(),
-                success: function(data, textStatus, XMLHttpRequest) {
-                    if (data.success) {
-                        console.log('data.success: ' + data.success);
-                        self.addToView(data);
-                    }
-                    self.notifyObservers(data);
+            this.$prev.on('click', function(ev){
+                ev.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    self.current = self.current - 1;
                     self.reset();
-                },
-                error: function(MLHttpRequest, textStatus, errorThrown){
-                    debug ? console.log('sendComment: error called: ' + errorThrown) : "";
-//                    $(location).attr('href','http://blog.dev/error');
+                    debug ? console.log('Current pg selected: ' + self.current) : "";
                 }
             });
+            this.$next.on('click', function(ev){
+                ev.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    self.current = self.current + 1;
+                    self.reset();
+                    debug ? console.log('Current pg selected: ' + self.current) : "";
+                }
+            });
+            this.$pg.on('click', function(ev){
+                ev.preventDefault();
+                if (!$(this).hasClass('active')) {
+                    self.current = parseInt($(this).text());
+                    self.reset();
+                    debug ? console.log('Current pg selected: ' + self.current) : "";
+                }
+            });
+        },
+        reset: function() {
+            var self = this;
+
+            self.$pg.each(function(i,element){
+                if (self.current == parseInt($(element).text())) {
+                    $(element).addClass('active').siblings().removeClass('active');
+                }
+            });
+
+            self.$prev.removeClass('disabled');
+            self.$next.removeClass('disabled');
+            if (self.current == 1) {
+                self.$prev.addClass('disabled');
+            }
+            if (self.current == self.totalPages) {
+                self.$next.addClass('disabled');
+            }
+            
+            self.updateView();
+        },
+        updateView: function() {
+            var self = this;
+
+            // Get indeces of rows to hide
+            var hide = [];
+            self.$rowContainer.children().each(function(index,element){
+                if (!$(this).is(':hidden')) {
+                    hide.push(index);
+                }
+            });
+
+            // Set indeces of rows to show
+            var show = [];
+            var start = (this.current-1)*this.rowsPerPage;
+            var end = Math.min(start+this.rowsPerPage, this.totalRows);
+            for (var i=start; i<end; i++) {
+                show.push(i);
+            }
+
+            var rows = self.$rowContainer.children().toArray();
+
+            hide.forEach(function(index){
+                console.log('hide: ' + index);
+                $(rows[index]).fadeToggle(400);
+            });
+            show.forEach(function(index){
+                console.log('show: ' + index);
+                $(rows[index]).delay(400).fadeToggle();
+            });
+
         }
     };
 
-    if ($('#comment-form').length>0) {
+    if ($('.pagination').length>0) {
         pagination = new Pagination();
-        pagination.addObserver(message);
     }
 });

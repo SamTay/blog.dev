@@ -12,15 +12,17 @@ $sort = $this->data['view']->sort;
 $pg = $this->data['view']->pg;
 ?>
 
-<div class="container">
-	<?php if ($this->section == 'search') { ?>
+<?php if ($this->section == 'search') { ?>
+	<div class="container">
 		<div class="row">
 			<div class="text-center well">
 				<h4>Your search for "<?php echo $needle ?>" returned <?php echo $totalPosts; ?> results.</h4>
 			</div>
 		</div>
-	<?php } ?>
+	</div>
+<?php } ?>
 
+<div class="post-rows container">
 	<?php for ($i=0; $i<$totalPosts; $i++) {
 
 		if ($i % $postsPerRow == 0) {
@@ -63,7 +65,7 @@ $pg = $this->data['view']->pg;
 				</p>
 			</div>
 
-		<?php if ($i % $postsPerRow == $postsPerRow-1 || $i == $totalPosts) {
+		<?php if ($i % $postsPerRow == $postsPerRow-1 || $i == $totalPosts-1) {
 			echo '<br></div>';
 		}
 	} ?>
