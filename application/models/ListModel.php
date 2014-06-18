@@ -68,7 +68,7 @@ class ListModel extends Model {
 	 */
 	public function search($sort, $needle) {
 		// Generate sql
-		$needle = '%'.$needle.'%';
+		$needle = '% '.$needle.' %';
 		$sql = " WHERE body LIKE '$needle' OR title LIKE '$needle' ";
 
 		// Call on view with search parameter
