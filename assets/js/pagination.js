@@ -119,7 +119,7 @@ $(document).ready(function(){
             this.hideRows(hide, hideDirection);
             setTimeout(function(){
                 self.showRows(show, showDirection);
-            }, self.speed *.5);
+            }, self.speed *.4);
         },
         // Hides each row in 'hide' array using jquery ui animation
         hideRows: function(hide,direction) {
