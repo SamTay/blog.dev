@@ -31,6 +31,7 @@
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'access-management.js'); ?>" type="text/javascript"></script>
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'ajax-user-management.js'); ?>" type="text/javascript"></script>
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'ajax-comment.js'); ?>" type="text/javascript"></script>
+		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'jquery-ui-1.10.4.js'); ?>" type="text/javascript"></script>
 		<script src="<?php echo(BASE_URL.DS.'assets'.DS.'js'.DS.'pagination.js'); ?>" type="text/javascript"></script>
 	</body>
 </html>

@@ -14,8 +14,8 @@ class ListController extends FrontController {
 	private static $sortKey=array('date'=>'created', 'popularity'=>'popularity');
 
 	// Define how the list looks right here! Just make sure postsPerRow divides 12
-	protected $postsPerRow = 4;
-	protected $rowsPerPage = 2;
+	protected $postsPerRow;
+	protected $rowsPerPage;
 
 	protected $postsPerPage;
 

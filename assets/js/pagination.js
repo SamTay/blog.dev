@@ -15,9 +15,11 @@ $(document).ready(function(){
             this.$next = $('.next-button');
             this.$list = $('#pagination');
             this.$rowContainer = $('.post-rows');
+            this.rows = this.$rowContainer.children().toArray();
             this.totalPages = this.$pg.length/2;
             this.totalRows = this.$rowContainer.children().length;
             this.rowsPerPage = Math.ceil(this.totalRows / this.totalPages);
+            this.speed = 800;
             this.$rowContainer.children().each(function(i,element) {
                 if ($(element).hasClass('hidden')) {
                     $(this).hide();
@@ -104,17 +106,38 @@ $(document).ready(function(){
                 show.push(i);
             }
 
-            var rows = self.$rowContainer.children().toArray();
+            // Set direction of slide
+            var hideDirection = (Math.min.apply(null,hide) <= Math.min.apply(null,show)) ? 'left' : 'right';
+            var showDirection = (hideDirection === 'left') ? 'right' : 'left';
+            debug ? console.log('hide->: ' + hideDirection + 'show->: ' + showDirection) : "";
 
+            // Get indeces of transitional
+//            for ()
+
+            this.hideRows(hide, hideDirection);
+            setTimeout(function(){
+                self.showRows(show, showDirection);
+            }, self.speed*0);
+        },
+        hideRows: function(hide,direction) {
+            var self = this;
             hide.forEach(function(index){
-                console.log('hide: ' + index);
-                $(rows[index]).fadeToggle(400);
+                debug ? console.log('hide: ' + index) : "";
+                $(self.rows[index]).hide('slide', {
+                    easing: 'easeOutQuint',
+                    direction: direction
+                }, self.speed);
             });
+        },
+        showRows: function(show,direction) {
+            var self = this;
             show.forEach(function(index){
-                console.log('show: ' + index);
-                $(rows[index]).delay(400).fadeToggle();
+                debug ? console.log('show: ' + index) : "";
+                $(self.rows[index]).show('slide', {
+                    easing: 'easeInQuint',
+                    direction: direction
+                }, self.speed);
             });
-
         }
     };
 
