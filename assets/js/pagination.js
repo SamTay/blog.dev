@@ -19,7 +19,8 @@ $(document).ready(function(){
             this.totalPages = this.$pg.length/2;
             this.totalRows = this.$rowContainer.children().length;
             this.rowsPerPage = Math.ceil(this.totalRows / this.totalPages);
-            this.speed = 800;
+            this.speed = 500;
+            // Hide rows unobtrusively, easier to use this prototype without these css classes
             this.$rowContainer.children().each(function(i,element) {
                 if ($(element).hasClass('hidden')) {
                     $(this).hide();
@@ -27,6 +28,7 @@ $(document).ready(function(){
                 }
             })
 
+            // Set current page variable and remove href attributes
             this.$pg.each(function(i,element){
                 if ($(element).hasClass('active')) {
                     self.current = parseInt($(element).text());
@@ -39,6 +41,7 @@ $(document).ready(function(){
             this.setObservers();
             debug ? console.log('Current pg selected: ' + self.current) : "";
         },
+        // Set actions for each pagination button
         setObservers: function(){
             var self = this;
 
@@ -67,6 +70,7 @@ $(document).ready(function(){
                 }
             });
         },
+        // Resets the pagination button styling/functionality
         reset: function() {
             var self = this;
 
@@ -109,32 +113,32 @@ $(document).ready(function(){
             // Set direction of slide
             var hideDirection = (Math.min.apply(null,hide) <= Math.min.apply(null,show)) ? 'left' : 'right';
             var showDirection = (hideDirection === 'left') ? 'right' : 'left';
-            debug ? console.log('hide->: ' + hideDirection + 'show->: ' + showDirection) : "";
+            debug ? console.log('hide->: ' + hideDirection + '. show->: ' + showDirection) : "";
 
-            // Get indeces of transitional
-//            for ()
-
+            // Execute animation
             this.hideRows(hide, hideDirection);
             setTimeout(function(){
                 self.showRows(show, showDirection);
-            }, self.speed*0);
+            }, self.speed *.5);
         },
+        // Hides each row in 'hide' array using jquery ui animation
         hideRows: function(hide,direction) {
             var self = this;
             hide.forEach(function(index){
                 debug ? console.log('hide: ' + index) : "";
                 $(self.rows[index]).hide('slide', {
-                    easing: 'easeOutQuint',
+                    easing: 'easeOutQuad',
                     direction: direction
                 }, self.speed);
             });
         },
+        // Shows each row in 'show' array using jquery ui animation
         showRows: function(show,direction) {
             var self = this;
             show.forEach(function(index){
                 debug ? console.log('show: ' + index) : "";
                 $(self.rows[index]).show('slide', {
-                    easing: 'easeInQuint',
+                    easing: 'easeInQuad',
                     direction: direction
                 }, self.speed);
             });
