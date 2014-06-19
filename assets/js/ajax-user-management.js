@@ -14,6 +14,7 @@ $(document).ready(function(){
 
             this.setObservers();
         },
+        // Set actions for each login/logout option
         setObservers: function(){
             var self = this;
 
@@ -34,6 +35,7 @@ $(document).ready(function(){
                 self.sendLogin();
             });
         },
+        // Clear password
         reset: function() {
             $("#login #password").val("");
         },
@@ -46,6 +48,7 @@ $(document).ready(function(){
                 this.observers[i].reset(data);
             }
         },
+        // Use ajax to validate login info and store in session
         sendLogin: function(){
             debug ? console.log('Sending Login') : "";
             var self = this;
@@ -61,10 +64,12 @@ $(document).ready(function(){
                 },
                 error: function(MLHttpRequest, textStatus, errorThrown){
                     debug ? console.log('sendLogin error called: '+textStatus+' '+errorThrown) : "";
+                    // Redirect to actual login page if ajax call is unsuccessful
                     $(location).attr('href','http://blog.dev/user/login');
                 }
             });
         },
+        // Use ajax to reset session variable and logout
         sendLogout: function(){
             debug ? console.log('Sending logout') : "";
             var self = this;

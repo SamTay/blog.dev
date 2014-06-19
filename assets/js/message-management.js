@@ -16,9 +16,11 @@ $(document).ready(function(){
             this.reset();
         },
         reset: function(data){
+            // If data given, insert session message into DOM
             if (arguments.length==1) {
                 this.messageReset(data);
             }
+            // If session message exists in DOM, display it
             if ($("#msgSet").length!=0) {
                 this.messageDisplay();
             }
@@ -29,6 +31,7 @@ $(document).ready(function(){
                 });
             });
         },
+        // Validates data.properties and inserts into DOM
         messageReset: function(data){
             debug ? console.log('Resetting Session Message') : "";
             var self = this;
@@ -46,6 +49,7 @@ $(document).ready(function(){
                 }
             }
         },
+        // Display message is different for dangerous messages
         messageDisplay: function(){
             var self = this;
 
@@ -56,6 +60,7 @@ $(document).ready(function(){
                 self.messageToggle(self.id, 300, 1800);
             }
         },
+        // Used for normal messages (appear then disappear)
         messageToggle: function(id, speed, delay){
             var self = this;
 
@@ -65,10 +70,12 @@ $(document).ready(function(){
 
             return $(this);
         },
+        // Used for dangerous messages (appear firmly)
         messageFirm: function(id, speed){
             $(id).slideDown(speed);
             return $(this);
         },
+        // Unset message classes and remove from DOM
         messageUnset: function(){
             $(this.id).attr('class',
                 function(i, c){

@@ -13,14 +13,15 @@ $(document).ready(function(){
         construct: function(){
             this.reset();
         },
+        // Reset items in view that are user-access specific
         reset: function(data){
 
-            debug ? console.log('Resetting Access Items:') : "";
-
             if (arguments.length==1 && data.hasOwnProperty('access'))  {
+                debug ? console.log('Resetting Access Items:') : "";
 
+                // Hide all options
                 $(".options").hide();
-
+                // Then show the appropriate ones
                 switch (data.access) {
                     case ('anonymous') :
                         $("." + data.access + "Options").removeClass('hidden').show();

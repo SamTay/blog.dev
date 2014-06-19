@@ -22,6 +22,7 @@ $(document).ready(function(){
             this.observers = [];
             this.setObservers();
         },
+        // Set actions for each commenting item
         setObservers: function(){
             var self = this;
 
@@ -49,6 +50,7 @@ $(document).ready(function(){
         addToView: function(data) {
             var self = this;
 
+            // Add comment to the comments list (in post view)
             if (data.hasOwnProperty('user') && data.hasOwnProperty('commentText')
                 && data.hasOwnProperty('commentCreated')) {
                 debug ? console.log('adding to view: ') : "";
@@ -58,14 +60,16 @@ $(document).ready(function(){
                     +'<p class = "date">'+data.commentCreated+'</p>'
                 +'</li>').insertBefore(self.form.parent());
 
+                // adjust the counter in the panel title
                 debug ? console.log('incrementing counter'): "";
                 self.counter.text(parseInt(self.counter.text()) + 1);
             }
         },
+        // Set textarea = ""
         reset: function() {
-            // Set textarea = ""
             this.editor.setValue("").focus();
         },
+        // Use ajax to store comment in DB
         sendComment: function(){
             debug ? console.log('Commenting: ') : "";
             var self = this;
